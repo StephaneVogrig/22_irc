@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
+#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/11 13:51:29 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/11 14:45:24 by gcannaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ NAME				:= 	ircserv
 
 # includes --------------------------------------------------------------------#
 
-DIR_INC				:=	include
+DIR_INC				:=	include \
+						class
 
 I_FLAG				:=	$(addprefix -I,$(DIR_INC)) -MMD -MP
 
@@ -43,7 +44,7 @@ SRCS				:=	$(SRCS:%=$(SRC_DIR)/%)
 
 SRC_CLASS_DIR		:=	class
 
-SRCS_CLASS			:=	
+SRCS_CLASS			:=	Test.cpp
 						
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 
