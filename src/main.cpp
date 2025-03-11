@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/11 18:07:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/11 18:26:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,10 @@
 #include <cstdlib>
 #include <climits>
 #include <iostream>
+#include "server.hpp"
+#include "utils.hpp"
 
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33m"
-#define BLUE "\033[34m"
-#define PURPLE "\033[35m"
-#define CYAN "\033[36m"
-#define GREY "\033[37m"
-#define RESET "\033[0m"
-#define GREEN_BLINK	"\033[5;32m"
-
-int convert_port(const char * str)
+static int convert_port(const char * str)
 {
 	char *		endptr = NULL;
 	long int	nbr = strtol(str, &endptr, 10);
@@ -36,7 +28,7 @@ int convert_port(const char * str)
 	return (nbr);
 }
 
-void	check_arg(int argc)
+static void	check_arg(int argc)
 {
 	if (argc != 3)
 	{
@@ -52,8 +44,9 @@ int main(int argc, char **argv)
 	{
 		check_arg(argc);
 		int port = convert_port(argv[1]);
+		std::string password(argv[2]);
 		(void)port;
-		std::cout << GREEN_BLINK "hello ircserv" RESET << std::endl;
+		run_server(port, password);
 	}
 	catch (const std::exception& e)
 	{
