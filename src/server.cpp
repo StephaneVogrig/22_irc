@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/12 14:26:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:46:19 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include "server.hpp"
+#include "ServerException.hpp"
 
 #define BACKLOG 20
 
@@ -27,15 +28,9 @@ int create_server(int port)
 	addr.sin_port = htons(port);   /* port in network byte order */
 	addr.sin_addr.s_addr = INADDR_ANY;
 	if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)) == -1)
-	{
-		close(sock);
-		throw(std::runtime_error(RED "bind failed" RESET));
-	}
+		throw(ServerException(RED "bind failed" RESET, sock));
 	if (listen(sock, BACKLOG) == -1)
-	{
-		close(sock);
-		throw(std::runtime_error(RED "listen failed" RESET));
-	}
+		throw(ServerException(RED "listen failed" RESET, sock));
 	std::cout	<< BLUE "create server on port " RESET << port << std::endl;
 	return (sock);
 }

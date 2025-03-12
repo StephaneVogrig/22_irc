@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/11 20:02:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:47:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include "server.hpp"
 #include "utils.hpp"
+#include "ServerException.hpp"
 
 static int convert_port(const char * str)
 {
@@ -50,6 +51,12 @@ int main(int argc, char **argv)
 		(void)port;
 		run_server(server, port, password);
 		close(server);
+	}
+	catch (const ServerException& e)
+	{
+		close(e.getFd());
+		std::cerr << e.what() << std::endl;
+		return (EXIT_FAILURE);
 	}
 	catch (const std::exception& e)
 	{
