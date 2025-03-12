@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/12 15:47:48 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:27:53 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int main(int argc, char **argv)
 		int port = convert_port(argv[1]);
 		std::string password(argv[2]);
 		int server = create_server(port);
-		(void)port;
 		run_server(server, port, password);
 		close(server);
 	}
