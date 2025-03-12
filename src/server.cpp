@@ -6,19 +6,36 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/12 13:17:39 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:26:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
 #include "server.hpp"
+
+#define BACKLOG 20
 
 int create_server(int port)
 {
 	int sock = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
 	if (sock == -1)
 		throw(std::runtime_error(RED "socket init failed" RESET));
-
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET; /* address family: AF_INET */
+	addr.sin_port = htons(port);   /* port in network byte order */
+	addr.sin_addr.s_addr = INADDR_ANY;
+	if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)) == -1)
+	{
+		close(sock);
+		throw(std::runtime_error(RED "bind failed" RESET));
+	}
+	if (listen(sock, BACKLOG) == -1)
+	{
+		close(sock);
+		throw(std::runtime_error(RED "listen failed" RESET));
+	}
 	std::cout	<< BLUE "create server on port " RESET << port << std::endl;
 	return (sock);
 }
