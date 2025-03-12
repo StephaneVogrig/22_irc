@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/11 18:18:58 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/11 18:50:00 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ init:
 	@echo -e ""
 
 test: all
-	./$(NAME)
+	./$(NAME) 1024 "admin"
 
 makeall: $(NAME)
 
