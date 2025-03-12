@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/11 18:26:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/11 20:02:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <climits>
 #include <iostream>
+#include <unistd.h>
 #include "server.hpp"
 #include "utils.hpp"
 
@@ -45,8 +46,10 @@ int main(int argc, char **argv)
 		check_arg(argc);
 		int port = convert_port(argv[1]);
 		std::string password(argv[2]);
+		int server = create_server(port);
 		(void)port;
-		run_server(port, password);
+		run_server(server, port, password);
+		close(server);
 	}
 	catch (const std::exception& e)
 	{
