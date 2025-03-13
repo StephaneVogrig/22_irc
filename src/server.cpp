@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/12 20:29:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/13 14:13:34 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ void handle_client_msg(t_pollfd *fds, int pos, nfds_t * nbr_fd)
 void handle_event(const int server, t_pollfd *fds, nfds_t * nbr_fd)
 {
 	(void) server;
+	nfds_t nfds = *nbr_fd;
 	std::cout << "incoming connection " << (*fds).events << std::endl;
 	if (fds[0].revents & POLLIN)
 		accept_connection(fds, nbr_fd);
-	for (nfds_t i = 1; i < *nbr_fd; ++i)
+	for (nfds_t i = 1; i < nfds; ++i)
 	{
 		if (fds[i].revents & POLLIN)
 			handle_client_msg(fds, i, nbr_fd);
