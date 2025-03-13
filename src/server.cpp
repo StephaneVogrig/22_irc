@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/13 17:12:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/13 21:34:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,15 @@
 
 int create_server(int port)
 {
+	int opt = 1;
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
 		throw(std::runtime_error(RED "socket init failed" RESET));
+	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+	{
+		close(sock);
+		throw(std::runtime_error(RED "setsockoptit  failed" RESET));
+	}
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
@@ -42,6 +48,7 @@ void accept_connection(t_pollfd *fds, nfds_t * nbr_fd)
 	int fd = accept((*fds).fd, (struct sockaddr *) &addr, &addr_len);
 	if (fd == -1)
 		throw(ServerException("accept failed", (*fds).fd));
+	fcntl(fd, F_SETFL, O_NONBLOCK);
 	fds[*nbr_fd].fd = fd;
 	fds[*nbr_fd].events = POLLIN;
 	(*nbr_fd)++;
@@ -62,7 +69,7 @@ void handle_client_msg(t_pollfd *fds, int pos, nfds_t * nbr_fd)
 		std::cout << "client connection close " << fds[pos].fd << std::endl;
 	}
 	buffer[size_read] = '\0';
-	std::cout << buffer << std::endl;
+	std::cout << "\"" << buffer << "\"" << std::endl;
 }
 
 void handle_event(const int server, t_pollfd *fds, nfds_t * nbr_fd)
@@ -97,7 +104,9 @@ void run_server(const int server, const int port, const std::string & password)
 			throw(ServerException("poll failed", server));
 		if (nbr_event == 0)
 		{
-			std::cout << "serveur waiting..." << std::endl;
+			std::cout << "serveur waiting... "
+						<< nbr_fd - 1 << " client connected" << std::endl;
+
 			continue ;
 		}
 		handle_event(server, fds, &nbr_fd);

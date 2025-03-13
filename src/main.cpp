@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/12 20:27:17 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/13 21:24:23 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include "server.hpp"
 #include "utils.hpp"
+#include "signal.h"
 #include "ServerException.hpp"
 
 static int convert_port(const char * str)
@@ -38,8 +39,19 @@ static void	check_arg(int argc)
 	}
 }
 
+
+volatile sig_atomic_t	g_signal = 0;
+
+void sig_handler(int sig)
+{
+	g_signal = sig;
+	std::cout << "signal recut : " << sig << std::endl;
+}
+
 int main(int argc, char **argv)
 {
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	try
 	{
 		check_arg(argc);

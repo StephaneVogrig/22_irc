@@ -6,24 +6,25 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/12 20:24:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/13 21:33:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-# include <string>
+# include <errno.h>
+# include <fcntl.h>
 # include <iostream>
-# include <sys/socket.h>
+# include <netdb.h>
 # include <netinet/in.h>
+# include <poll.h>
+# include <stdio.h>
+# include <string.h>
+# include <string>
+# include <sys/socket.h>
 # include <unistd.h>
 # include "ServerException.hpp"
-# include <errno.h>
-# include <stdio.h>
-# include <netdb.h>
-# include <poll.h>
-# include <string.h>
 # include "utils.hpp"
 
 # define BACKLOG 20
