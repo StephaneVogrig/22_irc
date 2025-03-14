@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 16:21:40 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 16:32:42 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,22 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-Server::Server(int port, const std::string & password)
-		: _port(port), _password(password), _nbr_connected(0)
+static int create_socket(void)
 {
-	memset(_fds, 0, sizeof(_fds));
-
-	/* create socket*/
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
 		throw(std::runtime_error("socket failed"));
-
 	int opt = 1;
 	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
 	{
 		close(sock);
 		throw(std::runtime_error("setsockoptit  failed"));
 	}
-	_fds[0].fd = sock;
-	_fds[0].events = POLLIN;
+	return sock;
+}
 
-	/* bind */
+static void bind_socket(int sock, int port)
+{
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
@@ -43,9 +39,16 @@ Server::Server(int port, const std::string & password)
 		perror("");
 		throw(std::runtime_error("bind failed"));
 	}
+}
 
-	/* listen */
-	if (listen(sock, BACKLOG) == -1)
+Server::Server(int port, const std::string & password)
+		: _port(port), _password(password), _nbr_connected(0)
+{
+	memset(_fds, 0, sizeof(_fds));
+	_fds[0].fd = create_socket();
+	_fds[0].events = POLLIN;
+	bind_socket(_fds[0].fd, port);
+	if (listen(_fds[0].fd, BACKLOG) == -1)
 		throw(std::runtime_error("listen failed"));
 }
 
