@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 14:47:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:23:19 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,14 @@ void Server::accept_connection()
 	if (fd == -1)
 		throw(std::runtime_error("accept failed"));
 	fcntl(fd, F_SETFL, O_NONBLOCK);
+	if (_nbr_connected == _nbr_client_max)
+	{
+		std::cout << PURPLE "refused, server full" RESET << std::endl;
+		std::string msg("Connection refused : server full\n");
+		send(fd, msg.c_str(), msg.length(), 0);
+		close(fd);
+		return ;
+	}
 	_nbr_connected++;
 	_fds[_nbr_connected].fd = fd;
 	_fds[_nbr_connected].events = POLLIN;
