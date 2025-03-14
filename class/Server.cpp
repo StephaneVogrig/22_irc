@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 16:32:42 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 17:19:01 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ Server::~Server(void)
 	{
 		if (send(_fds[i].fd, MSG_SERV_CLOSED, strlen(MSG_SERV_CLOSED), 0) == -1)
 			throw(std::runtime_error("send failed"));
-		closeConnection(i);
+		close_connection(i);
 	}
 	close(_fds[0].fd);
 	std::cout << PURPLE_BLINK "SERVER CLOSED" RESET << std::endl;
@@ -79,27 +79,27 @@ void Server::run(void)
 			throw(std::runtime_error("poll failed"));
 		if (nbr_event == 0)
 		{
-			std::cout << GREY "serveur waiting... "
+			std::cout	<< GREY "serveur waiting... "
 						<< _nbr_connected << " client connected" RESET << std::endl;
 			continue ;
 		}
-		handleEvent();
+		handle_event();
 	}
 }
 
-void Server::handleEvent(void)
+void Server::handle_event(void)
 {
 	int imax = _nbr_connected;
 	if (_fds[0].revents & POLLIN)
-		acceptConnection();
+		accept_connection();
 	for (int i = imax; i > 0; --i)
 	{
 		if (_fds[i].revents & POLLIN)
-			handleClientMsg(i);
+			handle_client_msg(i);
 	}
 }
 
-void Server::acceptConnection()
+void Server::accept_connection()
 {
 	std::cout << PURPLE "asking connection : " RESET ;
 	struct sockaddr_in addr;
@@ -116,23 +116,23 @@ void Server::acceptConnection()
 		close(fd);
 		return ;
 	}
-	openConnection(fd);
+	open_connection(fd);
 	std::cout << PURPLE "accept connection on fd " RESET << fd << std::endl;
 	if (send(fd, MSG_WELCOME, strlen(MSG_WELCOME), 0) == -1)
 		throw(std::runtime_error("send failed"));
 }
 
-void Server::handleClientMsg(int i)
+void Server::handle_client_msg(int i)
 {
 	char buffer[CLIENT_BUFFER_SIZE];
 	memset(buffer, 0, sizeof(buffer));
 	int size_read = recv(_fds[i].fd, buffer, CLIENT_BUFFER_SIZE - 1, 0);
 	if (size_read <= 0)
-		closeConnection(i);
+	close_connection(i);
 	std::cout <<  PURPLE "["  RESET << _fds[i].fd << PURPLE "] : "  RESET << buffer  << std::endl;
 }
 
-void Server::openConnection(int fd)
+void Server::open_connection(int fd)
 {
 	_nbr_connected++;
 	_fds[_nbr_connected].fd = fd;
@@ -140,7 +140,7 @@ void Server::openConnection(int fd)
 	_clients[_nbr_connected] = new Client();
 }
 
-void Server::closeConnection(int i)
+void Server::close_connection(int i)
 {
 	int fd = _fds[i].fd;
 	close(_fds[i].fd);
