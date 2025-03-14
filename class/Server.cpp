@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 17:19:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 19:05:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,20 @@ void Server::handle_client_msg(int i)
 	memset(buffer, 0, sizeof(buffer));
 	int size_read = recv(_fds[i].fd, buffer, CLIENT_BUFFER_SIZE - 1, 0);
 	if (size_read <= 0)
-	close_connection(i);
-	std::cout <<  PURPLE "["  RESET << _fds[i].fd << PURPLE "] : "  RESET << buffer  << std::endl;
+	{
+		close_connection(i);
+		return ;
+	}
+	std::string str(buffer);
+	_clients[i]->append_to_buffer(str);
+	std::string target("\r\n");
+	size_t pos = str.find(target);
+	if (pos != std::string::npos)
+	{
+		std::cout	<<  PURPLE "["  RESET << _fds[i].fd << PURPLE "] : "  RESET
+					<< _clients[i]->get_msg_buffer() << std::endl;
+		_clients[i]->clear_msg_buffer();
+	}
 }
 
 void Server::open_connection(int fd)
