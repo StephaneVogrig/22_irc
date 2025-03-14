@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.hpp                                         :+:      :+:    :+:   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/13 21:33:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 14:41:33 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <unistd.h>
 # include "ServerException.hpp"
 # include "utils.hpp"
+# include "signal.h"
 
 # define BACKLOG 20
 # define POLL_TIMEOUT 2000
@@ -34,7 +35,28 @@
 
 typedef struct pollfd t_pollfd;
 
-int create_server(int port);
-void run_server(const int server, const int port, const std::string & password);
+extern volatile sig_atomic_t	g_signal;
+
+class Server
+{
+	public:
+
+		Server(int port, const std::string & password);
+		~Server(void);
+
+		void run(void);
+
+	private:
+
+		const int			_port;
+		const std::string	_password;
+		int					_nbr_connected;
+		t_pollfd			_fds[POLL_NBR_CLIENT + 1];
+
+		void handle_event(void);
+		void accept_connection(void);
+		void handle_client_msg(int i);
+
+};
 
 #endif

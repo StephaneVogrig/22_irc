@@ -6,16 +6,16 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/13 21:24:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 14:44:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
-#include "server.hpp"
+#include <signal.h>
+#include "Server.hpp"
 #include "utils.hpp"
-#include "signal.h"
 #include "ServerException.hpp"
 
 static int convert_port(const char * str)
@@ -39,13 +39,10 @@ static void	check_arg(int argc)
 	}
 }
 
-
-volatile sig_atomic_t	g_signal = 0;
-
 void sig_handler(int sig)
 {
 	g_signal = sig;
-	std::cout << "signal recut : " << sig << std::endl;
+	std::cout << PURPLE " : signal recut : " RESET << sig << std::endl;
 }
 
 int main(int argc, char **argv)
@@ -57,19 +54,12 @@ int main(int argc, char **argv)
 		check_arg(argc);
 		int port = convert_port(argv[1]);
 		std::string password(argv[2]);
-		int server = create_server(port);
-		run_server(server, port, password);
-		close(server);
+		Server server(port, password);
+		server.run();
 	}
-	catch (const ServerException& e)
+	catch (const std::runtime_error& e)
 	{
-		close(e.getFd());
-		std::cerr << e.what() << std::endl;
-		return (EXIT_FAILURE);
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << RED << e.what() << RESET << std::endl;
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
