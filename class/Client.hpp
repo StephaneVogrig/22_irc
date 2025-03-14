@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Clients.cpp                                        :+:      :+:    :+:   */
+/*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/13 13:13:58 by gcannaud         ###   ########.fr       */
+/*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
+/*   Updated: 2025/03/14 15:38:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Clients.hpp"
+#ifndef CLIENT_CPP
+# define CLIENT_CPP
 
-Clients::Clients()
-{
-}
+# include <iostream>
 
-Clients::~Clients()
+class Client
 {
-}
+	public :
+		Client();
+		~Client();
+
+	private :
+		std::string _msg_buffer;
+
+};
+
+#endif

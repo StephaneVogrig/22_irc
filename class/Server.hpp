@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 15:27:00 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:39:41 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@
 # include <string>
 # include <sys/socket.h>
 # include <unistd.h>
+
+# include "Client.hpp"
 # include "ServerException.hpp"
+
 # include "utils.hpp"
 # include "signal.h"
 
@@ -48,6 +51,7 @@ class Server
 	private:
 
 		static const int	_nbr_client_max = 1;
+		static Client		_clients[_nbr_client_max];
 
 		const int			_port;
 		const std::string	_password;

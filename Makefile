@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/14 13:22:33 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/14 15:40:13 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCS				:=	$(SRCS:%=$(SRC_DIR)/%)
 SRC_CLASS_DIR		:=	class
 
 SRCS_CLASS			:=	ServerException.cpp \
-						Clients.cpp \
+						Client.cpp \
 						Server.cpp
 						
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
