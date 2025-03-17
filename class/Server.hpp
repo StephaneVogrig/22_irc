@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 17:18:17 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/17 14:30:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <unistd.h>
 
 # include "Client.hpp"
-# include "ServerException.hpp"
 
 # include "utils.hpp"
 # include "signal.h"

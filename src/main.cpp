@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 14:44:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/17 14:30:09 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <signal.h>
 #include "Server.hpp"
 #include "utils.hpp"
-#include "ServerException.hpp"
 
 static int convert_port(const char * str)
 {
