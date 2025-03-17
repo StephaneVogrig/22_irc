@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/14 19:05:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/17 16:03:52 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ void Server::handle_client_msg(int i)
 	size_t pos = str.find(target);
 	if (pos != std::string::npos)
 	{
+		// Message * msg = new Message(_buffer);
+		// client.send(msg);
 		std::cout	<<  PURPLE "["  RESET << _fds[i].fd << PURPLE "] : "  RESET
 					<< _clients[i]->get_msg_buffer() << std::endl;
 		_clients[i]->clear_msg_buffer();
