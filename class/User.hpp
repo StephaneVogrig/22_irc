@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:26:21 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/17 18:01:55 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/17 20:45:19 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class User
 	private:
 
 		std::string _userName;
+		std::string _realName;
 		std::string _nickName;
 
 };

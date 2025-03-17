@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/17 16:03:52 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/17 21:29:47 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,18 +132,12 @@ void Server::handle_client_msg(int i)
 		close_connection(i);
 		return ;
 	}
-	std::string str(buffer);
-	_clients[i]->append_to_buffer(str);
-	std::string target("\r\n");
-	size_t pos = str.find(target);
-	if (pos != std::string::npos)
-	{
-		// Message * msg = new Message(_buffer);
-		// client.send(msg);
-		std::cout	<<  PURPLE "["  RESET << _fds[i].fd << PURPLE "] : "  RESET
-					<< _clients[i]->get_msg_buffer() << std::endl;
-		_clients[i]->clear_msg_buffer();
-	}
+	std::string str_buffer(buffer);
+	std::cout 	<< YELLOW "---- receive on fd [" RESET << _fds[i].fd
+				<< YELLOW "] ----" RESET << std::endl
+				<< str_buffer << std::endl
+				<< YELLOW "------- end receive -------" RESET << std::endl;
+	_clients[i]->receive_data(str_buffer);
 }
 
 void Server::open_connection(int fd)
@@ -151,7 +145,7 @@ void Server::open_connection(int fd)
 	_nbr_connected++;
 	_fds[_nbr_connected].fd = fd;
 	_fds[_nbr_connected].events = POLLIN;
-	_clients[_nbr_connected] = new Client();
+	_clients[_nbr_connected] = new Client(fd);
 }
 
 void Server::close_connection(int i)
