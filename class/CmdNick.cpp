@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 20:08:13 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:26:24 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ CmdNick::~CmdNick()
 
 void CmdNick::exec(Client * client, const std::string & arg, const Server & Server)
 {
-    (void)client;
-	std::cout << Server.get_client(2) << std::endl;
-	std::cout << PURPLE "this command is NICK" RESET << std::endl;
-	std::cout << PURPLE "arg = " RESET << arg  << std::endl;
+    (void)Server;
+    client->set_nickname(arg);
+	std::cout << PURPLE "new nick name is " RESET << client->get_nickname() << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 20:10:40 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:20:03 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,9 @@ void Server::receive_data(const std::string & data, Client * client)
 	while (pos != std::string::npos)
 	{
 		std::string cmd = str.substr(0, pos);
-		handle_cmd(cmd, client);
 		std::cout	<<  PURPLE "["  RESET << client->get_fd() << PURPLE "] : "  RESET
 					<< cmd << std::endl;
+		handle_cmd(cmd, client);
 		str.erase(0, pos + 2);
 		pos = str.find(delim);
 	}

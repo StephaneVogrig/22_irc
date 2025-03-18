@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 16:33:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 20:37:51 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@ class Client
 
 		const std::string & get_msg_buffer(void) const;
 		int get_fd(void);
+		const std::string get_nickname(void) const;
+		const std::string get_username(void) const;
+		bool is_registed() const;
+		void set_nickname(std::string name);
+		void set_username(std::string name);
+		void registed();
 
-		// void receive_data(const std::string & data);
 		void append_to_buffer(const std::string & str);
 		void clear_msg_buffer(void);
 
@@ -33,6 +38,12 @@ class Client
 
 		int			_fd;
 		std::string _msg_buffer;
+
+		std::string _userName;
+		std::string _realName;
+		std::string _nickName;
+
+		bool		_registed;
 
 };
 
