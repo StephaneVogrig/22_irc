@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/17 21:29:47 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:32:26 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void Server::handle_event(void)
 	for (int i = imax; i > 0; --i)
 	{
 		if (_fds[i].revents & POLLIN)
-			handle_client_msg(i);
+			handle_client_data(i);
 	}
 }
 
@@ -122,7 +122,7 @@ void Server::accept_connection()
 		throw(std::runtime_error("send failed"));
 }
 
-void Server::handle_client_msg(int i)
+void Server::handle_client_data(int i)
 {
 	char buffer[CLIENT_BUFFER_SIZE];
 	memset(buffer, 0, sizeof(buffer));
@@ -137,7 +137,35 @@ void Server::handle_client_msg(int i)
 				<< YELLOW "] ----" RESET << std::endl
 				<< str_buffer << std::endl
 				<< YELLOW "------- end receive -------" RESET << std::endl;
-	_clients[i]->receive_data(str_buffer);
+	receive_data(str_buffer, _clients[i]);
+	// _clients[i]->receive_data(str_buffer, _clients[i]);
+}
+
+void Server::receive_data(const std::string & data, Client * client)
+{
+	std::string str = client->get_msg_buffer() + data;
+
+	std::string delim("\r\n");
+	size_t pos = str.find(delim);
+	while (pos != std::string::npos)
+	{
+		std::string cmd = str.substr(0, pos);
+		handle_cmd(cmd, client);
+		std::cout	<<  PURPLE "["  RESET << client->get_fd() << PURPLE "] : "  RESET
+					<< cmd << std::endl;
+		str.erase(0, pos + 2);
+		pos = str.find(delim);
+	}
+	client->clear_msg_buffer();
+	client->append_to_buffer(str);
+}
+
+void Server::handle_cmd(const std::string str, Client * client)
+{
+	(void)client;
+	int pos = str.find(' ');
+	std::string cmd = str.substr(0, pos);
+	std::string param = str.substr(pos + 1, str.length());
 }
 
 void Server::open_connection(int fd)

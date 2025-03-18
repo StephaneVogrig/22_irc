@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/17 14:30:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:33:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,23 @@ class Server
 
 	private:
 
-		Client *			_clients[NBR_CLIENT_MAX];
-
 		const int			_port;
 		const std::string	_password;
 		int					_nbr_connected;
 		t_pollfd			_fds[NBR_CLIENT_MAX];
+		Client *			_clients[NBR_CLIENT_MAX];
+
+		void open_connection(int fd);
+		void accept_connection(void);
+		void close_connection(int i);
 
 		void handle_event(void);
-		void accept_connection(void);
-		void handle_client_msg(int i);
-		void close_connection(int i);
-		void open_connection(int fd);
+		void handle_client_data(int i);
+		void handle_cmd(const std::string str, Client * client);
+		void receive_data(const std::string & data, Client * client);
+
+		void process_cmd(const std::string & cmd);
+
 };
 
 #endif

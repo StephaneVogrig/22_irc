@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/17 21:29:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 15:35:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,33 @@ Client::~Client()
 {
 }
 
-void Client::receive_data(const std::string & data)
-{
-	std::string str = _msg_buffer + data;
+// void Client::receive_data(const std::string & data)
+// {
+// 	std::string str = _msg_buffer + data;
 
-	std::string delim("\r\n");
-	size_t pos = str.find(delim);
-	while (pos != std::string::npos)
-	{
-		std::string cmd = str.substr(0, pos);
-		std::cout	<<  PURPLE "["  RESET << _fd << PURPLE "] : "  RESET
-					<< cmd << std::endl;
-		str.erase(0, pos + 2);
-		pos = str.find(delim);
-	}
-	clear_msg_buffer();
-	append_to_buffer(str);
-}
+// 	std::string delim("\r\n");
+// 	size_t pos = str.find(delim);
+// 	while (pos != std::string::npos)
+// 	{
+// 		std::string cmd = str.substr(0, pos);
+// 		// handle_cmd(cmd);
+// 		std::cout	<<  PURPLE "["  RESET << _fd << PURPLE "] : "  RESET
+// 					<< cmd << std::endl;
+// 		str.erase(0, pos + 2);
+// 		pos = str.find(delim);
+// 	}
+// 	clear_msg_buffer();
+// 	append_to_buffer(str);
+// }
 
 const std::string & Client::get_msg_buffer(void) const
 {
 	return (_msg_buffer);
+}
+
+int Client::get_fd(void)
+{
+	return _fd;
 }
 
 void Client::append_to_buffer(const std::string & str)
