@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.hpp                                        :+:      :+:    :+:   */
+/*   CmdUser.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 15:50:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 17:10:31 by gcannaud         ###   ########.fr       */
+/*   Created: 2025/03/18 16:41:08 by gcannaud          #+#    #+#             */
+/*   Updated: 2025/03/18 17:11:50 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMAND_HPP
-# define COMMAND_HPP
+#ifndef CMDUSER_HPP
+# define CMDUSER_HPP
 
 # include <iostream>
-# include "utils.hpp"
+# include "Command.hpp"
 
-class Command
+class CmdUser : public Command
 {
 	public:
 
-		Command(const std::string & name = "default");
-		Command(const Command &to_cpy);
-		~Command();
-		Command & operator=(const Command & to_assign);
+		CmdUser();
+		~CmdUser();
 
 		void	exec(const std::string & arg);
-
-	protected:
-		
-		const std::string _name;
 
 };
 

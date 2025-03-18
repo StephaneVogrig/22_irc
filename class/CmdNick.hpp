@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.hpp                                        :+:      :+:    :+:   */
+/*   CmdNick.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 15:50:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 17:10:31 by gcannaud         ###   ########.fr       */
+/*   Created: 2025/03/18 16:41:00 by gcannaud          #+#    #+#             */
+/*   Updated: 2025/03/18 17:11:58 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMAND_HPP
-# define COMMAND_HPP
+#ifndef CMDNICK_HPP
+# define CMDNICK_HPP
 
 # include <iostream>
-# include "utils.hpp"
+# include "Command.hpp"
 
-class Command
+class CmdNick : public Command
 {
 	public:
 
-		Command(const std::string & name = "default");
-		Command(const Command &to_cpy);
-		~Command();
-		Command & operator=(const Command & to_assign);
+		CmdNick();
+		~CmdNick();
 
 		void	exec(const std::string & arg);
-
-	protected:
-		
-		const std::string _name;
 
 };
 

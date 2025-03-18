@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.cpp                                        :+:      :+:    :+:   */
+/*   CmdUser.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 15:50:15 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 17:14:11 by gcannaud         ###   ########.fr       */
+/*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
+/*   Updated: 2025/03/18 17:11:33 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
+#include "CmdUser.hpp"
 
-Command::Command(const std::string & name) : _name(name)
+CmdUser::CmdUser()
 {
 }
 
-Command::Command(const Command &to_cpy)
-{
-	*this = to_cpy;
-}
-
-Command & Command::operator=(const Command & to_assign)
-{
-	if (this == &to_assign)
-		return *this;
-	return *this;
-}
-
-Command::~Command()
+CmdUser::~CmdUser()
 {
 }
 
-void Command::exec(const std::string & arg)
+void CmdUser::exec(const std::string & arg)
 {
-	std::cout << PURPLE "this command is command" RESET << std::endl;
+	std::cout << PURPLE "this command is USER" RESET << std::endl;
 	std::cout << PURPLE "arg = " RESET << arg  << std::endl;
+
 }
