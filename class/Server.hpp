@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 17:17:48 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:48:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ class Server
 		void close_connection(int i);
 
 		void init_cmd(void);
+		void destroy_commands(void);
 
 		void handle_event(void);
 		void handle_client_data(int i);

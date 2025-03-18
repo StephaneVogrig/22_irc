@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 18:09:58 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:48:07 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,20 @@ Server::~Server(void)
 	}
 	close(_fds[0].fd);
 	std::cout << PURPLE_BLINK "SERVER CLOSED" RESET << std::endl;
+	destroy_commands();
 }
 
 void Server::init_cmd(void)
 {
 	_commands["NICK"] = new CmdNick();
 	_commands["USER"] = new CmdUser();
+}
+
+void Server::destroy_commands(void)
+{
+	for(std::map<std::string, Command *>::iterator it = _commands.begin();
+		it != _commands.end(); ++it)
+		delete (it->second);
 }
 
 void Server::run(void)
