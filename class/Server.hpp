@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 16:33:48 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 17:17:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 # include <string>
 # include <sys/socket.h>
 # include <unistd.h>
+# include <map>
+# include "Command.hpp"
+# include "CmdNick.hpp"
+# include "CmdUser.hpp"
 
 # include "Client.hpp"
 
@@ -54,15 +58,18 @@ class Server
 
 	private:
 
-		const int			_port;
-		const std::string	_password;
-		int					_nbr_connected;
-		t_pollfd			_fds[NBR_CLIENT_MAX];
-		Client *			_clients[NBR_CLIENT_MAX];
+		const int							_port;
+		const std::string					_password;
+		int									_nbr_connected;
+		t_pollfd							_fds[NBR_CLIENT_MAX];
+		Client *							_clients[NBR_CLIENT_MAX];
+		std::map<std::string, Command *>	_commands;
 
 		void open_connection(int fd);
 		void accept_connection(void);
 		void close_connection(int i);
+
+		void init_cmd(void);
 
 		void handle_event(void);
 		void handle_client_data(int i);

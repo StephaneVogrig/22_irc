@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   CmdNick.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 17:12:06 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:25:50 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "CmdNick.hpp"
 
-CmdNick::CmdNick()
+CmdNick::CmdNick() : Command("NICK")
 {
 }
 

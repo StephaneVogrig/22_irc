@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   CmdUser.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 17:11:33 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:25:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "CmdUser.hpp"
 
-CmdUser::CmdUser()
+CmdUser::CmdUser() : Command("USER")
 {
 }
 

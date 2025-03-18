@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 16:32:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:09:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ Server::Server(int port, const std::string & password)
 	bind_socket(_fds[0].fd, port);
 	if (listen(_fds[0].fd, BACKLOG) == -1)
 		throw(std::runtime_error("listen failed"));
+	init_cmd();
 }
 
 Server::~Server(void)
@@ -63,6 +64,12 @@ Server::~Server(void)
 	}
 	close(_fds[0].fd);
 	std::cout << PURPLE_BLINK "SERVER CLOSED" RESET << std::endl;
+}
+
+void Server::init_cmd(void)
+{
+	_commands["NICK"] = new CmdNick();
+	_commands["USER"] = new CmdUser();
 }
 
 void Server::run(void)
@@ -166,6 +173,13 @@ void Server::handle_cmd(const std::string str, Client * client)
 	int pos = str.find(' ');
 	std::string cmd = str.substr(0, pos);
 	std::string param = str.substr(pos + 1, str.length());
+	for(std::string::iterator it = cmd.begin(); it <= cmd.end(); ++it)
+		*it = std::toupper(*it);
+	Command * cmd_ptr = _commands[cmd];
+	if (cmd_ptr)
+		cmd_ptr->exec(param);
+	else
+		std::cout << "command not found" << std::endl;
 }
 
 void Server::open_connection(int fd)
