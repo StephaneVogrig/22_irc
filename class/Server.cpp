@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 19:48:07 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/18 20:10:40 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ void Server::receive_data(const std::string & data, Client * client)
 
 void Server::handle_cmd(const std::string str, Client * client)
 {
-	(void)client;
 	int pos = str.find(' ');
 	std::string cmd = str.substr(0, pos);
 	std::string param = str.substr(pos + 1, str.length());
@@ -185,7 +184,7 @@ void Server::handle_cmd(const std::string str, Client * client)
 		*it = std::toupper(*it);
 	Command * cmd_ptr = _commands[cmd];
 	if (cmd_ptr)
-		cmd_ptr->exec(param);
+		cmd_ptr->exec(client, param, *this);
 	else
 		std::cout << "command not found" << std::endl;
 }
@@ -207,4 +206,9 @@ void Server::close_connection(int i)
 	_clients[i] = _clients[_nbr_connected];
 	_nbr_connected--;
 	std::cout << PURPLE "client connection close " RESET << fd << std::endl;
+}
+
+const Client *Server::get_client(int fd) const
+{
+	return (_clients[fd]);
 }

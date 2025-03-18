@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:08 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 17:11:50 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:07:07 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <iostream>
 # include "Command.hpp"
 
+class Server;
+class Client;
+
 class CmdUser : public Command
 {
 	public:
@@ -23,7 +26,7 @@ class CmdUser : public Command
 		CmdUser();
 		~CmdUser();
 
-		void	exec(const std::string & arg);
+		void	exec(Client * client, const std::string & arg, const Server & Server);
 
 };
 
