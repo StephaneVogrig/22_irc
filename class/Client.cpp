@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 20:37:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/19 02:47:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 #include "utils.hpp"
 
-Client::Client(int fd) : _fd(fd), _msg_buffer(""), _userName("*"), _nickName("*"), _registed(0)
+Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _registed(0)
 {
 }
 

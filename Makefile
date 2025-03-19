@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
+#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/18 17:13:08 by gcannaud         ###   ########.fr        #
+#    Updated: 2025/03/18 23:37:00 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC_CLASS_DIR		:=	class
 
 SRCS_CLASS			:=	Client.cpp \
 						Server.cpp \
+						Channel.cpp \
 						Command.cpp \
 						CmdNick.cpp \
 						CmdUser.cpp

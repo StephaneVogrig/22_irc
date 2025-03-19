@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 20:37:51 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/19 02:38:27 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,12 @@ class Client
 		int			_fd;
 		std::string _msg_buffer;
 
+		std::string _nickName;
 		std::string _userName;
 		std::string _realName;
-		std::string _nickName;
+
+		std::string _hostname;
+		std::string _hostadress;
 
 		bool		_registed;
 
