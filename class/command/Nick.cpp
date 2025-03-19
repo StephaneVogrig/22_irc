@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CmdNick.cpp                                        :+:      :+:    :+:   */
+/*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 20:26:24 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:22:19 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "CmdNick.hpp"
+#include "Nick.hpp"
 #include "Server.hpp"
 
-CmdNick::CmdNick() : Command("NICK")
+Nick::Nick() : Command("NICK")
 {
 }
 
-CmdNick::~CmdNick()
+Nick::~Nick()
 {
 }
 
-void CmdNick::exec(Client * client, const std::string & arg, const Server & Server)
+void Nick::exec(Client * client, const std::string & arg, const Server & Server)
 {
     (void)Server;
     client->set_nickname(arg);

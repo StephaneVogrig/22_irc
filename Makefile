@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/18 23:37:00 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/19 14:23:01 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ NAME				:= 	ircserv
 # includes --------------------------------------------------------------------#
 
 DIR_INC				:=	include \
-						class
+						class \
+						class/command
 
 I_FLAG				:=	$(addprefix -I,$(DIR_INC)) -MMD -MP
 
@@ -48,8 +49,8 @@ SRCS_CLASS			:=	Client.cpp \
 						Server.cpp \
 						Channel.cpp \
 						Command.cpp \
-						CmdNick.cpp \
-						CmdUser.cpp
+						command/Nick.cpp \
+						command/User.cpp
 						
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 

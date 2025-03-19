@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CmdNick.hpp                                        :+:      :+:    :+:   */
+/*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 16:41:00 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 20:07:09 by gcannaud         ###   ########.fr       */
+/*   Created: 2025/03/18 16:41:08 by gcannaud          #+#    #+#             */
+/*   Updated: 2025/03/19 14:22:10 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMDNICK_HPP
-# define CMDNICK_HPP
+#ifndef User_HPP
+# define User_HPP
 
 # include <iostream>
 # include "Command.hpp"
@@ -19,12 +19,12 @@
 class Server;
 class Client;
 
-class CmdNick : public Command
+class User : public Command
 {
 	public:
 
-		CmdNick();
-		~CmdNick();
+		User();
+		~User();
 
 		void	exec(Client * client, const std::string & arg, const Server & Server);
 

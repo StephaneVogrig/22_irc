@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CmdUser.cpp                                        :+:      :+:    :+:   */
+/*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/18 21:22:15 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:22:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "CmdUser.hpp"
+#include "User.hpp"
 #include "Server.hpp"
 
-CmdUser::CmdUser() : Command("USER")
+User::User() : Command("USER")
 {
 }
 
-CmdUser::~CmdUser()
+User::~User()
 {
 }
 
-void CmdUser::exec(Client * client, const std::string & arg, const Server & Server)
+void User::exec(Client * client, const std::string & arg, const Server & Server)
 {
     (void)Server;
     if (client->get_username() != "*")

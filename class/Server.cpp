@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 21:20:03 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:21:30 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ Server::~Server(void)
 
 void Server::init_cmd(void)
 {
-	_commands["NICK"] = new CmdNick();
-	_commands["USER"] = new CmdUser();
+	_commands["NICK"] = new Nick();
+	_commands["USER"] = new User();
 }
 
 void Server::destroy_commands(void)

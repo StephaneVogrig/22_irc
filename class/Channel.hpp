@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/19 02:44:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:17:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ class Channel
 		const std::string					_name;
 		std::string							_topic;
 
+		/*
+			status :
+			O : creator
+			o : operator
+		*/
 		//   map<  nickname ,   status   >
 		std::map<std::string, std::string>	_clients;
 

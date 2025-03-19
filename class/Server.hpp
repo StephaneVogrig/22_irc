@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/18 20:10:28 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:23:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include <unistd.h>
 # include <map>
 # include "Command.hpp"
-# include "CmdNick.hpp"
-# include "CmdUser.hpp"
+# include "Nick.hpp"
+# include "User.hpp"
 
 # include "Client.hpp"
 
