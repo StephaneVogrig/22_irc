@@ -27,9 +27,10 @@ class Client
 		const std::string get_nickname(void) const;
 		const std::string get_username(void) const;
 		bool is_registed() const;
+		bool is_hasPass() const;
+		void set_hasPass(bool pass);
 		void set_nickname(std::string name);
 		void set_username(std::string name);
-		void registed();
 
 		void append_to_buffer(const std::string & str);
 		void clear_msg_buffer(void);
@@ -43,10 +44,10 @@ class Client
 		std::string _userName;
 		std::string _realName;
 
+		bool _hasPass;
+
 		std::string _hostname;
 		std::string _hostadress;
-
-		bool		_registed;
 
 };
 

@@ -28,6 +28,7 @@
 # include "Command.hpp"
 # include "Nick.hpp"
 # include "User.hpp"
+# include "Pass.hpp"
 
 # include "Client.hpp"
 
@@ -55,6 +56,8 @@ class Server
 		~Server(void);
 
 		const Client *get_client(int fd) const;
+		const std::string &get_password(void) const;
+		int get_nbr_connected(void) const;
 
 		void run(void);
 

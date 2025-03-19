@@ -71,6 +71,7 @@ void Server::init_cmd(void)
 {
 	_commands["NICK"] = new Nick();
 	_commands["USER"] = new User();
+	_commands["PASS"] = new Pass();
 }
 
 void Server::destroy_commands(void)
@@ -211,4 +212,14 @@ void Server::close_connection(int i)
 const Client *Server::get_client(int fd) const
 {
 	return (_clients[fd]);
+}
+
+const std::string &Server::get_password(void) const
+{
+	return (_password);
+}
+
+int Server::get_nbr_connected(void) const
+{
+	return (_nbr_connected);
 }

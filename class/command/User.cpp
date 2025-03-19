@@ -23,19 +23,24 @@ User::~User()
 
 void User::exec(Client * client, const std::string & arg, const Server & Server)
 {
-    (void)Server;
-    if (client->get_username() != "*")
-        return ;
-    client->set_username(arg);
-	std::cout << PURPLE "new user name is " RESET << client->get_username() << std::endl;
-    // if (client->get_nickname() != "*")
-    // {
-    //     client->registed();
-    //     std::cout << PURPLE "client as registed !" RESET << std::endl;
-    //     std::string msg;
-    //     msg = client->get_nickname() + " :Welcome to the " + "best irc server" + " Network, ";
-    // 	std::cout << msg << std::endl;
-	// 	if (send(client->get_fd(), msg.c_str(), msg.length(), 0) == -1)
-    //         throw(std::runtime_error("send failed"));
-    // }
+	(void)Server;
+    if (!client->is_hasPass())
+    {
+        if(send(client->get_fd(), ":server 451 * :You need to send PASS first\r\n", 44, 0) == -1)
+			throw(std::runtime_error("send failed"));
+        return;
+    }
+	if (arg.empty())
+	{
+		if(send(client->get_fd(), ":server 461 * :Not enough parameters\r\n", 36, 0) == -1)
+			throw(std::runtime_error("send failed"));
+		return;
+	}
+	client->set_username(arg);
+	std::string msg;
+    msg = ":server 001 " + client->get_nickname() + " :Welcome to the IRC Server\r\n";
+	if (client->is_registed()) {
+		if(send(client->get_fd(), msg.c_str(), msg.length(), 0) == -1)
+			throw(std::runtime_error("send failed"));
+	}
 }

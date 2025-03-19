@@ -50,7 +50,8 @@ SRCS_CLASS			:=	Client.cpp \
 						Channel.cpp \
 						Command.cpp \
 						command/Nick.cpp \
-						command/User.cpp
+						command/User.cpp \
+						command/Pass.cpp
 						
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 

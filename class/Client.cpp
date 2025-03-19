@@ -13,7 +13,7 @@
 #include "Client.hpp"
 #include "utils.hpp"
 
-Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _registed(0)
+Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false)
 {
 }
 
@@ -43,7 +43,19 @@ const std::string Client::get_username(void) const
 
 bool Client::is_registed() const
 {
-	return _registed;
+	if (_nickName != "*" && _userName != "*")
+		return 1;
+	return 0;
+}
+
+bool Client::is_hasPass() const
+{
+	return _hasPass;
+}
+
+void Client::set_hasPass(bool pass)
+{
+	_hasPass = pass;
 }
 
 void Client::set_nickname(std::string name)
@@ -54,11 +66,6 @@ void Client::set_nickname(std::string name)
 void Client::set_username(std::string name)
 {
 	_userName = name;
-}
-
-void Client::registed()
-{
-	_registed = 1;
 }
 
 void Client::append_to_buffer(const std::string & str)

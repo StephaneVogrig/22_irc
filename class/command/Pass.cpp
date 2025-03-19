@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Pass.hpp                                           :+:      :+:    :+:   */
+/*   Pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,24 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PASS_HPP
-# define PASS_HPP
+#include "Pass.hpp"
+#include "Server.hpp"
 
-# include <iostream>
-# include "Command.hpp"
-
-class Server;
-class Client;
-
-class Pass : public Command
+Pass::Pass() : Command("PASS")
 {
-	public:
+}
 
-		Pass();
-		~Pass();
+Pass::~Pass()
+{
+}
 
-		void	exec(Client * client, const std::string & arg, const Server & Server);
-
-};
-
-#endif
+void Pass::exec(Client * client, const std::string & arg, const Server & Server)
+{
+    if (!Server.get_password().empty() && arg != Server.get_password())
+    {
+        if (send(client->get_fd(), ":server 464 * :Password incorrect\r\n", 37, 0) == -1)
+            throw(std::runtime_error("send failed"));
+        //Server.close_connection(client->get_fd());
+        return;
+    }
+    client->set_hasPass(true);
+}
