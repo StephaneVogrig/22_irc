@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/19 14:23:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/20 22:58:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@
 # include <unistd.h>
 # include <map>
 # include "Command.hpp"
+# include "Channel.hpp"
 # include "Nick.hpp"
 # include "User.hpp"
 # include "Pass.hpp"
+# include "Join.hpp"
 
 # include "Client.hpp"
 
@@ -45,6 +47,7 @@
 # define MSG_SERV_CLOSED "Server closed\n"
 
 typedef struct pollfd t_pollfd;
+typedef std::map<std::string, Channel *> t_map_channel;
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -55,11 +58,15 @@ class Server
 		Server(int port, const std::string & password);
 		~Server(void);
 
-		const Client *get_client(int fd) const;
-		const std::string &get_password(void) const;
-		int get_nbr_connected(void) const;
-
 		void run(void);
+
+		const Client *		get_client(int fd) const;
+		const std::string &	get_password(void) const;
+		int					get_nbr_connected(void) const;
+
+		Channel *			get_channel(const std::string & name);
+		bool 				channel_exist(const std::string & name);
+		void				create_channel(const std::string & name);
 
 	private:
 
@@ -69,6 +76,7 @@ class Server
 		t_pollfd							_fds[NBR_CLIENT_MAX];
 		Client *							_clients[NBR_CLIENT_MAX];
 		std::map<std::string, Command *>	_commands;
+		t_map_channel						_channels;
 
 		void open_connection(int fd);
 		void accept_connection(void);

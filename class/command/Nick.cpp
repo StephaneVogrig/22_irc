@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/19 14:22:19 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/20 19:17:27 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Nick::~Nick()
 {
 }
 
-void Nick::exec(Client * client, const std::string & arg, const Server & Server)
+void Nick::exec(Client * client, const std::string & arg, Server & Server)
 {
     if (!client->is_hasPass())
     {

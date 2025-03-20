@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/19 14:23:01 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/20 16:46:37 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRCS_CLASS			:=	Client.cpp \
 						Command.cpp \
 						command/Nick.cpp \
 						command/User.cpp \
-						command/Pass.cpp
+						command/Pass.cpp \
+						command/Join.cpp
 						
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 

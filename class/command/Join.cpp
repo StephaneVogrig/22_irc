@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   User.hpp                                           :+:      :+:    :+:   */
+/*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 16:41:08 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/20 19:15:50 by svogrig          ###   ########.fr       */
+/*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
+/*   Updated: 2025/03/20 19:49:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef User_HPP
-# define User_HPP
+#include "Join.hpp"
 
-# include <iostream>
-# include "Command.hpp"
+Join::Join(void) : Command("JOIN")
+{}
 
-class Server;
-class Client;
+Join::~Join(void)
+{}
 
-class User : public Command
+void Join::exec(Client * client, const std::string & param, Server & server)
 {
-	public:
-
-		User();
-		~User();
-
-		void	exec(Client * client, const std::string & arg, Server & Server);
-
-};
-
-#endif
+	if (!server.channel_exist(param))
+		server.create_channel(param);
+	Channel * channel = server.get_channel(param);
+	std::cout << client->get_nickname() << " join channel " << channel->get_name()
+			<< " ptr: " << channel << std::endl;
+	(void)client;
+	
+}

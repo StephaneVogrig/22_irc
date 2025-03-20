@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/19 02:30:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/20 22:56:53 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 Channel::Channel(const std::string & name)
 	:	_name(name)
-{}
+{
+	std::cout << "created channel " << _name << std::endl;
+}
 
-Channel::Channel(const Channel & to_copy)
+Channel::Channel(const Channel & to_copy) : _name(to_copy._name)
 {
 	*this = to_copy;
 }
