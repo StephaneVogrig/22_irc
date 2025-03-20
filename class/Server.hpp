@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/20 22:58:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/20 23:03:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define MSG_SERV_CLOSED "Server closed\n"
 
 typedef struct pollfd t_pollfd;
-typedef std::map<std::string, Channel *> t_map_channel;
+typedef std::map<std::string, Channel> t_map_channel;
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -64,7 +64,7 @@ class Server
 		const std::string &	get_password(void) const;
 		int					get_nbr_connected(void) const;
 
-		Channel *			get_channel(const std::string & name);
+		Channel &			get_channel(const std::string & name);
 		bool 				channel_exist(const std::string & name);
 		void				create_channel(const std::string & name);
 

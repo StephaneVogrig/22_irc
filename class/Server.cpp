@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/20 22:57:55 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/20 23:54:47 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ Server::~Server(void)
 	close(_fds[0].fd);
 	std::cout << PURPLE_BLINK "SERVER CLOSED" RESET << std::endl;
 	destroy_commands();
-	//destroy channel
 }
 
 void Server::init_cmd(void)
@@ -236,11 +235,11 @@ bool Server::channel_exist(const std::string & name)
 
 void Server::create_channel(const std::string & name)
 {
-	_channels.insert(std::make_pair(name, new Channel(name)));
+	_channels.insert(std::make_pair(name, Channel(name)));
 }
 
-Channel * Server::get_channel(const std::string & name)
+Channel & Server::get_channel(const std::string & name)
 {
 	t_map_channel::iterator it = _channels.find(name);
-	return (it->second);
+	return it->second ;
 }
