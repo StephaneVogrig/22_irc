@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/21 05:59:22 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/22 10:40:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ class Server
 		Channel &			get_channel(const std::string & name);
 		bool 				channel_exist(const std::string & name);
 		void				create_channel(const std::string & name);
-		void				send_msg(Client &client, const std::string & msg);
 
 	private:
 

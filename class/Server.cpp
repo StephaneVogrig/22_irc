@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 01:23:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/22 10:40:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,6 @@ void Server::run(void)
 		}
 		handle_event();
 	}
-}
-
-void Server::send_msg(Client &client, const std::string & msg)
-{
-	if(send(client.get_fd(), msg.c_str(), msg.length(), 0) == -1)
-		throw(std::runtime_error("send failed"));
 }
 
 void Server::handle_event(void)
