@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/20 16:46:37 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/22 01:22:06 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,9 @@ I_FLAG				:=	$(addprefix -I,$(DIR_INC)) -MMD -MP
 
 SRC_DIR				:=	src
 
-SRCS				:= 	main.cpp
+SRCS				:= 	main.cpp \
+						error.cpp \
+						reply.cpp
 
 SRCS				:=	$(SRCS:%=$(SRC_DIR)/%)
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/19 02:38:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/21 05:12:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CLIENT_CPP
 
 # include <iostream>
+# include <sys/socket.h>
 
 class Client
 {
@@ -34,6 +35,8 @@ class Client
 
 		void append_to_buffer(const std::string & str);
 		void clear_msg_buffer(void);
+
+		void send_msg(const std::string & msg);
 
 	private :
 

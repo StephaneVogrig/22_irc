@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Join.cpp                                           :+:      :+:    :+:   */
+/*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 01:25:48 by svogrig          ###   ########.fr       */
+/*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
+/*   Updated: 2025/03/22 01:49:49 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Join.hpp"
-
-Join::Join(void) : Command("JOIN")
-{}
-
-Join::~Join(void)
-{}
-
-void Join::exec(Client * client, const std::string & param, Server & server)
-{
-	if (param == "0")
-	{
-		// quitter tous les channels auxquels le client est inscrit
-		return ;
-	}
-
-	std::string status("");
-	if (!server.channel_exist(param))
-	{
-		server.create_channel(param);
-		status = "O";
-	}
-	Channel & channel = server.get_channel(param);
+#include "error.hpp"
 
 /*
 ERR_NEEDMOREPARAMS (461)
@@ -71,16 +49,12 @@ ERR_CHANNELISFULL (471)
   "<client> <channel> :Cannot join channel (+l)"
 Returned to indicate that a JOIN command failed because the client limit mode has been set and the maximum number of users are already joined to the channel. The text used in the last param of this message may vary.
 */
+
 /*
 ERR_INVITEONLYCHAN (473)
   "<client> <channel> :Cannot join channel (+i)"
 Returned to indicate that a JOIN command failed because the channel is set to [invite-only] mode and the client has not been invited to the channel or had an invite exception set for them. The text used in the last param of this message may vary.
 */
-	if (channel.is_mode_invite_only() && !channel.is_invited(*client))
-	{
-		//ERR_INVITEONLYCHAN
-		return ;
-	}
 
 /*
 ERR_BADCHANMASK (476)
@@ -91,16 +65,3 @@ This is similar to, but stronger than, ERR_NOSUCHCHANNEL (403), which indicates 
 
 The text used in the last param of this message may vary.
 */
-
-	channel.add_client(*client, status);
-
-
-	client->send_msg(":" + client->get_nickname() + " JOIN " + channel.get_name() + "\r\n");
-	if (channel.get_topic() == "")
-	{
-		rpl_topic(*client, channel);
-		rpl_topicwhotime(*client, channel);
-	}
-	rpl_namereply(*client, channel);
-	rpl_endofnames(*client, channel);
-}

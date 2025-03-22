@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Join.hpp                                           :+:      :+:    :+:   */
+/*   reply.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 16:33:32 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/21 18:21:03 by svogrig          ###   ########.fr       */
+/*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
+/*   Updated: 2025/03/21 19:45:31 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef JOIN_HPP
-# define JOIN_HPP
+#ifndef REPLY_HPP
+#define REPLY_HPP
 
-# include "Command.hpp"
-# include "Server.hpp"
 # include "Client.hpp"
-# include "reply.hpp"
+# include "Channel.hpp"
 
-class Join : public Command
-{
-	public:
-		Join(void);
-		~Join(void);
-
-		void exec(Client * client, const std::string & param, Server & server);
-};
+void rpl_topic(Client & client, Channel & channel);
+void rpl_topicwhotime(Client & client, Channel & channel);
+void rpl_namereply(Client & client, Channel & channel);
+void rpl_endofnames(Client & client, Channel & channel);
 
 #endif
