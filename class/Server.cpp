@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 10:40:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/22 11:05:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,7 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-static int create_socket(void)
-{
-	int sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock == -1)
-		throw(std::runtime_error("socket failed"));
-	int opt = 1;
-	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
-	{
-		close(sock);
-		throw(std::runtime_error("setsockoptit  failed"));
-	}
-	return sock;
-}
-
-static void bind_socket(int sock, int port)
-{
-	struct sockaddr_in addr;
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(port);
-	addr.sin_addr.s_addr = INADDR_ANY;
-	if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)) == -1)
-	{
-		perror("");
-		throw(std::runtime_error("bind failed"));
-	}
-}
+/* constructor ---------------------------------------------------------------*/
 
 Server::Server(int port, const std::string & password)
 		: _port(port), _password(password), _nbr_connected(0)
@@ -50,8 +25,10 @@ Server::Server(int port, const std::string & password)
 	bind_socket(_fds[0].fd, port);
 	if (listen(_fds[0].fd, BACKLOG) == -1)
 		throw(std::runtime_error("listen failed"));
-	init_cmd();
+	init_commands();
 }
+
+/* destructor ----------------------------------------------------------------*/
 
 Server::~Server(void)
 {
@@ -67,20 +44,30 @@ Server::~Server(void)
 	destroy_commands();
 }
 
-void Server::init_cmd(void)
+/* accessor ------------------------------------------------------------------*/
+
+const Client *Server::get_client(int idx_in_array) const
 {
-	_commands["NICK"] = new Nick();
-	_commands["USER"] = new User();
-	_commands["PASS"] = new Pass();
-	_commands["JOIN"] = new Join();
+	return _clients[idx_in_array] ;
 }
 
-void Server::destroy_commands(void)
+const std::string &Server::get_password(void) const
 {
-	for(std::map<std::string, Command *>::iterator it = _commands.begin();
-		it != _commands.end(); ++it)
-		delete (it->second);
+	return _password ;
 }
+
+int Server::get_nbr_connected(void) const
+{
+	return _nbr_connected ;
+}
+
+Channel & Server::get_channel(const std::string & name)
+{
+	t_map_channel::iterator it = _channels.find(name);
+	return it->second ;
+}
+
+/* public utilities ----------------------------------------------------------*/
 
 void Server::run(void)
 {
@@ -104,16 +91,38 @@ void Server::run(void)
 	}
 }
 
-void Server::handle_event(void)
+bool Server::channel_exist(const std::string & name)
 {
-	int imax = _nbr_connected;
-	if (_fds[0].revents & POLLIN)
-		accept_connection();
-	for (int i = imax; i > 0; --i)
-	{
-		if (_fds[i].revents & POLLIN)
-			handle_client_data(i);
-	}
+	t_map_channel::iterator it = _channels.find(name);
+	if (it == _channels.end())
+		return false ;
+	return true ;
+}
+
+void Server::create_channel(const std::string & name)
+{
+	_channels.insert(std::make_pair(name, Channel(name)));
+}
+
+/* private utilities ---------------------------------------------------------*/
+
+void Server::open_connection(int fd)
+{
+	_nbr_connected++;
+	_fds[_nbr_connected].fd = fd;
+	_fds[_nbr_connected].events = POLLIN;
+	_clients[_nbr_connected] = new Client(fd);
+}
+
+void Server::close_connection(int i)
+{
+	int fd = _fds[i].fd;
+	close(_fds[i].fd);
+	_fds[i] = _fds[_nbr_connected];
+	delete _clients[i];
+	_clients[i] = _clients[_nbr_connected];
+	_nbr_connected--;
+	std::cout << PURPLE "client connection close " RESET << fd << std::endl;
 }
 
 void Server::accept_connection()
@@ -139,6 +148,18 @@ void Server::accept_connection()
 		throw(std::runtime_error("send failed"));
 }
 
+void Server::handle_event(void)
+{
+	int imax = _nbr_connected;
+	if (_fds[0].revents & POLLIN)
+		accept_connection();
+	for (int i = imax; i > 0; --i)
+	{
+		if (_fds[i].revents & POLLIN)
+			handle_client_data(i);
+	}
+}
+
 void Server::handle_client_data(int i)
 {
 	char buffer[CLIENT_BUFFER_SIZE];
@@ -155,7 +176,6 @@ void Server::handle_client_data(int i)
 				<< str_buffer << std::endl
 				<< YELLOW "------- end receive -------" RESET << std::endl;
 	receive_data(str_buffer, _clients[i]);
-	// _clients[i]->receive_data(str_buffer, _clients[i]);
 }
 
 void Server::receive_data(const std::string & data, Client * client)
@@ -177,6 +197,20 @@ void Server::receive_data(const std::string & data, Client * client)
 	client->append_to_buffer(str);
 }
 
+void Server::init_commands(void)
+{
+	_commands["NICK"] = new Nick();
+	_commands["USER"] = new User();
+	_commands["PASS"] = new Pass();
+	_commands["JOIN"] = new Join();
+}
+
+void Server::destroy_commands(void)
+{
+	for(std::map<std::string, Command *>::iterator it = _commands.begin();
+		it != _commands.end(); ++it)
+		delete (it->second);
+}
 void Server::handle_cmd(const std::string str, Client * client)
 {
 	int pos = str.find(' ');
@@ -189,57 +223,4 @@ void Server::handle_cmd(const std::string str, Client * client)
 		cmd_ptr->exec(client, param, *this);
 	else
 		std::cout << "command not found" << std::endl;
-}
-
-void Server::open_connection(int fd)
-{
-	_nbr_connected++;
-	_fds[_nbr_connected].fd = fd;
-	_fds[_nbr_connected].events = POLLIN;
-	_clients[_nbr_connected] = new Client(fd);
-}
-
-void Server::close_connection(int i)
-{
-	int fd = _fds[i].fd;
-	close(_fds[i].fd);
-	_fds[i] = _fds[_nbr_connected];
-	delete _clients[i];
-	_clients[i] = _clients[_nbr_connected];
-	_nbr_connected--;
-	std::cout << PURPLE "client connection close " RESET << fd << std::endl;
-}
-
-const Client *Server::get_client(int idx_in_array) const
-{
-	return _clients[idx_in_array] ;
-}
-
-const std::string &Server::get_password(void) const
-{
-	return _password ;
-}
-
-int Server::get_nbr_connected(void) const
-{
-	return _nbr_connected ;
-}
-
-bool Server::channel_exist(const std::string & name)
-{
-	t_map_channel::iterator it = _channels.find(name);
-	if (it == _channels.end())
-		return false ;
-	return true ;
-}
-
-void Server::create_channel(const std::string & name)
-{
-	_channels.insert(std::make_pair(name, Channel(name)));
-}
-
-Channel & Server::get_channel(const std::string & name)
-{
-	t_map_channel::iterator it = _channels.find(name);
-	return it->second ;
 }
