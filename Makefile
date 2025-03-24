@@ -55,7 +55,9 @@ SRCS_CLASS			:=	Client.cpp \
 						command/Nick.cpp \
 						command/User.cpp \
 						command/Pass.cpp \
-						command/Join.cpp
+						command/Join.cpp \
+						command/Ping.cpp \
+						command/Pong.cpp
 						
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 

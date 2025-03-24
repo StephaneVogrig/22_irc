@@ -30,6 +30,8 @@
 # include "User.hpp"
 # include "Pass.hpp"
 # include "Join.hpp"
+# include "Ping.hpp"
+# include "Pong.hpp"
 
 # define BACKLOG 20
 # define POLL_TIMEOUT 2000

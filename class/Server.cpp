@@ -203,6 +203,8 @@ void Server::init_commands(void)
 	_commands["USER"] = new User();
 	_commands["PASS"] = new Pass();
 	_commands["JOIN"] = new Join();
+	_commands["PING"] = new Ping();
+	_commands["PONG"] = new Pong();
 }
 
 void Server::destroy_commands(void)
