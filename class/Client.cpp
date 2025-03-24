@@ -13,7 +13,7 @@
 #include "Client.hpp"
 #include "utils.hpp"
 
-Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false)
+Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false), _kicked(false)
 {
 }
 
@@ -51,6 +51,16 @@ bool Client::is_registed() const
 bool Client::is_hasPass() const
 {
 	return _hasPass;
+}
+
+bool Client::is_kicked() const
+{
+	return _kicked;
+}
+
+void Client::set_kicked(bool kick)
+{
+	_kicked = kick;
 }
 
 void Client::set_hasPass(bool pass)

@@ -85,6 +85,9 @@ void Server::run(void)
 		{
 			std::cout	<< GREY "serveur waiting... "
 						<< _nbr_connected << " client connected" RESET << std::endl;
+			for (int i = _nbr_connected; i > 0; --i)
+				if (get_client(i)->is_kicked())
+					close_connection(i);
 			continue ;
 		}
 		handle_event();
@@ -165,7 +168,7 @@ void Server::handle_client_data(int i)
 	char buffer[CLIENT_BUFFER_SIZE];
 	memset(buffer, 0, sizeof(buffer));
 	int size_read = recv(_fds[i].fd, buffer, CLIENT_BUFFER_SIZE - 1, 0);
-	if (size_read <= 0)
+	if (size_read <= 0 || get_client(i)->is_kicked())
 	{
 		close_connection(i);
 		return ;
@@ -190,6 +193,8 @@ void Server::receive_data(const std::string & data, Client * client)
 		std::cout	<<  PURPLE "["  RESET << client->get_fd() << PURPLE "] : "  RESET
 					<< cmd << std::endl;
 		handle_cmd(cmd, client);
+		if (client->is_kicked())
+			return ;
 		str.erase(0, pos + 2);
 		pos = str.find(delim);
 	}
@@ -205,6 +210,7 @@ void Server::init_commands(void)
 	_commands["JOIN"] = new Join();
 	_commands["PING"] = new Ping();
 	_commands["PONG"] = new Pong();
+	_commands["QUIT"] = new Quit();
 }
 
 void Server::destroy_commands(void)

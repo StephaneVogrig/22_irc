@@ -29,7 +29,9 @@ class Client
 		const std::string get_username(void) const;
 		bool is_registed() const;
 		bool is_hasPass() const;
+		bool is_kicked() const;
 		void set_hasPass(bool pass);
+		void set_kicked(bool kick);
 		void set_nickname(std::string name);
 		void set_username(std::string name);
 
@@ -48,6 +50,8 @@ class Client
 		std::string _realName;
 
 		bool _hasPass;
+
+		bool _kicked;
 
 		std::string _hostname;
 		std::string _hostadress;

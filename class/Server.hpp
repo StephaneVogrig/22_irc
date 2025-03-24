@@ -32,6 +32,7 @@
 # include "Join.hpp"
 # include "Ping.hpp"
 # include "Pong.hpp"
+# include "Quit.hpp"
 
 # define BACKLOG 20
 # define POLL_TIMEOUT 2000
@@ -58,6 +59,7 @@ class Server
 		const std::string &	get_password(void) const;
 		int					get_nbr_connected(void) const;
 		Channel &			get_channel(const std::string & name);
+		void				close_connection(int i);
 
 		void run(void);
 		bool channel_exist(const std::string & name);
@@ -75,7 +77,6 @@ class Server
 
 		void open_connection(int fd);
 		void accept_connection(void);
-		void close_connection(int i);
 
 		void handle_event(void);
 		void handle_client_data(int i);
