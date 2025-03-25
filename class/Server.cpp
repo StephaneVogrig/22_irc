@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 15:14:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 18:32:10 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,13 +219,16 @@ void Server::destroy_commands(void)
 		it != _commands.end(); ++it)
 		delete (it->second);
 }
+
 void Server::handle_msg(const std::string str, Client * client)
 {
+	// Message msg(str);
 	int pos = str.find(' ');
 	std::string cmd = str.substr(0, pos);
 	std::string param = str.substr(pos + 1, str.length());
 	for(std::string::iterator it = cmd.begin(); it <= cmd.end(); ++it)
 		*it = std::toupper(*it);
+
 	Command * cmd_ptr = _commands[cmd];
 	if (cmd_ptr)
 		cmd_ptr->exec(client, param, *this);
