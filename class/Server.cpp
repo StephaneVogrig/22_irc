@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 11:05:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:14:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ void Server::receive_data(const std::string & data, Client * client)
 	size_t pos = str.find(delim);
 	while (pos != std::string::npos)
 	{
-		std::string cmd = str.substr(0, pos);
+		std::string msg = str.substr(0, pos);
 		std::cout	<<  PURPLE "["  RESET << client->get_fd() << PURPLE "] : "  RESET
-					<< cmd << std::endl;
-		handle_cmd(cmd, client);
+					<< msg << std::endl;
+		handle_msg(msg, client);
 		if (client->is_kicked())
 			return ;
 		str.erase(0, pos + 2);
@@ -219,7 +219,7 @@ void Server::destroy_commands(void)
 		it != _commands.end(); ++it)
 		delete (it->second);
 }
-void Server::handle_cmd(const std::string str, Client * client)
+void Server::handle_msg(const std::string str, Client * client)
 {
 	int pos = str.find(' ');
 	std::string cmd = str.substr(0, pos);

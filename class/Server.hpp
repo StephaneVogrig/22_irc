@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 11:22:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:14:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ class Server
 
 		void init_commands(void);
 		void destroy_commands(void);
-		void handle_cmd(const std::string str, Client * client);
+		void handle_msg(const std::string str, Client * client);
 
 };
 
