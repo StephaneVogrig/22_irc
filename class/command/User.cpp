@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/20 19:16:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:36:08 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ User::~User()
 {
 }
 
-void User::exec(Client * client, const std::string & arg, Server & Server)
+void User::exec(Client * client, const Params & params, Server & Server)
 {
 	(void)Server;
     if (!client->is_hasPass())
@@ -30,13 +30,13 @@ void User::exec(Client * client, const std::string & arg, Server & Server)
 			throw(std::runtime_error("send failed"));
         return;
     }
-	if (arg.empty())
+	if (params.get_param(0).empty())
 	{
 		if(send(client->get_fd(), ":server 461 * :Not enough parameters\r\n", 36, 0) == -1)
 			throw(std::runtime_error("send failed"));
 		return;
 	}
-	client->set_username(arg);
+	client->set_username(params.get_param(0));
 	std::string msg;
     msg = ":server 001 " + client->get_nickname() + " :Welcome to the IRC Server\r\n";
 	if (client->is_registed()) {

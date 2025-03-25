@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:33:32 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/21 18:21:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:28:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class Join : public Command
 		Join(void);
 		~Join(void);
 
-		void exec(Client * client, const std::string & param, Server & server);
+		void exec(Client * client, const Params & params, Server & server);
 };
 
 #endif

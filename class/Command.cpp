@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:50:15 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/20 19:18:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:29:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ Command::~Command()
 {
 }
 
-void Command::exec(Client * client, const std::string & arg, Server & Server)
+void Command::exec(Client * client, const Params & params, Server & Server)
 {
     (void)client;
 
 	std::cout << Server.get_client(2) << std::endl;
 	std::cout << PURPLE "this command is command" RESET << std::endl;
-	std::cout << PURPLE "arg = " RESET << arg  << std::endl;
+	std::cout << PURPLE "arg = " RESET << params  << std::endl;
 }

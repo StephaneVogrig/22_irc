@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/20 19:16:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:35:51 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Quit::~Quit()
 {
 }
 
-void Quit::exec(Client * client, const std::string & arg, Server & Server)
+void Quit::exec(Client * client, const Params & params, Server & Server)
 {
     (void) Server;
     if (!client->is_registed())
@@ -31,7 +31,7 @@ void Quit::exec(Client * client, const std::string & arg, Server & Server)
         return;
     }
     // envoyé à tous les clients du serveur
-    (void) arg;
+    (void) params;
     std::string msg = client->get_nickname() + " :Goodbye\r\n";
     if (send(client->get_fd(),  msg.c_str(), msg.length(), 0) == -1)
         throw(std::runtime_error("send failed"));

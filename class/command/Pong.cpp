@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/19 14:22:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:35:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Pong::~Pong()
 {
 }
 
-void Pong::exec(Client * client, const std::string & arg, Server & Server)
+void Pong::exec(Client * client, const Params & params, Server & Server)
 {
     (void)Server;
     if (!client->is_registed()) {
@@ -29,7 +29,7 @@ void Pong::exec(Client * client, const std::string & arg, Server & Server)
             throw(std::runtime_error("send failed"));
         return;
     }
-    if (arg.empty()) {
+    if (params.get_param(0).empty()) {
         if (send(client->get_fd(), ":server 461 * PONG :Not enough parameters\r\n", 43, 0) == -1)
             throw(std::runtime_error("send failed"));
         return;
