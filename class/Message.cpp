@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:13:59 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 18:33:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:24:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,32 @@ Message & Message::operator = (const Message & toAssign)
 	return *this;
 }
 
-const std::string & Message::getPrefix()
+
+std::ostream & operator << (std::ostream & os, const Message & msg)
+{
+	os << BLUE "prefix: " RESET;
+	msg.get_prefix().empty()		? os << "<empty>" : os << msg.get_prefix();
+
+	os << BLUE " command: " RESET;
+	msg.get_command().empty()		? os << "<empty>" : os << msg.get_command();
+
+	os << BLUE " params: " RESET;
+	msg.get_params().get_nbr() == 0 ? os << "<empty>" : os << msg.get_params();
+
+	return os;
+}
+
+const std::string & Message::get_prefix() const
 {
 	return (_prefix);
 }
 
-const std::string & Message::getCommand()
+const std::string & Message::get_command() const
 {
 	return (_command);
 }
 
-std::vector<std::string> & Message::getParameters()
+const Params & Message::get_params() const
 {
 	return (_parameters);
 }
@@ -87,20 +102,7 @@ void Message::extract_info(const std::string & str)
 	start = stop + 1;
 
 	/* parameters */
-	stop = str.find(' ', start);
-	int nbr_param = 0;
-	while (stop != std::string::npos && nbr_param < 14)
-	{
-		if (str[start] == ':')
-		{
-			start++;
-			break ;
-		}
-		_parameters.push_back(str.substr(start, stop - start));
-		start = stop + 1;
-		stop = str.find(' ', start);
-		nbr_param++;
-	}
-	if (start < str.length())
-		_parameters.push_back(str.substr(start, str.length() - start));
+	Params params(str.substr(start, str.length() - start));
+	_parameters = params;
+
 }

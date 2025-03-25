@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:05:27 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 18:33:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:11:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <string>
 # include <vector>
+# include "Params.hpp"
+# include <ostream>
 
 class Message
 {
@@ -27,19 +29,21 @@ class Message
 
 		Message & operator = (const Message & toAssign);
 
-		const std::string &			getPrefix();
-		const std::string &			getCommand();
-		std::vector<std::string> &	getParameters();
+		const std::string &	get_prefix() const;
+		const std::string &	get_command() const;
+		const Params &		get_params() const;
 
 	private:
 
-		std::string					_prefix;
-		std::string					_command;
-		std::vector<std::string>	_parameters;
+		std::string	_prefix;
+		std::string	_command;
+		Params		_parameters;
 
 		void extract_info(const std::string & str);
 		void extract_command(const std::string & str, size_t start, size_t stop);
 
 };
+
+std::ostream & operator << (std::ostream & os, const Message & msg);
 
 #endif
