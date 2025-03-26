@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 12:28:55 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:42:02 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,19 @@ void User::exec(Client & client, const Params & params, Server & Server)
 			throw(std::runtime_error("send failed"));
         return;
     }
-	if (params.get_param(0).empty())
+	if (client.is_registed())
+	{
+		//462
+		return ;
+	}
+	if (params.get_param(0).empty() || params.get_nbr() < 2)
 	{
 		if(send(client.get_fd(), ":server 461 * :Not enough parameters\r\n", 36, 0) == -1)
 			throw(std::runtime_error("send failed"));
-		return;
+		return ;
 	}
 	client.set_username(params.get_param(0));
+	client.set_realname(params.get_param(params.get_nbr() - 1));
 	std::string msg;
     msg = ":server 001 " + client.get_nickname() + " :Welcome to the IRC Server\r\n";
 	if (client.is_registed()) {

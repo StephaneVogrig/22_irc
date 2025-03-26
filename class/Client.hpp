@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/21 05:12:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:32:03 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class Client
 		int get_fd(void);
 		const std::string get_nickname(void) const;
 		const std::string get_username(void) const;
+		const std::string get_realname(void) const;
 		bool is_registed() const;
 		bool is_hasPass() const;
 		bool is_kicked() const;
@@ -34,6 +35,7 @@ class Client
 		void set_kicked(bool kick);
 		void set_nickname(std::string name);
 		void set_username(std::string name);
+		void set_realname(std::string name);
 
 		void append_to_buffer(const std::string & str);
 		void clear_msg_buffer(void);

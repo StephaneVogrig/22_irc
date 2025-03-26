@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/21 05:48:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:32:44 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ const std::string Client::get_nickname(void) const
 const std::string Client::get_username(void) const
 {
 	return (_userName);
+}
+
+const std::string Client::get_realname(void) const
+{
+	return (_realName);
 }
 
 bool Client::is_registed() const
@@ -76,6 +81,11 @@ void Client::set_nickname(std::string name)
 void Client::set_username(std::string name)
 {
 	_userName = name;
+}
+
+void Client::set_realname(std::string name)
+{
+	_realName = name;
 }
 
 void Client::append_to_buffer(const std::string & str)
