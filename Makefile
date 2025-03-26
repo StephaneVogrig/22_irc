@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/25 20:35:13 by svogrig          ###   ########.fr        #
+#    Updated: 2025/03/26 17:02:42 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRCS_CLASS			:=	Client.cpp \
 						Channel.cpp \
 						Message.cpp \
 						Params.cpp \
+						Protocole_error.cpp \
 						Command.cpp \
 						command/Nick.cpp \
 						command/User.cpp \

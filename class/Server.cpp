@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:53:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:57:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,9 +227,14 @@ void Server::destroy_commands(void)
 
 void Server::handle_msg(const Message & msg, Client & client)
 {
-	Command * cmd_ptr = _commands[msg.get_command()];
-	if (cmd_ptr)
-		cmd_ptr->exec(client, msg.get_params(), *this);
-	else
-		std::cout << "command not found" << std::endl;
+	try
+	{
+		Command * cmd_ptr = _commands[msg.get_command()];
+		if (cmd_ptr)
+			cmd_ptr->exec(client, msg.get_params(), *this);
+		else
+			std::cout << "command not found" << std::endl;
+	}
+	catch(const Protocole_error & e)
+	{}
 }

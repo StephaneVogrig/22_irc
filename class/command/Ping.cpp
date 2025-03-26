@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 15:22:48 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 17:31:06 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,11 @@ Ping::~Ping()
 void Ping::exec(Client & client, const Params & params, Server & server)
 {
     if (!client.is_registed())
-    {
         ERR_NOTREGISTERED(client, server);
-        return;
-    }
+
     if (params.get_nbr() < 1)
-    {
         ERR_NEEDMOREPARAMS(client, "PING");
-        return;
-    }
+
     std::string response = ": PONG :" + params.get_first() + "\r\n";
     if (send(client.get_fd(), response.c_str(), response.size(), 0) == -1)
         throw(std::runtime_error("send failed"));

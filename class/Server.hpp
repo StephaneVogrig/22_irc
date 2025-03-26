@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:52:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:56:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "Ping.hpp"
 # include "Pong.hpp"
 # include "Quit.hpp"
+# include "Protocole_error.hpp"
 
 # define BACKLOG 20
 # define POLL_TIMEOUT 2000
