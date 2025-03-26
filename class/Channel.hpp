@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 01:10:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 20:31:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ class Channel
 		bool is_mode_invite_only(void);
 		bool is_invited(const Client & client);
 
-		void add_client(const Client & user, const std::string & status);
+		void add_client(Client & user, const std::string & status);
 		void remove_client(const Client & user);
+
+		void send_msg(const Client & client, const std::string & msg);
 
 	private:
 
@@ -55,7 +57,7 @@ class Channel
 			o : operator
 		*/
 		//   map<  nickname ,   status   >
-		std::map<std::string, std::string>	_clients;
+		std::map<std::string, std::pair<Client *, std::string> >	_clients;
 
 		/*
 			_modes store flags :

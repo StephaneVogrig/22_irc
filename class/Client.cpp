@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 12:32:44 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:22:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void Client::clear_msg_buffer(void)
 
 void Client::send_msg(const std::string & msg)
 {
+	std::cout << _fd << " send: " << msg <<std::endl;
 	if(send(_fd, msg.c_str(), msg.length(), 0) == -1)
 		throw(std::runtime_error("send failed"));
 }

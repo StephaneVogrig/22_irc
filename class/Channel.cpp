@@ -6,11 +6,13 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 01:17:07 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 20:31:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
+
+/* constructor ---------------------------------------------------------------*/
 
 Channel::Channel(const std::string & name)
 	:	_name(name), _topic(""), _modes(""), _key("")
@@ -23,8 +25,12 @@ Channel::Channel(const Channel & to_copy) : _name(to_copy._name)
 	*this = to_copy;
 }
 
+/* destructor ----------------------------------------------------------------*/
+
 Channel::~Channel(void)
 {}
+
+/* operator ------------------------------------------------------------------*/
 
 Channel & Channel::operator = (const Channel & to_assign)
 {
@@ -38,6 +44,8 @@ Channel & Channel::operator = (const Channel & to_assign)
 	_limit_clients = to_assign._limit_clients;
 	return *this;
 }
+
+/* accessor ------------------------------------------------------------------*/
 
 const std::string & Channel::get_name(void)
 {
@@ -69,15 +77,30 @@ bool Channel::is_invited(const Client & client)
 	return _invit_list.find(client.get_nickname()) != _invit_list.end();
 }
 
-void Channel::add_client(const Client & client, const std::string & status)
+/* utilities -----------------------------------------------------------------*/
+
+void Channel::add_client(Client & client, const std::string & status)
 {
 	if (_clients.find(client.get_nickname()) != _clients.end())
 		return ;
-	_clients[client.get_nickname()] = status;
+	_clients[client.get_nickname()].first = &client;
+	_clients[client.get_nickname()].second = status;
+	send_msg(client, client.get_nickname() + " join channel");
 	std::cout << client.get_nickname() << " join channel " << get_name() << std::endl;
 }
 
 void Channel::remove_client(const Client & client)
 {
 	_clients.erase(client.get_nickname());
+}
+
+void Channel::send_msg(const Client & sender, const std::string & msg)
+{
+	std::string irc_msg = ":" + sender.get_nickname() + " PRIVMSG ";
+
+	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		if (it->first != sender.get_nickname())
+			it->second.first->send_msg(irc_msg + _name + " :" + msg + "\r\n");
+	}
 }
