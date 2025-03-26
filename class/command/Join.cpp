@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:20:04 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:30:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ Join::~Join(void)
 
 void Join::exec(Client & client, const Params & params, Server & server)
 {
+	if (params.get_nbr() < 1)
+	{
+		ERR_NEEDMOREPARAMS(client, "JOIN");
+		return ;
+	}
+
 	if (params.get_first() == "0")
 	{
 		// quitter tous les channels auxquels le client est inscrit
@@ -65,6 +71,7 @@ ERR_BANNEDFROMCHAN (474)
   "<client> <channel> :Cannot join channel (+b)"
 Returned to indicate that a JOIN command failed because the client has been banned from the channel and has not had a ban exception set for them. The text used in the last param of this message may vary.
 */
+
 
 /*
 ERR_CHANNELISFULL (471)
