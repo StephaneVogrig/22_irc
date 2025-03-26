@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 14:12:16 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:23:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ Nick::~Nick()
 {
 }
 
-void Nick::exec(Client & client, const Params & params, Server & Server)
+void Nick::exec(Client & client, const Params & params, Server & server)
 {
     if (!client.is_hasPass())
     {
-        ERR_NOTREGISTERED(client);
+        ERR_NOTREGISTERED(client, server);
         return;
     }
     if (params.get_nbr() < 1)
@@ -38,9 +38,9 @@ void Nick::exec(Client & client, const Params & params, Server & Server)
         ERR_ERRONEUSNICKNAME(client, params.get_first());
         return;
     }
-    for (int i = Server.get_nbr_connected(); i > 0; --i)
+    for (int i = server.get_nbr_connected(); i > 0; --i)
 	{
-        if (Server.get_client(i)->get_nickname() == params.get_first())
+        if (server.get_client(i)->get_nickname() == params.get_first())
         {
             ERR_NICKNAMEINUSE(client, params.get_first());
             return;

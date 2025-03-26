@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:49:17 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:53:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ Server::~Server(void)
 }
 
 /* accessor ------------------------------------------------------------------*/
+
+const std::string & Server::get_name() const
+{
+	return (_name);
+}
 
 const Client *Server::get_client(int idx_in_array) const
 {

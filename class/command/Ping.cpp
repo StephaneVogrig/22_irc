@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Ping.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 14:19:42 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:22:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ Ping::~Ping()
 {
 }
 
-void Ping::exec(Client & client, const Params & params, Server & Server)
+void Ping::exec(Client & client, const Params & params, Server & server)
 {
-    (void)Server;
     if (!client.is_registed())
     {
-        ERR_NOTREGISTERED(client);
+        ERR_NOTREGISTERED(client, server);
         return;
     }
     if (params.get_nbr() < 1)

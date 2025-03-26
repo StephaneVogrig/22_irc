@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 14:15:34 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:23:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ User::~User()
 {
 }
 
-void User::exec(Client & client, const Params & params, Server & Server)
+void User::exec(Client & client, const Params & params, Server & server)
 {
-	(void)Server;
     if (!client.is_hasPass())
     {
-        ERR_NOTREGISTERED(client);
+        ERR_NOTREGISTERED(client, server);
         return ;
     }
 	if (client.is_registed())

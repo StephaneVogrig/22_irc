@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:10:55 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:20:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.hpp"
+#include "Server.hpp"
 
 /*
 	Error Replies
@@ -232,9 +233,9 @@ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 	MUST be registered before the server will allow it
 	to be parsed in detail.
 */
-void ERR_NOTREGISTERED(Client & client)
+void ERR_NOTREGISTERED(Client & client, Server & server)
 {
-	client.send_msg("451 :You have not registered\r\n");
+	client.send_msg(":" + server.get_name() + " 451 :You have not registered\r\n");
 }
 
 /*
