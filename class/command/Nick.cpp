@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 15:23:40 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:23:54 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ void Nick::exec(Client & client, const Params & params, Server & server)
         }
     }
     client.set_nickname(params.get_first());
-    std::string msg;
-    msg = ":server 001 " + client.get_nickname() + " :Welcome to the IRC Server\r\n";
     if (client.is_registed())
-    {
-        if (send(client.get_fd(), msg.c_str(), msg.length(), 0) == -1)
-            throw(std::runtime_error("send failed"));
-    }
+        RPL_WELCOME(client, server);
 }

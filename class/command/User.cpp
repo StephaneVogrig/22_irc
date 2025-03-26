@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 15:23:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:22:04 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ void User::exec(Client & client, const Params & params, Server & server)
 	}
 	client.set_username(params.get_first());
 	client.set_realname(params.get_param(params.get_nbr() - 1));
-	std::string msg;
-    msg = ":server 001 " + client.get_nickname() + " :Welcome to the IRC Server\r\n";
-	if (client.is_registed()) {
-		if(send(client.get_fd(), msg.c_str(), msg.length(), 0) == -1)
-			throw(std::runtime_error("send failed"));
-	}
+	if (client.is_registed())
+		RPL_WELCOME(client, server);
 }

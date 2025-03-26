@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:20:04 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:20:50 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "reply.hpp"
+#include "Server.hpp"
 
 /*
 	Command responses
@@ -21,6 +22,14 @@
 001	RPL_WELCOME
 		"Welcome to the Internet Relay Network
 		<nick>!<user>@<host>"
+*/
+
+void RPL_WELCOME(Client & client, Server & server)
+{
+	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the Internet Relay Network\r\n");
+}
+
+/*
 002	RPL_YOURHOST
 		"Your host is <servername>, running version <ver>"
 003	RPL_CREATED

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 14:20:04 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:22:57 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "Client.hpp"
 # include "Channel.hpp"
 
+class Server;
+
+void RPL_WELCOME(Client & client, Server & server);
 void RPL_TOPIC(Client & client, Channel & channel);
 void RPL_TOPICWHOTIME(Client & client, Channel & channel);
 void RPL_NAMREPLY(Client & client, Channel & channel);
