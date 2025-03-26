@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 12:42:02 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:29:13 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,17 @@ void User::exec(Client & client, const Params & params, Server & Server)
 	(void)Server;
     if (!client.is_hasPass())
     {
-        if(send(client.get_fd(), ":server 451 * :You need to send PASS first\r\n", 44, 0) == -1)
-			throw(std::runtime_error("send failed"));
-        return;
+        ERR_NOTREGISTERED(client);
+        return ;
     }
 	if (client.is_registed())
 	{
-		//462
+		ERR_ALREADYREGISTRED(client);
 		return ;
 	}
-	if (params.get_param(0).empty() || params.get_nbr() < 2)
+	if (params.get_nbr() < 4)
 	{
-		if(send(client.get_fd(), ":server 461 * :Not enough parameters\r\n", 36, 0) == -1)
-			throw(std::runtime_error("send failed"));
+		ERR_NEEDMOREPARAMS(client, "USER");
 		return ;
 	}
 	client.set_username(params.get_param(0));
