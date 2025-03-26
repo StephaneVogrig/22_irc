@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:20:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:49:42 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,14 @@ void ERR_NOTREGISTERED(Client & client)
 	- Returned by the server to any link which tries to
 	change part of the registered details (such as
 	password or user details from second USER message).
+*/
+
+void ERR_ALREADYREGISTRED(Client & client)
+{
+	client.send_msg("462 :Unauthorized command (already registered)\r\n");
+}
+
+/*
 
 463    ERR_NOPERMFORHOST
 		":Your host isn't among the privileged"
@@ -250,6 +258,13 @@ void ERR_NOTREGISTERED(Client & client)
 	a connection for which a password was required and
 	was either not given or incorrect.
 */
+
+
+void ERR_PASSWDMISMATCH(Client & client)
+{
+	client.send_msg("464 :Password incorrect\r\n");
+}
+
 /*
 465    ERR_YOUREBANNEDCREEP
 		":You are banned from this server"
