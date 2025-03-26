@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:49:42 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:32:24 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,10 @@ void ERR_NOSUCHNICK(Client & client)
 	in an attempt to change to a currently existing
 	nickname.
 */
+void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
+{
+	client.send_msg("433 " + nick + " :Nickname is already in use\r\n");
+}
 /*
 436    ERR_NICKCOLLISION
 		"<nick> :Nickname collision KILL from <user>@<host>"
@@ -227,7 +231,13 @@ void ERR_NOTREGISTERED(Client & client)
 	- Returned by the server by numerous commands to
 	indicate to the client that it didn't supply enough
 	parameters.
+*/
+void ERR_NEEDMOREPARAMS(Client & client, const std::string & command)
+{
+	client.send_msg("461 " + command + " :Not enough parameters\r\n");
+}
 
+/*
 462    ERR_ALREADYREGISTRED
 		":Unauthorized command (already registered)"
 
