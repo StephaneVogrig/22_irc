@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:32:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:49:17 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ volatile sig_atomic_t	g_signal = 0;
 
 /* constructor ---------------------------------------------------------------*/
 
-Server::Server(int port, const std::string & password)
-		: _port(port), _password(password), _nbr_connected(0)
+Server::Server(int port, const std::string & password, const std::string & name)
+		: _name(name), _port(port), _password(password), _nbr_connected(0)
 {
 	memset(_fds, 0, sizeof(_fds));
 	_fds[0].fd = create_socket();

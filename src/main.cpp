@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/17 21:30:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:48:17 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 		check_arg(argc);
 		int port = convert_port(argv[1]);
 		std::string password(argv[2]);
-		Server server(port, password);
+		Server server(port, password, "GreatServer_42");
 		server.run();
 	}
 	catch (const std::runtime_error& e)

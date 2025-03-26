@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:32:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:46:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Server
 {
 	public:
 
-		Server(int port, const std::string & password);
+		Server(int port, const std::string & password, const std::string & name);
 		~Server(void);
 
 		const Client *		get_client(int idx_in_array) const;
@@ -68,6 +68,7 @@ class Server
 
 	private:
 
+		std::string							_name;
 		const int							_port;
 		const std::string					_password;
 		int									_nbr_connected;
