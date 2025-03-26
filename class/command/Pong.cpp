@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/25 21:35:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:29:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ Pong::~Pong()
 {
 }
 
-void Pong::exec(Client * client, const Params & params, Server & Server)
+void Pong::exec(Client & client, const Params & params, Server & Server)
 {
     (void)Server;
-    if (!client->is_registed()) {
-        if (send(client->get_fd(), ":server 451 * :You need to register first\r\n", 44, 0) == -1)
+    if (!client.is_registed()) {
+        if (send(client.get_fd(), ":server 451 * :You need to register first\r\n", 44, 0) == -1)
             throw(std::runtime_error("send failed"));
         return;
     }
     if (params.get_param(0).empty()) {
-        if (send(client->get_fd(), ":server 461 * PONG :Not enough parameters\r\n", 43, 0) == -1)
+        if (send(client.get_fd(), ":server 461 * PONG :Not enough parameters\r\n", 43, 0) == -1)
             throw(std::runtime_error("send failed"));
         return;
     }
-    //client->update_last_pong();
+    //client.update_last_pong();
 }

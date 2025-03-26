@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 22:12:30 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:32:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ class Server
 
 		void handle_event(void);
 		void handle_client_data(int i);
-		void receive_data(const std::string & data, Client * client);
+		void receive_data(const std::string & data, Client & client);
 
 		void init_commands(void);
 		void destroy_commands(void);
-		void handle_msg(const Message & msg, Client * client);
+		void handle_msg(const Message & msg, Client & client);
 
 };
 

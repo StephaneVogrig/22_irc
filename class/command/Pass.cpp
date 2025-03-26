@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/25 21:35:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:28:22 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ Pass::~Pass()
 {
 }
 
-void Pass::exec(Client * client, const Params & params, Server & Server)
+void Pass::exec(Client & client, const Params & params, Server & Server)
 {
     if (!Server.get_password().empty() && params.get_param(0) != Server.get_password())
     {
-        if (send(client->get_fd(), ":server 464 * :Password incorrect\r\n", 37, 0) == -1)
+        if (send(client.get_fd(), ":server 464 * :Password incorrect\r\n", 37, 0) == -1)
             throw(std::runtime_error("send failed"));
-        client->set_kicked(true);
+        client.set_kicked(true);
         return;
     }
-    client->set_hasPass(true);
+    client.set_hasPass(true);
 }

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:50:15 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 21:29:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:04:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ Command::~Command()
 {
 }
 
-void Command::exec(Client * client, const Params & params, Server & Server)
+void Command::exec(Client & client, const Params & params, Server & Server)
 {
     (void)client;
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:50:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 21:37:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:04:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Command
 		virtual ~Command();
 		Command & operator=(const Command & to_assign);
 
-		virtual void	exec(Client * client, const Params & params, Server & Server);
+		virtual void	exec(Client & client, const Params & params, Server & Server);
 
 	protected:
 		

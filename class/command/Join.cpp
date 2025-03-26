@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 21:32:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:27:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Join::Join(void) : Command("JOIN")
 Join::~Join(void)
 {}
 
-void Join::exec(Client * client, const Params & params, Server & server)
+void Join::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_param(0) == "0")
 	{
@@ -76,7 +76,7 @@ ERR_INVITEONLYCHAN (473)
   "<client> <channel> :Cannot join channel (+i)"
 Returned to indicate that a JOIN command failed because the channel is set to [invite-only] mode and the client has not been invited to the channel or had an invite exception set for them. The text used in the last param of this message may vary.
 */
-	if (channel.is_mode_invite_only() && !channel.is_invited(*client))
+	if (channel.is_mode_invite_only() && !channel.is_invited(client))
 	{
 		//ERR_INVITEONLYCHAN
 		return ;
@@ -92,15 +92,15 @@ This is similar to, but stronger than, ERR_NOSUCHCHANNEL (403), which indicates 
 The text used in the last param of this message may vary.
 */
 
-	channel.add_client(*client, status);
+	channel.add_client(client, status);
 
 
-	client->send_msg(":" + client->get_nickname() + " JOIN " + channel.get_name() + "\r\n");
+	client.send_msg(":" + client.get_nickname() + " JOIN " + channel.get_name() + "\r\n");
 	if (channel.get_topic() == "")
 	{
-		rpl_topic(*client, channel);
-		rpl_topicwhotime(*client, channel);
+		rpl_topic(client, channel);
+		rpl_topicwhotime(client, channel);
 	}
-	rpl_namereply(*client, channel);
-	rpl_endofnames(*client, channel);
+	rpl_namereply(client, channel);
+	rpl_endofnames(client, channel);
 }
