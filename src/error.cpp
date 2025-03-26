@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 13:32:24 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:10:55 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,13 @@ void ERR_NOSUCHNICK(Client & client)
 
 	- Returned when a nickname parameter expected for a
 	command and isn't found.
+*/
+void ERR_NONICKNAMEGIVEN(Client & client)
+{
+	client.send_msg("431 :No nickname given\r\n");
+}
+/*
+
 
 432    ERR_ERRONEUSNICKNAME
 		"<nick> :Erroneous nickname"
@@ -143,6 +150,12 @@ void ERR_NOSUCHNICK(Client & client)
 	- Returned after receiving a NICK message which contains
 	characters which do not fall in the defined set.  See
 	section 2.3.1 for details on valid nicknames.
+*/
+void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick)
+{
+	client.send_msg("432 " + nick + " :Erroneous nickname\r\n");
+}
+/*
 
 433    ERR_NICKNAMEINUSE
 		"<nick> :Nickname is already in use"
@@ -153,7 +166,7 @@ void ERR_NOSUCHNICK(Client & client)
 */
 void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 {
-	client.send_msg("433 " + nick + " :Nickname is already in use\r\n");
+	client.send_msg(": 433 * " + nick + " :Nickname is already in use\r\n");
 }
 /*
 436    ERR_NICKCOLLISION

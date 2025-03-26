@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 12:27:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:12:16 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,28 @@ void Nick::exec(Client & client, const Params & params, Server & Server)
 {
     if (!client.is_hasPass())
     {
-        if (send(client.get_fd(), ":server 451 * :You need to send PASS first\r\n", 44, 0) == -1)
-            throw(std::runtime_error("send failed"));
+        ERR_NOTREGISTERED(client);
         return;
     }
-    if (params.get_param(0).empty() || params.get_param(0).length() > 9)
+    if (params.get_nbr() < 1)
     {
-        if (send(client.get_fd(), ":server 432 * :Erroneous nickname\r\n", 34, 0) == -1)
-            throw(std::runtime_error("send failed"));
+        ERR_NONICKNAMEGIVEN(client);
+        return;
+    }
+    if (params.get_first().length() > 9)
+    {
+        ERR_ERRONEUSNICKNAME(client, params.get_first());
         return;
     }
     for (int i = Server.get_nbr_connected(); i > 0; --i)
 	{
-        if (Server.get_client(i)->get_nickname() == params.get_param(0))
+        if (Server.get_client(i)->get_nickname() == params.get_first())
         {
-            std::string msg_err;
-            msg_err = ":server 433 * " + params.get_param(0) + " :Nickname is already in use\r\n";
-            if(send(client.get_fd(), msg_err.c_str(), msg_err.length(), 0) == -1)
-                throw(std::runtime_error("send failed"));
+            ERR_NICKNAMEINUSE(client, params.get_first());
             return;
         }
     }
-    client.set_nickname(params.get_param(0));
+    client.set_nickname(params.get_first());
     std::string msg;
     msg = ":server 001 " + client.get_nickname() + " :Welcome to the IRC Server\r\n";
     if (client.is_registed())
