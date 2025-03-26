@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:13:59 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 21:24:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 13:30:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ std::ostream & operator << (std::ostream & os, const Message & msg)
 
 const std::string & Message::get_prefix() const
 {
-	return (_prefix);
+	return _prefix;
 }
 
 const std::string & Message::get_command() const
 {
-	return (_command);
+	return _command;
 }
 
 const Params & Message::get_params() const
 {
-	return (_parameters);
+	return _parameters;
 }
 
 void Message::extract_command(const std::string & str, size_t start, size_t stop)

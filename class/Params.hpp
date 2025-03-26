@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 19:39:55 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 20:58:17 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:52:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class Params
 
 		int					get_nbr() const;
 		const std::string &	get_param(int idx) const;
+		const std::string &	get_first() const;
 	
 	private:
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:04:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/25 21:08:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:53:31 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,9 @@ int	Params::get_nbr() const
 const std::string &	Params::get_param(int idx) const
 {
 	return _params[idx];
+}
+
+const std::string &	Params::get_first() const
+{
+	return _params[0];
 }

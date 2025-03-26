@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:27:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:59:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ Join::~Join(void)
 
 void Join::exec(Client & client, const Params & params, Server & server)
 {
-	if (params.get_param(0) == "0")
+	if (params.get_first() == "0")
 	{
 		// quitter tous les channels auxquels le client est inscrit
 		return ;
 	}
 
 	std::string status("");
-	if (!server.channel_exist(params.get_param(0)))
+	if (!server.channel_exist(params.get_first()))
 	{
-		server.create_channel(params.get_param(0));
+		server.create_channel(params.get_first());
 		status = "O";
 	}
 	Channel & channel = server.get_channel(params.get_param(0));
