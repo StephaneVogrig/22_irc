@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 13:36:58 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:15:34 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void User::exec(Client & client, const Params & params, Server & Server)
 		ERR_NEEDMOREPARAMS(client, "USER");
 		return ;
 	}
-	client.set_username(params.get_param(0));
+	client.set_username(params.get_first());
 	client.set_realname(params.get_param(params.get_nbr() - 1));
 	std::string msg;
     msg = ":server 001 " + client.get_nickname() + " :Welcome to the IRC Server\r\n";
