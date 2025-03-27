@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 12:32:03 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/27 22:33:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <sys/socket.h>
+# include <vector>
 
 class Client
 {
@@ -23,11 +24,11 @@ class Client
 		Client(int fd);
 		~Client();
 
-		const std::string & get_msg_buffer(void) const;
-		int get_fd(void);
-		const std::string get_nickname(void) const;
-		const std::string get_username(void) const;
-		const std::string get_realname(void) const;
+		const std::string & get_msg_buffer() const;
+		int get_fd();
+		const std::string get_nickname() const;
+		const std::string get_username() const;
+		const std::string get_realname() const;
 		bool is_registed() const;
 		bool is_hasPass() const;
 		bool is_kicked() const;
@@ -38,9 +39,11 @@ class Client
 		void set_realname(std::string name);
 
 		void append_to_buffer(const std::string & str);
-		void clear_msg_buffer(void);
+		void clear_msg_buffer();
 
 		void send_msg(const std::string & msg);
+		void add_channel_subscripted(const std::string & channel);
+		int  nbr_channels_subscripted();
 
 	private :
 
@@ -57,6 +60,8 @@ class Client
 
 		std::string _hostname;
 		std::string _hostadress;
+
+		std::vector<std::string> _channels_subscripted;
 
 };
 

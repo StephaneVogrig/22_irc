@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 20:30:22 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 22:30:01 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define POLL_TIMEOUT 2000
 # define CLIENT_BUFFER_SIZE 256
 # define NBR_CLIENT_MAX 20
+# define MAX_CHANNEL_PER_CLIENT 5
 
 # define MSG_WELCOME "Welcome on the best irc server\n"
 # define MSG_SERV_FULL "Connection refused : server full\n"

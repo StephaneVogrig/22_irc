@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/27 19:30:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 22:34:31 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,14 @@ std::ostream & operator << (std::ostream & os, const Client & client)
 {
 	os << "client buffer: " << client.get_msg_buffer();
 	return (os);
+}
+
+void Client::add_channel_subscripted(const std::string & channel)
+{
+	_channels_subscripted.push_back(channel);
+}
+
+int  Client::nbr_channels_subscripted()
+{
+	return _channels_subscripted.size();
 }

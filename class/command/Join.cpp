@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 19:53:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 23:29:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,25 @@ void Join::exec(Client & client, const Params & params, Server & server)
 		return ;
 	}
 
+	// convertir params en lsite de channel et liste de key
+
+	const std::string & chan_name = params.get_first();
+	char prefix = chan_name[0];
+
+	if ( prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+')
+		ERR_BADCHANMASK(client, params.get_first());
+
+	if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
+		ERR_TOOMANYCHANNELS(client, params.get_first());
+
 	std::string status("");
-	if (!server.channel_exist(params.get_first()))
+	if (!server.channel_exist(chan_name))
 	{
-		server.create_channel(params.get_first());
+		server.create_channel(chan_name);
 		status = "O";
 	}
-	Channel & channel = server.get_channel(params.get_param(0));
 
-/*
-ERR_NEEDMOREPARAMS (461)
-  "<client> <command> :Not enough parameters"
-Returned when a client command cannot be parsed because not enough parameters were supplied. The text used in the last param of this message may vary.
-*/
+	Channel & channel = server.get_channel(chan_name);
 
 /*
 ERR_NOSUCHCHANNEL (403)
@@ -49,11 +55,6 @@ ERR_NOSUCHCHANNEL (403)
 Indicates that no channel can be found for the supplied channel name. The text used in the last param of this message may vary.
 */
 
-/*
-ERR_TOOMANYCHANNELS (405)
-  "<client> <channel> :You have joined too many channels"
-Indicates that the JOIN command failed because the client has joined their maximum number of channels. The text used in the last param of this message may vary.
-*/
 
 /*
 ERR_BADCHANNELKEY (475)

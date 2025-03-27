@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 19:31:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 23:33:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ void ERR_NOSUCHNICK(Client & client)
 	number of allowed channels and they try to join
 	another channel.
 */
+void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel)
+{
+	client.send_msg("405 " + channel + " :You have joined too many channels");
+	throw Protocole_error();
+}
+
 /*
 406    ERR_WASNOSUCHNICK
 		"<nickname> :There was no such nickname"
@@ -240,7 +246,7 @@ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 void ERR_NOTREGISTERED(Client & client, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 451 :You have not registered");
-	throw Protocole_error();
+		throw Protocole_error();
 }
 
 /*
@@ -322,8 +328,14 @@ void ERR_PASSWDMISMATCH(Client & client)
 		"<channel> :Cannot join channel (+b)"
 475    ERR_BADCHANNELKEY
 		"<channel> :Cannot join channel (+k)"
-476    ERR_BADCHANMASK
-		"<channel> :Bad Channel Mask"
+*/
+/*476*/ void ERR_BADCHANMASK(Client & client, const std::string & channel)
+{
+	client.send_msg("476 " + channel + " :Bad Channel Mask");
+		throw Protocole_error();
+}
+
+/*
 477    ERR_NOCHANMODES
 		"<channel> :Channel doesn't support modes"
 478    ERR_BANLISTFULL

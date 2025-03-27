@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 19:31:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 23:46:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 /* constructor ---------------------------------------------------------------*/
 
 Channel::Channel(const std::string & name)
-	:	_name(name), _topic(""), _modes(""), _key("")
+	:	_channel_name(name), _topic(""), _modes(""), _key("")
 {
-	std::cout << "created channel " << _name << std::endl;
+	std::cout << "created channel " << _channel_name << std::endl;
 }
 
-Channel::Channel(const Channel & to_copy) : _name(to_copy._name)
+Channel::Channel(const Channel & to_copy) : _channel_name(to_copy._channel_name)
 {
 	*this = to_copy;
 }
@@ -49,7 +49,7 @@ Channel & Channel::operator = (const Channel & to_assign)
 
 const std::string & Channel::get_name(void)
 {
-	return _name;
+	return _channel_name;
 }
 
 const std::string & Channel::get_topic(void)
@@ -85,6 +85,7 @@ void Channel::add_client(Client & client, const std::string & status)
 		return ;
 	_clients[client.get_nickname()].first = &client;
 	_clients[client.get_nickname()].second = status;
+	client.add_channel_subscripted(_channel_name);
 	send_msg(client, client.get_nickname() + " join channel");
 	std::cout << client.get_nickname() << " join channel " << get_name() << std::endl;
 }
@@ -101,6 +102,6 @@ void Channel::send_msg(const Client & sender, const std::string & msg)
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
 		if (it->first != sender.get_nickname())
-			it->second.first->send_msg(irc_msg + _name + " :" + msg);
+			it->second.first->send_msg(irc_msg + _channel_name + " :" + msg);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 20:31:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 23:43:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ class Channel
 
 	private:
 
-		const std::string					_name;
+		const std::string					_channel_name;
 		std::string							_topic;
 		std::string							_topic_who;
 		std::time_t							_topic_setat;
