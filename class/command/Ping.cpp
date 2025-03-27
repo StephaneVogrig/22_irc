@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Ping.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 18:53:11 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:55:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ void Ping::exec(Client & client, const Params & params, Server & server)
     if (params.get_nbr() < 1)
         ERR_NEEDMOREPARAMS(client, "PING");
 
-    client.send_msg(":" + server.get_name() + " PONG :" + params.get_first() + "\r\n");
+    client.send_msg(":" + server.get_name() + " PONG :" + params.get_first());
 }

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 17:11:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 19:53:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ The text used in the last param of this message may vary.
 	channel.add_client(client, status);
 
 
-	client.send_msg(":" + client.get_nickname() + " JOIN " + channel.get_name() + "\r\n");
+	client.send_msg(":" + client.get_nickname() + " JOIN " + channel.get_name());
 	if (channel.get_topic() == "")
 	{
 		RPL_TOPIC(client, channel);

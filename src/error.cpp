@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 17:08:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 19:31:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 */
 void ERR_NOSUCHNICK(Client & client)
 {
-	client.send_msg("401 " + client.get_nickname() + " :No such nick/channel\r\n");
+	client.send_msg("401 " + client.get_nickname() + " :No such nick/channel");
 	throw Protocole_error();
 }
 
@@ -141,7 +141,7 @@ void ERR_NOSUCHNICK(Client & client)
 */
 void ERR_NONICKNAMEGIVEN(Client & client)
 {
-	client.send_msg("431 :No nickname given\r\n");
+	client.send_msg("431 :No nickname given");
 	throw Protocole_error();
 }
 /*
@@ -156,7 +156,7 @@ void ERR_NONICKNAMEGIVEN(Client & client)
 */
 void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick)
 {
-	client.send_msg("432 " + nick + " :Erroneous nickname\r\n");
+	client.send_msg("432 " + nick + " :Erroneous nickname");
 	throw Protocole_error();
 }
 /*
@@ -170,7 +170,7 @@ void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick)
 */
 void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 {
-	client.send_msg(": 433 * " + nick + " :Nickname is already in use\r\n");
+	client.send_msg(": 433 * " + nick + " :Nickname is already in use");
 	throw Protocole_error();
 }
 /*
@@ -239,7 +239,7 @@ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 */
 void ERR_NOTREGISTERED(Client & client, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 451 :You have not registered\r\n");
+	client.send_msg(":" + server.get_name() + " 451 :You have not registered");
 	throw Protocole_error();
 }
 
@@ -253,7 +253,7 @@ void ERR_NOTREGISTERED(Client & client, Server & server)
 */
 void ERR_NEEDMOREPARAMS(Client & client, const std::string & command)
 {
-	client.send_msg("461 " + command + " :Not enough parameters\r\n");
+	client.send_msg("461 " + command + " :Not enough parameters");
 	throw Protocole_error();
 }
 
@@ -268,7 +268,7 @@ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command)
 
 void ERR_ALREADYREGISTRED(Client & client)
 {
-	client.send_msg("462 :Unauthorized command (already registered)\r\n");
+	client.send_msg("462 :Unauthorized command (already registered)");
 	throw Protocole_error();
 }
 
@@ -293,7 +293,7 @@ void ERR_ALREADYREGISTRED(Client & client)
 
 void ERR_PASSWDMISMATCH(Client & client)
 {
-	client.send_msg("464 :Password incorrect\r\n");
+	client.send_msg("464 :Password incorrect");
 	throw Protocole_error();
 }
 

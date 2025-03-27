@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 16:20:50 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:30:55 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 void RPL_WELCOME(Client & client, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the Internet Relay Network\r\n");
+	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the Internet Relay Network");
 }
 
 /*
@@ -321,7 +321,7 @@ void RPL_WELCOME(Client & client, Server & server)
 */
 void RPL_TOPIC(Client & client, Channel & channel)
 {
-	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic() + "\r\n");
+	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic());
 }
 
 /*
@@ -400,7 +400,7 @@ void RPL_TOPIC(Client & client, Channel & channel)
 */
 void RPL_NAMREPLY(Client & client, Channel & channel)
 {
-	client.send_msg(":server 353 " + client.get_nickname() + " <symbol> " + channel.get_name() + " :" + channel.get_topic_who() + "\r\n");
+	client.send_msg(":server 353 " + client.get_nickname() + " <symbol> " + channel.get_name() + " :" + channel.get_topic_who());
 }
 
 /*
@@ -419,7 +419,7 @@ void RPL_NAMREPLY(Client & client, Channel & channel)
 */
 void RPL_ENDOFNAMES(Client & client, Channel & channel)
 {
-	client.send_msg(":server 366 " + client.get_nickname() + " " + channel.get_name() + " :End of /NAMES list\r\n");
+	client.send_msg(":server 366 " + client.get_nickname() + " " + channel.get_name() + " :End of /NAMES list");
 }
 
 /*
@@ -526,5 +526,5 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 */
 void RPL_TOPICWHOTIME(Client & client, Channel & channel)
 {
-	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who() + "\r\n");
+	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who());
 }

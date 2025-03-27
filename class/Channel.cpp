@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 20:31:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/27 19:31:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void Channel::send_msg(const Client & sender, const std::string & msg)
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
 		if (it->first != sender.get_nickname())
-			it->second.first->send_msg(irc_msg + _name + " :" + msg + "\r\n");
+			it->second.first->send_msg(irc_msg + _name + " :" + msg);
 	}
 }
