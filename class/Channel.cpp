@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 23:46:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 01:07:54 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,29 @@ Channel & Channel::operator = (const Channel & to_assign)
 
 /* accessor ------------------------------------------------------------------*/
 
-const std::string & Channel::get_name(void)
+const std::string & Channel::get_name(void) const
 {
 	return _channel_name;
 }
 
-const std::string & Channel::get_topic(void)
+const std::string & Channel::get_topic(void) const
 {
 	return _topic;
 }
 
-const std::string & Channel::get_topic_who(void)
+const std::string & Channel::get_topic_who(void) const
 {
 	return _topic_who;
 }
 
-const std::time_t & Channel::get_topic_setat(void)
+const std::time_t & Channel::get_topic_setat(void) const
 {
 	return _topic_setat;
+}
+
+const std::string & Channel::get_key(void) const
+{
+	return _key;
 }
 
 bool Channel::is_mode_invite_only(void)
@@ -75,6 +80,11 @@ bool Channel::is_mode_invite_only(void)
 bool Channel::is_invited(const Client & client)
 {
 	return _invit_list.find(client.get_nickname()) != _invit_list.end();
+}
+
+bool Channel::is_banned(const Client & client)
+{
+	return _banned_list.find(client.get_nickname()) != _banned_list.end();
 }
 
 /* utilities -----------------------------------------------------------------*/

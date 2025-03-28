@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 23:33:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 04:57:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@
 	- Used to indicate the nickname parameter supplied to a
 	command is currently unused.
 */
-void ERR_NOSUCHNICK(Client & client)
-{
-	client.send_msg("401 " + client.get_nickname() + " :No such nick/channel");
-	throw Protocole_error();
-}
 
 /*
 402    ERR_NOSUCHSERVER
@@ -37,12 +32,15 @@ void ERR_NOSUCHNICK(Client & client)
 
 	- Used to indicate the server name given currently
 	does not exist.
+*/
 
-403    ERR_NOSUCHCHANNEL
-		"<channel name> :No such channel"
+/*403*/ void ERR_NOSUCHCHANNEL(Client & client, const std::string & channel_name)
+{
+	client.send_msg("403 " + channel_name + " :No such channel");
+	throw Protocole_error();
+}
 
-	- Used to indicate the given channel name is invalid.
-
+/*
 404    ERR_CANNOTSENDTOCHAN
 		"<channel name> :Cannot send to channel"
 
@@ -51,17 +49,11 @@ void ERR_NOSUCHNICK(Client & client)
 	a channel which has mode +m set or where the user is
 	banned and is trying to send a PRIVMSG message to
 	that channel.
-
-405    ERR_TOOMANYCHANNELS
-		"<channel name> :You have joined too many channels"
-
-	- Sent to a user when they have joined the maximum
-	number of allowed channels and they try to join
-	another channel.
 */
-void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel)
+
+/*405*/ void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel_name)
 {
-	client.send_msg("405 " + channel + " :You have joined too many channels");
+	client.send_msg("405 " + channel_name + " :You have joined too many channels");
 	throw Protocole_error();
 }
 
@@ -138,43 +130,21 @@ void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel)
 
 	- Generic error message used to report a failed file
 	operation during the processing of a message.
-
-431    ERR_NONICKNAMEGIVEN
-		":No nickname given"
-
-	- Returned when a nickname parameter expected for a
-	command and isn't found.
 */
-void ERR_NONICKNAMEGIVEN(Client & client)
+
+/*431*/ void ERR_NONICKNAMEGIVEN(Client & client)
 {
 	client.send_msg("431 :No nickname given");
 	throw Protocole_error();
 }
-/*
 
-
-432    ERR_ERRONEUSNICKNAME
-		"<nick> :Erroneous nickname"
-
-	- Returned after receiving a NICK message which contains
-	characters which do not fall in the defined set.  See
-	section 2.3.1 for details on valid nicknames.
-*/
-void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick)
+/*432*/ void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick)
 {
 	client.send_msg("432 " + nick + " :Erroneous nickname");
 	throw Protocole_error();
 }
-/*
 
-433    ERR_NICKNAMEINUSE
-		"<nick> :Nickname is already in use"
-
-	- Returned when a NICK message is processed that results
-	in an attempt to change to a currently existing
-	nickname.
-*/
-void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
+/*433*/ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 {
 	client.send_msg(": 433 * " + nick + " :Nickname is already in use");
 	throw Protocole_error();
@@ -235,15 +205,9 @@ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick)
 
 	- Returned as a response to the USERS command.  MUST be
 	returned by any server which does not implement it.
-
-451    ERR_NOTREGISTERED
-		":You have not registered"
-
-	- Returned by the server to indicate that the client
-	MUST be registered before the server will allow it
-	to be parsed in detail.
 */
-void ERR_NOTREGISTERED(Client & client, Server & server)
+
+/*451*/ void ERR_NOTREGISTERED(Client & client, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 451 :You have not registered");
 		throw Protocole_error();
@@ -257,22 +221,13 @@ void ERR_NOTREGISTERED(Client & client, Server & server)
 	indicate to the client that it didn't supply enough
 	parameters.
 */
-void ERR_NEEDMOREPARAMS(Client & client, const std::string & command)
+/*461*/ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command)
 {
 	client.send_msg("461 " + command + " :Not enough parameters");
 	throw Protocole_error();
 }
 
-/*
-462    ERR_ALREADYREGISTRED
-		":Unauthorized command (already registered)"
-
-	- Returned by the server to any link which tries to
-	change part of the registered details (such as
-	password or user details from second USER message).
-*/
-
-void ERR_ALREADYREGISTRED(Client & client)
+/*462*/ void ERR_ALREADYREGISTRED(Client & client)
 {
 	client.send_msg("462 :Unauthorized command (already registered)");
 	throw Protocole_error();
@@ -287,17 +242,9 @@ void ERR_ALREADYREGISTRED(Client & client)
 	a server which does not been setup to allow
 	connections from the host the attempted connection
 	is tried.
-
-464    ERR_PASSWDMISMATCH
-		":Password incorrect"
-
-	- Returned to indicate a failed attempt at registering
-	a connection for which a password was required and
-	was either not given or incorrect.
 */
 
-
-void ERR_PASSWDMISMATCH(Client & client)
+/*464*/ void ERR_PASSWDMISMATCH(Client & client)
 {
 	client.send_msg("464 :Password incorrect");
 	throw Protocole_error();
@@ -322,17 +269,30 @@ void ERR_PASSWDMISMATCH(Client & client)
 		"<channel> :Cannot join channel (+l)"
 472    ERR_UNKNOWNMODE
 		"<char> :is unknown mode char to me for <channel>"
-473    ERR_INVITEONLYCHAN
-		"<channel> :Cannot join channel (+i)"
-474    ERR_BANNEDFROMCHAN
-		"<channel> :Cannot join channel (+b)"
-475    ERR_BADCHANNELKEY
-		"<channel> :Cannot join channel (+k)"
 */
+
+/*473*/ void ERR_INVITEONLYCHAN(Client & client, const std::string & channel)
+{
+	client.send_msg("473 " + channel + " :Cannot join channel (+i)");
+	throw Protocole_error();
+}
+
+/*474*/ void ERR_BANNEDFROMCHAN(Client & client, const std::string & channel)
+{
+	client.send_msg("473 " + channel + " :Cannot join channel (+b)");
+	throw Protocole_error();
+}
+
+/*475*/ void ERR_BADCHANNELKEY(Client & client, const std::string & channel)
+{
+	client.send_msg("475 " + channel + " :Cannot join channel (+k)");
+	throw Protocole_error();
+}
+
 /*476*/ void ERR_BADCHANMASK(Client & client, const std::string & channel)
 {
 	client.send_msg("476 " + channel + " :Bad Channel Mask");
-		throw Protocole_error();
+	throw Protocole_error();
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 23:43:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 01:07:50 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ class Channel
 
 		Channel & operator = (const Channel & to_assign);
 
-		const std::string & get_name(void);
-		const std::string & get_topic(void);
-		const std::string & get_topic_who(void);
-		const std::time_t & get_topic_setat(void);
+		const std::string & get_name(void) const;
+		const std::string & get_topic(void) const;
+		const std::string & get_topic_who(void) const;
+		const std::time_t & get_topic_setat(void) const;
+		const std::string & get_key(void) const;
 
 		bool is_mode_invite_only(void);
 		bool is_invited(const Client & client);
+		bool is_banned(const Client & client);
 
 		void add_client(Client & user, const std::string & status);
 		void remove_client(const Client & user);
@@ -68,6 +70,7 @@ class Channel
 		*/
 		std::string							_modes;
 		std::set<std::string>				_invit_list;
+		std::set<std::string>				_banned_list;
 		std::string							_key;
 		int									_limit_clients;
 

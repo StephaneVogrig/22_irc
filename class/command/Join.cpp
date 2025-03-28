@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 23:29:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 04:56:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ void Join::exec(Client & client, const Params & params, Server & server)
 	// convertir params en lsite de channel et liste de key
 
 	const std::string & chan_name = params.get_first();
-	char prefix = chan_name[0];
+	std::string  channel_key;
+	if (params.get_nbr() > 1)
+		channel_key = params.get_param(1);
+	else
+		channel_key = "";
 
-	if ( prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+')
-		ERR_BADCHANMASK(client, params.get_first());
+	char prefix = chan_name[0];
+	if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || chan_name.size() == 1)
+		ERR_NOSUCHCHANNEL(client, params.get_first());
 
 	if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
 		ERR_TOOMANYCHANNELS(client, params.get_first());
@@ -55,50 +60,25 @@ ERR_NOSUCHCHANNEL (403)
 Indicates that no channel can be found for the supplied channel name. The text used in the last param of this message may vary.
 */
 
+	// ERR_BADCHANMASK(client, params.get_first()); 476
 
-/*
-ERR_BADCHANNELKEY (475)
-  "<client> <channel> :Cannot join channel (+k)"
-Returned to indicate that a JOIN command failed because the channel requires a key and the key was either incorrect or not supplied. The text used in the last param of this message may vary.
+	if (channel.get_key() != channel_key)
+		ERR_BADCHANNELKEY(client, chan_name);
 
-Not to be confused with ERR_INVALIDKEY, which may be returned when setting a key.
-*/
+	if (channel.is_banned(client))
+		ERR_BANNEDFROMCHAN(client, chan_name);
 
-/*
-ERR_BANNEDFROMCHAN (474)
-  "<client> <channel> :Cannot join channel (+b)"
-Returned to indicate that a JOIN command failed because the client has been banned from the channel and has not had a ban exception set for them. The text used in the last param of this message may vary.
-*/
-
+	channel.add_client(client, status);
 
 /*
 ERR_CHANNELISFULL (471)
   "<client> <channel> :Cannot join channel (+l)"
 Returned to indicate that a JOIN command failed because the client limit mode has been set and the maximum number of users are already joined to the channel. The text used in the last param of this message may vary.
 */
-/*
-ERR_INVITEONLYCHAN (473)
-  "<client> <channel> :Cannot join channel (+i)"
-Returned to indicate that a JOIN command failed because the channel is set to [invite-only] mode and the client has not been invited to the channel or had an invite exception set for them. The text used in the last param of this message may vary.
-*/
+
 	if (channel.is_mode_invite_only() && !channel.is_invited(client))
-	{
-		//ERR_INVITEONLYCHAN
-		return ;
-	}
-
-/*
-ERR_BADCHANMASK (476)
-  "<channel> :Bad Channel Mask"
-Indicates the supplied channel name is not a valid.
-
-This is similar to, but stronger than, ERR_NOSUCHCHANNEL (403), which indicates that the channel does not exist, but that it may be a valid name.
-
-The text used in the last param of this message may vary.
-*/
-
+		ERR_INVITEONLYCHAN(client, chan_name);
 	channel.add_client(client, status);
-
 
 	client.send_msg(":" + client.get_nickname() + " JOIN " + channel.get_name());
 	if (channel.get_topic() == "")
