@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 16:57:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 17:24:06 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ Channel & Server::get_channel(const std::string & name)
 
 /* public utilities ----------------------------------------------------------*/
 
+
 void Server::run(void)
 {
 	std::cout	<< PURPLE "run server " RESET << _fds[0].fd
@@ -88,13 +89,13 @@ void Server::run(void)
 			throw(std::runtime_error("poll failed"));
 		if (nbr_event == 0)
 		{
-			std::cout	<< GREY "serveur waiting... "
-						<< _nbr_connected << " client connected" RESET << std::endl;
+			info_waiting(true);
 			for (int i = _nbr_connected; i > 0; --i)
 				if (get_client(i)->is_kicked())
 					close_connection(i);
 			continue ;
 		}
+		info_waiting(false);
 		handle_event();
 	}
 }
@@ -237,4 +238,30 @@ void Server::handle_msg(const Message & msg, Client & client)
 	}
 	catch(const Protocole_error & e)
 	{}
+}
+
+void Server::info_waiting(bool state)
+{
+	static int waiting_state;
+
+	if (state == false)
+	{
+		std::cout << RESET << std::endl;
+		waiting_state = 0;
+		return ;
+	}
+
+	if (waiting_state == 0)
+	{
+		std::cout	<< "\033[G\033[K" << GREY << _nbr_connected << " client connected - serveur waiting";
+		std::cout.flush();
+	}
+	else
+	{
+		std::cout << GREY << "." ;
+		std::cout.flush();
+	}
+	waiting_state++;
+	if (waiting_state == 10)
+		waiting_state = 0;
 }
