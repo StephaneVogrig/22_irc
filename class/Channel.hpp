@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 01:07:50 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 15:00:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class Channel
 		bool is_banned(const Client & client);
 
 		void add_client(Client & user, const std::string & status);
-		void remove_client(const Client & user);
+		void remove_client(Client & user);
 
 		void send_msg(const Client & client, const std::string & msg);
 

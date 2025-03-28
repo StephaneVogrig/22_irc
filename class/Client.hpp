@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/27 22:33:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:49:51 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <iostream>
 # include <sys/socket.h>
 # include <vector>
+# include <algorithm>
+
+class Channel;
 
 class Client
 {
@@ -42,8 +45,12 @@ class Client
 		void clear_msg_buffer();
 
 		void send_msg(const std::string & msg);
-		void add_channel_subscripted(const std::string & channel);
-		int  nbr_channels_subscripted();
+
+		void		add_channel_subscripted(Channel & channel);
+		void		remove_channel_subscripted(Channel & channel);
+		Channel &	get_last_channel_subscripted();
+		int			nbr_channels_subscripted();
+		void		quit_all_channels();
 
 	private :
 
@@ -61,7 +68,8 @@ class Client
 		std::string _hostname;
 		std::string _hostadress;
 
-		std::vector<std::string> _channels_subscripted;
+		typedef std::vector<Channel *> t_channels;
+		t_channels _channels_subscripted;
 
 };
 

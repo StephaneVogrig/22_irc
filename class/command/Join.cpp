@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 04:56:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 15:45:22 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void Join::exec(Client & client, const Params & params, Server & server)
 
 	if (params.get_first() == "0")
 	{
-		// quitter tous les channels auxquels le client est inscrit
+		client.quit_all_channels();
 		return ;
 	}
 

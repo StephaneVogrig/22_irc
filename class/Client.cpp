@@ -6,11 +6,12 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/27 22:34:31 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:49:53 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
+#include "Channel.hpp"
 #include "utils.hpp"
 
 Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false), _kicked(false)
@@ -111,12 +112,32 @@ std::ostream & operator << (std::ostream & os, const Client & client)
 	return (os);
 }
 
-void Client::add_channel_subscripted(const std::string & channel)
+void Client::add_channel_subscripted(Channel & channel)
 {
-	_channels_subscripted.push_back(channel);
+	_channels_subscripted.push_back(&channel);
+}
+
+Channel & Client::get_last_channel_subscripted()
+{
+	return (*_channels_subscripted.back());
+}
+
+void Client::remove_channel_subscripted(Channel & channel)
+{
+	t_channels::iterator it = std::find(_channels_subscripted.begin(), _channels_subscripted.end(), &channel);
+	if (it != _channels_subscripted.end())
+		_channels_subscripted.erase(it);
 }
 
 int  Client::nbr_channels_subscripted()
 {
 	return _channels_subscripted.size();
+}
+
+void Client::quit_all_channels()
+{
+	while (_channels_subscripted.size() > 0)
+	{
+		_channels_subscripted.back()->remove_client(*this);
+	}
 }
