@@ -6,21 +6,34 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/28 14:49:53 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/29 01:27:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 #include "Channel.hpp"
 #include "utils.hpp"
+#include "log.hpp"
+
+/* constructor ---------------------------------------------------------------*/
 
 Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false), _kicked(false)
-{
-}
+{}
+
+/* destructor ----------------------------------------------------------------*/
 
 Client::~Client()
+{}
+
+/* operator ------------------------------------------------------------------*/
+
+std::ostream & operator << (std::ostream & os, const Client & client)
 {
+	os << "client buffer: " << client.get_msg_buffer();
+	return (os);
 }
+
+/* accessor ------------------------------------------------------------------*/
 
 const std::string & Client::get_msg_buffer(void) const
 {
@@ -89,6 +102,8 @@ void Client::set_realname(std::string name)
 	_realName = name;
 }
 
+/* utilities -----------------------------------------------------------------*/
+
 void Client::append_to_buffer(const std::string & str)
 {
 	_msg_buffer.append(str);
@@ -103,13 +118,7 @@ void Client::send_msg(const std::string & msg)
 {
 	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, 0) == -1)
 		throw(std::runtime_error("send failed"));
-	std::cout << _fd << " send: " << msg <<std::endl;
-}
-
-std::ostream & operator << (std::ostream & os, const Client & client)
-{
-	os << "client buffer: " << client.get_msg_buffer();
-	return (os);
+	log_msg(_fd, "send", msg);
 }
 
 void Client::add_channel_subscripted(Channel & channel)

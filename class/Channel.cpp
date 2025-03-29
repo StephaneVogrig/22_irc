@@ -6,18 +6,19 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 15:03:04 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 23:54:30 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
+#include "log.hpp"
 
 /* constructor ---------------------------------------------------------------*/
 
 Channel::Channel(const std::string & name)
 	:	_channel_name(name), _topic(""), _modes(""), _key("")
 {
-	std::cout << "created channel " << _channel_name << std::endl;
+	log_channel(_channel_name, "created", "");
 }
 
 Channel::Channel(const Channel & to_copy) : _channel_name(to_copy._channel_name)
@@ -96,14 +97,16 @@ void Channel::add_client(Client & client, const std::string & status)
 	_clients[client.get_nickname()].first = &client;
 	_clients[client.get_nickname()].second = status;
 	client.add_channel_subscripted(*this);
+
+	log_channel(_channel_name, "add", client.get_nickname());
 	send_msg(client, client.get_nickname() + " join channel");
-	std::cout << client.get_nickname() << " join channel " << get_name() << std::endl;
 }
 
 void Channel::remove_client(Client & client)
 {
 	_clients.erase(client.get_nickname());
 	client.remove_channel_subscripted(*this);
+	log_channel(_channel_name, "remove", client.get_nickname());
 	send_msg(client, client.get_nickname() + " quit channel");
 }
 

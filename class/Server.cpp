@@ -6,11 +6,12 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 17:24:06 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/29 01:59:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "utils.hpp"
 
 volatile sig_atomic_t	g_signal = 0;
 
@@ -32,7 +33,8 @@ Server::Server(int port, const std::string & password, const std::string & name)
 
 Server::~Server(void)
 {
-	std::cout <<  PURPLE "Closing server " RESET << _nbr_connected <<  PURPLE " client to close" RESET << std::endl;
+	log_server(_fds[0].fd, "Closing server: " + to_string(_nbr_connected) + " client to close");
+	// std::cout <<  FG_PURPLE "Closing server " RESET << _nbr_connected <<  FG_PURPLE " client to close" RESET << std::endl;
 	for (int i = _nbr_connected; i > 0; --i)
 	{
 		if (send(_fds[i].fd, MSG_SERV_CLOSED, strlen(MSG_SERV_CLOSED), 0) == -1)
@@ -40,7 +42,7 @@ Server::~Server(void)
 		close_connection(i);
 	}
 	close(_fds[0].fd);
-	std::cout << PURPLE_BLINK "SERVER CLOSED" RESET << std::endl;
+	log_server(_fds[0].fd, BLINK_ON "SERVER CLOSED" BLINK_OFF);
 	destroy_commands();
 }
 
@@ -77,11 +79,10 @@ Channel & Server::get_channel(const std::string & name)
 
 void Server::run(void)
 {
-	std::cout	<< PURPLE "run server " RESET << _fds[0].fd
-				<< PURPLE " on port " RESET << _port
-				<< PURPLE " with password " RESET << _password << std::endl;
+	log_server(_fds[0].fd, "Started server " RESET + current_date_str() + FG_YELLOW " on port " RESET + to_string(_port) +  FG_YELLOW " with password " RESET + _password);
 	while (true)
 	{
+		info_waiting(true);
 		int nbr_event = poll(_fds, _nbr_connected + 1, POLL_TIMEOUT);
 		if (g_signal)
 			break ;
@@ -89,7 +90,6 @@ void Server::run(void)
 			throw(std::runtime_error("poll failed"));
 		if (nbr_event == 0)
 		{
-			info_waiting(true);
 			for (int i = _nbr_connected; i > 0; --i)
 				if (get_client(i)->is_kicked())
 					close_connection(i);
@@ -121,6 +121,7 @@ void Server::open_connection(int fd)
 	_fds[_nbr_connected].fd = fd;
 	_fds[_nbr_connected].events = POLLIN;
 	_clients[_nbr_connected] = new Client(fd);
+	log_server(fd, "connection accepted");
 }
 
 void Server::close_connection(int i)
@@ -131,12 +132,11 @@ void Server::close_connection(int i)
 	delete _clients[i];
 	_clients[i] = _clients[_nbr_connected];
 	_nbr_connected--;
-	std::cout << PURPLE "client connection close " RESET << fd << std::endl;
+	log_server(fd, "connection closed");
 }
 
 void Server::accept_connection()
 {
-	std::cout << PURPLE "asking connection : " RESET ;
 	struct sockaddr_in addr;
 	socklen_t addr_len = sizeof(addr);
 	int fd = accept(_fds[0].fd, (struct sockaddr *) &addr, &addr_len);
@@ -145,16 +145,13 @@ void Server::accept_connection()
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 	if (_nbr_connected == NBR_CLIENT_MAX)
 	{
-		std::cout << PURPLE "refused, server full" RESET << std::endl;
+		log_server(fd, "connection refused");
 		if (send(fd, MSG_SERV_FULL, strlen(MSG_SERV_FULL), 0) == -1)
 			throw(std::runtime_error("send failed"));
 		close(fd);
 		return ;
 	}
 	open_connection(fd);
-	std::cout << PURPLE "accept connection on fd " RESET << fd << std::endl;
-	if (send(fd, MSG_WELCOME, strlen(MSG_WELCOME), 0) == -1)
-		throw(std::runtime_error("send failed"));
 }
 
 void Server::handle_event(void)
@@ -180,10 +177,12 @@ void Server::handle_client_data(int i)
 		return ;
 	}
 	std::string str_buffer(buffer);
-	std::cout 	<< YELLOW "---- receive on fd [" RESET << _fds[i].fd
-				<< YELLOW "] ----" RESET << std::endl
+	#if DEBUG
+	std::cout 	<< FG_YELLOW "---- receive on fd [" RESET << _fds[i].fd
+				<< FG_YELLOW "] ----" RESET << std::endl
 				<< str_buffer << std::endl
-				<< YELLOW "------- end receive -------" RESET << std::endl;
+				<< FG_YELLOW "------- end receive -------" RESET << std::endl;
+	#endif
 	receive_data(str_buffer, *(_clients[i]));
 }
 
@@ -196,8 +195,7 @@ void Server::receive_data(const std::string & data, Client & client)
 	while (pos != std::string::npos)
 	{
 		Message msg(str.substr(0, pos));
-		std::cout	<<  PURPLE "["  RESET << client.get_fd() << PURPLE "] : "  RESET
-					<< msg << std::endl;
+		log_msg(client.get_fd(), "receive", to_string(msg));
 		handle_msg(msg, client);
 		if (client.is_kicked())
 			return ;
@@ -234,7 +232,7 @@ void Server::handle_msg(const Message & msg, Client & client)
 		if (cmd_ptr)
 			cmd_ptr->exec(client, msg.get_params(), *this);
 		else
-			std::cout << "command not found" << std::endl;
+			log(FG_RED "command not found" RESET);
 	}
 	catch(const Protocole_error & e)
 	{}
@@ -246,19 +244,18 @@ void Server::info_waiting(bool state)
 
 	if (state == false)
 	{
-		std::cout << RESET << std::endl;
 		waiting_state = 0;
 		return ;
 	}
 
 	if (waiting_state == 0)
 	{
-		std::cout	<< "\033[G\033[K" << GREY << _nbr_connected << " client connected - serveur waiting";
+		std::cout	<< "\r" ERASE_LINE FG_GREEN << _nbr_connected << " client connected - serveur waiting";
 		std::cout.flush();
 	}
 	else
 	{
-		std::cout << GREY << "." ;
+		std::cout << FG_WHITE << "." ;
 		std::cout.flush();
 	}
 	waiting_state++;

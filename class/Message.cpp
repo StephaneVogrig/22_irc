@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:13:59 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 13:30:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 21:14:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ Message & Message::operator = (const Message & toAssign)
 
 std::ostream & operator << (std::ostream & os, const Message & msg)
 {
-	os << BLUE "prefix: " RESET;
+	os << FG_BLUE "prefix: " RESET;
 	msg.get_prefix().empty()		? os << "<empty>" : os << msg.get_prefix();
 
-	os << BLUE " command: " RESET;
+	os << FG_BLUE " command: " RESET;
 	msg.get_command().empty()		? os << "<empty>" : os << msg.get_command();
 
-	os << BLUE " params: " RESET;
+	os << FG_BLUE " params: " RESET;
 	msg.get_params().get_nbr() == 0 ? os << "<empty>" : os << msg.get_params();
 
 	return os;

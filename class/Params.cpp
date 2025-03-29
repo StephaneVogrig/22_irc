@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:04:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:53:31 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 21:14:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ std::ostream & operator << (std::ostream & os, const Params & params)
 	for (int i = 0; i < params.get_nbr(); ++i)
 	{
 		if (i != 0)
-			os << BLUE " | " RESET;
+			os << FG_BLUE " | " RESET;
 		os << params.get_param(i);
 	}
 	return os;

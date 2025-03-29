@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 17:14:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/28 22:31:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@
 # include <iostream>
 # include <string>
 # include <map>
-# include <poll.h>
 
 # include "signal.h"
+
 # include "socket.hpp"
+# include <poll.h>
+
 # include "utils.hpp"
 
 # include "Channel.hpp"
 # include "Client.hpp"
 # include "Message.hpp"
+
+# include "log.hpp"
 
 # include "Command.hpp"
 # include "Nick.hpp"
@@ -45,6 +49,8 @@
 # define MSG_WELCOME "Welcome on the best irc server\n"
 # define MSG_SERV_FULL "Connection refused : server full\n"
 # define MSG_SERV_CLOSED "Server closed\n"
+
+// # define DEBUG
 
 typedef struct pollfd t_pollfd;
 typedef std::map<std::string, Channel> t_map_channel;
