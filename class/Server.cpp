@@ -215,6 +215,7 @@ void Server::init_commands(void)
 	_commands["PING"] = new Ping();
 	_commands["PONG"] = new Pong();
 	_commands["QUIT"] = new Quit();
+	_commands["PRIVMSG"] = new Privmsg();
 }
 
 void Server::destroy_commands(void)

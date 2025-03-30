@@ -44,7 +44,7 @@ class Client
 		void append_to_buffer(const std::string & str);
 		void clear_msg_buffer();
 
-		void send_msg(const std::string & msg);
+		void send_msg(const std::string & msg) const;
 
 		void		add_channel_subscripted(Channel & channel);
 		void		remove_channel_subscripted(Channel & channel);

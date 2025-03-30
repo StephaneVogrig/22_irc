@@ -114,7 +114,7 @@ void Client::clear_msg_buffer(void)
 	_msg_buffer.clear();
 }
 
-void Client::send_msg(const std::string & msg)
+void Client::send_msg(const std::string & msg) const
 {
 	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, 0) == -1)
 		throw(std::runtime_error("send failed"));

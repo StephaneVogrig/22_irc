@@ -38,6 +38,7 @@
 # include "Ping.hpp"
 # include "Pong.hpp"
 # include "Quit.hpp"
+# include "Privmsg.hpp"
 # include "Protocole_error.hpp"
 
 # define BACKLOG 20

@@ -18,13 +18,11 @@
 	https://www.rfc-editor.org/rfc/rfc2812#section-5.2
 */
 
-/*
-401    ERR_NOSUCHNICK
-		"<nickname> :No such nick/channel"
-
-	- Used to indicate the nickname parameter supplied to a
-	command is currently unused.
-*/
+/*401*/ void ERR_NOSUCHNICK(Client & client, const std::string & name)
+{
+	client.send_msg("401 " + name + " :No such nick/channel");
+	throw Protocole_error();
+}
 
 /*
 402    ERR_NOSUCHSERVER
@@ -40,16 +38,11 @@
 	throw Protocole_error();
 }
 
-/*
-404    ERR_CANNOTSENDTOCHAN
-		"<channel name> :Cannot send to channel"
-
-	- Sent to a user who is either (a) not on a channel
-	which is mode +n or (b) not a chanop (or mode +v) on
-	a channel which has mode +m set or where the user is
-	banned and is trying to send a PRIVMSG message to
-	that channel.
-*/
+/*404*/ void ERR_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name)
+{
+	client.send_msg("404 " + channel_name + "  :Cannot send to channel");
+	throw Protocole_error();
+}
 
 /*405*/ void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel_name)
 {

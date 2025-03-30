@@ -18,7 +18,9 @@
 
 class Server;
 
+/*401*/ void ERR_NOSUCHNICK(Client & client, const std::string & name);
 /*403*/ void ERR_NOSUCHCHANNEL(Client & client, const std::string & channel_name);
+/*404*/ void ERR_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name);
 /*405*/ void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel_name);
 /*431*/ void ERR_NONICKNAMEGIVEN(Client & client);
 /*432*/ void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick);
