@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 18:38:06 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 19:45:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,49 @@ void Join::exec(Client & client, const Params & params, Server & server)
 	// convertir params en lsite de channel et liste de key
 
 	Elements channels(params.get_first());
-	log("channels: " + to_string(channels));
-	const std::string & chan_name = params.get_first();
-	std::string  channel_key;
+	std::string  channel_keys;
 	if (params.get_nbr() > 1)
-		channel_key = params.get_param(1);
+		channel_keys = params.get_param(1);
 	else
-		channel_key = "";
+		channel_keys = "";
+	Elements keys(channel_keys);
 
-	char prefix = chan_name[0];
-	if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || chan_name.size() == 1)
-		ERR_NOSUCHCHANNEL(client, params.get_first());
-
-	if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
-		ERR_TOOMANYCHANNELS(client, params.get_first());
-
-	std::string status("");
-	if (!server.channel_exist(chan_name))
+	for (int i = 0; i < channels.get_nbr(); ++i)
 	{
-		server.create_channel(chan_name);
-		status = "Oo";
+		if (i < keys.get_nbr())
+			exec_solo(client, channels.get_element(i), keys.get_element(i), server);
+		else
+			exec_solo(client, channels.get_element(i), "", server);
+	}
+}
+
+void Join::exec_solo(Client & client, const std::string & channel_name, const std::string & key, Server & server)
+{
+	char prefix = channel_name[0];
+	if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
+	{
+		ERR_NOSUCHCHANNEL(client, channel_name);
+		return ;
 	}
 
-	Channel * channel = server.get_channel(chan_name);
+	if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
+		ERR_TOOMANYCHANNELS(client, channel_name);
 
-/*
-ERR_NOSUCHCHANNEL (403)
-  "<client> <channel> :No such channel"
-Indicates that no channel can be found for the supplied channel name. The text used in the last param of this message may vary.
-*/
+	std::string status("");
+	if (!server.channel_exist(channel_name))
+	{
+		server.create_channel(channel_name);
+		status = "Oo";
+	}
+	Channel * channel = server.get_channel(channel_name);
 
 	// ERR_BADCHANMASK(client, params.get_first()); 476
 
-	if (channel->get_key() != channel_key)
-		ERR_BADCHANNELKEY(client, chan_name);
+	if (channel->get_key() != key)
+		ERR_BADCHANNELKEY(client, channel_name);
 
 	if (channel->is_banned(client))
-		ERR_BANNEDFROMCHAN(client, chan_name);
+		ERR_BANNEDFROMCHAN(client, channel_name);
 
 	channel->add_client(client, status);
 
@@ -79,16 +85,19 @@ Returned to indicate that a JOIN command failed because the client limit mode ha
 */
 
 	if (channel->is_mode_invite_only() && !channel->is_invited(client))
-		ERR_INVITEONLYCHAN(client, chan_name);
+		ERR_INVITEONLYCHAN(client, channel_name);
 	channel->add_client(client, status);
 
 	client.send_msg(":" + client.get_nickname() + " JOIN " + channel->get_name());
 	if (channel->get_topic() == "")
 	{
-		channel->send_topic();
-		// RPL_TOPIC(client, channel);
-		RPL_TOPICWHOTIME(client, *channel);
+		RPL_NOTOPIC(client, *channel);
+		return ;
 	}
+	channel->send_topic();
+	// RPL_TOPIC(client, channel);
+	RPL_TOPICWHOTIME(client, *channel);
 	RPL_NAMREPLY(client, *channel);
 	RPL_ENDOFNAMES(client, *channel);
+
 }
