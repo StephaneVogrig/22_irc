@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 04:57:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 12:59:48 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 	https://www.rfc-editor.org/rfc/rfc2812#section-5.2
 */
 
-/*401*/ void ERR_NOSUCHNICK(Client & client, const std::string & name)
+/*401*/ void ERR_NOSUCHNICK(Client & client, Server & server, const std::string & name)
 {
-	client.send_msg("401 " + name + " :No such nick/channel");
+	client.send_msg(":" + server.get_name() + " 401 " + client.get_nickname() + " " + name + " :No such nick/channel");
 	throw Protocole_error();
 }
 

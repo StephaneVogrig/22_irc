@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 04:29:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 12:34:26 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 class Server;
 
-/*401*/ void ERR_NOSUCHNICK(Client & client, const std::string & name);
+/*401*/ void ERR_NOSUCHNICK(Client & client, Server & server, const std::string & name);
 /*403*/ void ERR_NOSUCHCHANNEL(Client & client, const std::string & channel_name);
 /*404*/ void ERR_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name);
 /*405*/ void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel_name);
