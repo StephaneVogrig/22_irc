@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 17:11:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 18:38:06 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void Join::exec(Client & client, const Params & params, Server & server)
 
 	// convertir params en lsite de channel et liste de key
 
+	Elements channels(params.get_first());
+	log("channels: " + to_string(channels));
 	const std::string & chan_name = params.get_first();
 	std::string  channel_key;
 	if (params.get_nbr() > 1)

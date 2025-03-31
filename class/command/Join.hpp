@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:33:32 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:04:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 18:33:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "Command.hpp"
 # include "Server.hpp"
 # include "Client.hpp"
+# include "Elements.hpp"
 # include "reply.hpp"
 
 class Join : public Command
