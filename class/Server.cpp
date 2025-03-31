@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 14:17:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 14:49:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void Server::receive_data(const std::string & data, Client & client)
 	while (pos != std::string::npos)
 	{
 		Message msg(str.substr(0, pos));
-		log_msg(client.get_fd(), "receive", to_string(msg));
+		log_msg(client.get_fd(), FG_RED "<<" RESET, to_string(msg));
 		handle_msg(msg, client);
 		if (client.is_kicked())
 			return ;

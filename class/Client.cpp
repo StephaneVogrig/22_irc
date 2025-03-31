@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/30 22:26:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 14:50:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void Client::send_msg(const std::string & msg) const
 {
 	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, 0) == -1)
 		throw(std::runtime_error("send failed"));
-	log_msg(_fd, "send", msg);
+	log_msg(_fd, FG_GREEN ">>" RESET, msg);
 }
 
 void Client::add_channel_subscripted(Channel & channel)
