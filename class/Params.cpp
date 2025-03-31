@@ -6,11 +6,13 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:04:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 21:14:00 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 14:47:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Params.hpp"
+
+#include "log.hpp"
 
 Params::Params()
 {}
@@ -18,22 +20,27 @@ Params::Params()
 Params::Params(const std::string & str)
 {
 	size_t start = str.find_first_not_of(' ', 0);
-	size_t stop = str.find(' ', start);
-	int nbr_param = 0;
-	while (stop != std::string::npos && nbr_param < 14)
+	if (str[start] == ':')
+		start++;
+	else
 	{
-		if (str[start] == ':') 
+		size_t stop = str.find(' ', start);
+		int nbr_param = 0;
+		while (stop != std::string::npos && nbr_param < 14)
 		{
-			start++;
-			break ;
+			_params.push_back(str.substr(start, stop - start));
+			start = str.find_first_not_of(' ', stop);
+			if (str[start] == ':')
+			{
+				start++;
+				break ;
+			}
+			stop = str.find(' ', start);
+			nbr_param++;
 		}
-		_params.push_back(str.substr(start, stop - start));
-		start = str.find_first_not_of(' ', stop);
-		stop = str.find(' ', start);
-		nbr_param++;
 	}
 	if (start < str.length())
-		_params.push_back(str.substr(start, str.length() - start));	
+		_params.push_back(str.substr(start, str.length() - start));
 }
 
 Params::Params(const Params & to_copy)
