@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 17:02:39 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 19:13:40 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ void Server::init_commands(void)
 	_commands["QUIT"] = new Quit();
 	_commands["TOPIC"] = new Topic();
 	_commands["PRIVMSG"] = new Privmsg();
+	_commands["PART"] = new Part();
 }
 
 void Server::destroy_commands(void)
