@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 22:31:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/30 23:34:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include "Join.hpp"
 # include "Ping.hpp"
 # include "Pong.hpp"
+# include "Topic.hpp"
 # include "Quit.hpp"
 # include "Privmsg.hpp"
 # include "Protocole_error.hpp"

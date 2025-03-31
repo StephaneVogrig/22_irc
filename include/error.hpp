@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 12:34:26 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:25:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Server;
 /*431*/ void ERR_NONICKNAMEGIVEN(Client & client);
 /*432*/ void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick);
 /*433*/ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick);
+/*442*/ void ERR_NOTONCHANNEL(Client & client, const Channel & channel);
 /*451*/ void ERR_NOTREGISTERED(Client & client, Server & server); // retirer serveur ?
 /*461*/ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command);
 /*462*/ void ERR_ALREADYREGISTRED(Client & client);
@@ -33,5 +34,6 @@ class Server;
 /*474*/ void ERR_BANNEDFROMCHAN(Client & client, const std::string & channel);
 /*475*/ void ERR_BADCHANNELKEY(Client & client, const std::string & channel);
 /*476*/ void ERR_BADCHANMASK(Client & client, const std::string & channel);
+/*482*/ void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel);
 
 #endif

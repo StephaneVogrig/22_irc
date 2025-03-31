@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/27 19:30:55 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 00:47:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 
 /*
 	Command responses
-	https://www.rfc-editor.org/rfc/rfc2812#section-5.1
+	https://modern.ircdocs.horse/
+
+	previous: https://www.rfc-editor.org/rfc/rfc2812#section-5.1
 */
 
 /*
-001	RPL_WELCOME
-		"Welcome to the Internet Relay Network
-		<nick>!<user>@<host>"
-*/
+RPL_WELCOME (001)
+  "<client> :Welcome to the <networkname> Network, <nick>[!<user>@<host>]"
+The first message sent after client registration, this message introduces the client to the network. The text used in the last param of this message varies wildly.
 
+Servers that implement spoofed hostmasks in any capacity SHOULD NOT include the extended (complete) hostmask in the last parameter of this reply, either for all clients or for those whose hostnames have been spoofed. This is because some clients try to extract the hostname from this final parameter of this message and resolve this hostname, in order to discover their ‘local IP address’.
+
+Clients MUST NOT try to extract the hostname from the final parameter of this message and then attempt to resolve this hostname. This method of operation WILL BREAK and will cause issues when the server returns a spoofed hostname.
+*/
 void RPL_WELCOME(Client & client, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the Internet Relay Network");
@@ -308,20 +313,36 @@ void RPL_WELCOME(Client & client, Server & server)
 
 324	RPL_CHANNELMODEIS
 		"<channel> <mode> <mode params>"
+*/
 
-331	RPL_NOTOPIC
-		"<channel> :No topic is set"
-332	RPL_TOPIC
-		"<channel> :<topic>"
+/*
+RPL_NOTOPIC (331)
+  "<client> <channel> :No topic is set"
+Sent to a client when joining a channel to inform them that the channel with the name <channel> does not have any topic set.
+*/
+void RPL_NOTOPIC(Client & client, Channel & channel)
+{
+	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :No topic is set");
+}
 
-	- When sending a TOPIC message to determine the
-	channel topic, one of two replies is sent.  If
-	the topic is set, RPL_TOPIC is sent back else
-	RPL_NOTOPIC.
+/*
+RPL_TOPIC (332)
+  "<client> <channel> :<topic>"
+Sent to a client when joining the <channel> to inform them of the current topic of the channel.
 */
 void RPL_TOPIC(Client & client, Channel & channel)
 {
 	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic());
+}
+
+/*
+RPL_TOPICWHOTIME (333)
+  "<client> <channel> <nick> <setat>"
+Sent to a client to let them know who set the topic (<nick>) and when they set it (<setat> is a unix timestamp). Sent after RPL_TOPIC (332).
+*/
+/*333*/ void RPL_TOPICWHOTIME(Client & client, Channel & channel)
+{
+	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who());
 }
 
 /*
@@ -354,9 +375,6 @@ void RPL_TOPIC(Client & client, Channel & channel)
 		"<channel> <exceptionmask>"
 349	RPL_ENDOFEXCEPTLIST
 		"<channel> :End of channel exception list"
-*/
-
-/*
 	- When listing the 'exception masks' for a given channel,
 	a server is required to send the list back using the
 	RPL_EXCEPTLIST and RPL_ENDOFEXCEPTLIST messages.  A
@@ -391,12 +409,19 @@ void RPL_TOPIC(Client & client, Channel & channel)
 	with a WHO message, a RPL_ENDOFWHO MUST be sent
 	after processing each list item with <name> being
 	the item.
+*/
 
-353	RPL_NAMREPLY
-		"( "=" / "*" / "@" ) <channel>
-		:[ "@" / "+" ] <nick> *( " " [ "@" / "+" ] <nick> )
-	- "@" is used for secret channels, "*" for private
-	channels, and "=" for others (public channels).
+/*
+RPL_NAMREPLY (353)
+  "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
+Sent as a reply to the NAMES command, this numeric lists the clients that are joined to <channel> and their status in that channel.
+
+<symbol> notes the status of the channel. It can be one of the following:
+
+("=", 0x3D) - Public channel.
+("@", 0x40) - Secret channel (secret channel mode "+s").
+("*", 0x2A) - Private channel (was "+p", no longer widely used today).
+<nick> is the nickname of a client joined to that channel, and <prefix> is the highest channel membership prefix that client has in the channel, if they have one. The last parameter of this numeric is a list of [prefix]<nick> pairs, delimited by a SPACE character (' ', 0x20).
 */
 void RPL_NAMREPLY(Client & client, Channel & channel)
 {
@@ -404,18 +429,9 @@ void RPL_NAMREPLY(Client & client, Channel & channel)
 }
 
 /*
-366	RPL_ENDOFNAMES
-		"<channel> :End of NAMES list"
-
-	- To reply to a NAMES message, a reply pair consisting
-	of RPL_NAMREPLY and RPL_ENDOFNAMES is sent by the
-	server back to the client.  If there is no channel
-	found as in the query, then only RPL_ENDOFNAMES is
-	returned.  The exception to this is when a NAMES
-	message is sent with no parameters and all visible
-	channels and contents are sent back in a series of
-	RPL_NAMREPLY messages with a RPL_ENDOFNAMES to mark
-	the end.
+RPL_ENDOFNAMES (366)
+  "<client> <channel> :End of /NAMES list"
+Sent as a reply to the NAMES command, this numeric specifies the end of a list of channel member names.
 */
 void RPL_ENDOFNAMES(Client & client, Channel & channel)
 {
@@ -513,18 +529,3 @@ void RPL_ENDOFNAMES(Client & client, Channel & channel)
 	or a single RPL_NOUSER.  Following this is
 	RPL_ENDOFUSERS.
 */
-
-
-/* ************************************************************************** */
-/*                                not in the RFC                              */
-/* ************************************************************************** */
-
-/*
-RPL_TOPICWHOTIME (333)
-  "<client> <channel> <nick> <setat>"
-Sent to a client to let them know who set the topic (<nick>) and when they set it (<setat> is a unix timestamp). Sent after RPL_TOPIC (332).
-*/
-void RPL_TOPICWHOTIME(Client & client, Channel & channel)
-{
-	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who());
-}

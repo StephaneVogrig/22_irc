@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 12:59:48 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:24:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,14 +165,15 @@
 
 	- Returned by the server to indicate that the target
 	user of the command is not on the given channel.
+*/
 
-442    ERR_NOTONCHANNEL
-		"<channel> :You're not on that channel"
+/*442*/ void ERR_NOTONCHANNEL(Client & client, const Channel & channel)
+{
+	client.send_msg("442 " + channel.get_name() + " :You're not on that channel");
+	throw Protocole_error();
+}
 
-	- Returned by the server whenever a client tries to
-	perform a channel affecting command for which the
-	client isn't a member.
-
+/*
 443    ERR_USERONCHANNEL
 		"<user> <channel> :is already on channel"
 
@@ -300,15 +301,14 @@
 	- Any command requiring operator privileges to operate
 	MUST return this error to indicate the attempt was
 	unsuccessful.
-
-482    ERR_CHANOPRIVSNEEDED
-		"<channel> :You're not channel operator"
-
-	- Any command requiring 'chanop' privileges (such as
-	MODE messages) MUST return this error if the client
-	making the attempt is not a chanop on the specified
-	channel.
 */
+
+/*482*/ void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel)
+{
+	client.send_msg("482 " + channel.get_name() + " :You're not channel operator");
+	throw Protocole_error();
+}
+
 /*
 483    ERR_CANTKILLSERVER
 		":You can't kill a server!"

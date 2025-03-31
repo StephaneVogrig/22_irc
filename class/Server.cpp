@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/29 01:59:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:16:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void Server::init_commands(void)
 	_commands["PING"] = new Ping();
 	_commands["PONG"] = new Pong();
 	_commands["QUIT"] = new Quit();
+	_commands["TOPIC"] = new Topic();
 	_commands["PRIVMSG"] = new Privmsg();
 }
 
