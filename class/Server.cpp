@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 13:16:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 14:17:14 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,15 @@ int Server::get_nbr_connected(void) const
 Channel & Server::get_channel(const std::string & name)
 {
 	t_map_channel::iterator it = _channels.find(name);
+	if (it == _channels.end())
+		throw(Channel_not_found());
 	return it->second ;
 }
+
+/* exception -----------------------------------------------------------------*/
+
+Server::Channel_not_found::Channel_not_found()
+{}
 
 /* public utilities ----------------------------------------------------------*/
 
@@ -238,6 +245,10 @@ void Server::handle_msg(const Message & msg, Client & client)
 	}
 	catch(const Protocole_error & e)
 	{}
+	catch (const Server::Channel_not_found & e)
+	{
+		ERR_NOSUCHCHANNEL(client, msg.get_params().get_first());
+	}
 }
 
 void Server::info_waiting(bool state)

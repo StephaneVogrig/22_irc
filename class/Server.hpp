@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/30 23:34:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:59:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include <map>
+# include <exception>
 
 # include "signal.h"
 
@@ -72,6 +73,12 @@ class Server
 		int					get_nbr_connected() const;
 		Channel &			get_channel(const std::string & name);
 		void				close_connection(int i);
+
+		class Channel_not_found : std::exception
+		{
+			public:
+				Channel_not_found();
+		};
 
 		void run(void);
 		bool channel_exist(const std::string & name);
