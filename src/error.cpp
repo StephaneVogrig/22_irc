@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 17:44:33 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:03:53 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,17 @@
 472    ERR_UNKNOWNMODE
 		"<char> :is unknown mode char to me for <channel>"
 */
+
+/*
+ERR_CHANNELISFULL (471)
+  "<client> <channel> :Cannot join channel (+l)"
+Returned to indicate that a JOIN command failed because the client limit mode has been set and the maximum number of users are already joined to the channel. The text used in the last param of this message may vary.
+*/
+/*471*/ void ERR_CHANNELISFULL(const Client & client, const Channel & channel)
+{
+	client.send_msg("471 " + channel.get_name() + " :Cannot join channel (+i)");
+	throw Protocole_error();
+}
 
 /*473*/ void ERR_INVITEONLYCHAN(Client & client, const std::string & channel)
 {

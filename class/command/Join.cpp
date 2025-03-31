@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 19:45:48 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:46:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,12 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 	if (channel->is_banned(client))
 		ERR_BANNEDFROMCHAN(client, channel_name);
 
-	channel->add_client(client, status);
-
-/*
-ERR_CHANNELISFULL (471)
-  "<client> <channel> :Cannot join channel (+l)"
-Returned to indicate that a JOIN command failed because the client limit mode has been set and the maximum number of users are already joined to the channel. The text used in the last param of this message may vary.
-*/
+	if (channel->is_mode_limit_clients() && channel->get_nbr_client() == channel->get_limit_clients())
+		ERR_CHANNELISFULL(client, *channel);
 
 	if (channel->is_mode_invite_only() && !channel->is_invited(client))
 		ERR_INVITEONLYCHAN(client, channel_name);
+
 	channel->add_client(client, status);
 
 	client.send_msg(":" + client.get_nickname() + " JOIN " + channel->get_name());

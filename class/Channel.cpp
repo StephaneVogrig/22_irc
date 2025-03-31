@@ -6,17 +6,22 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 17:42:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:30:33 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 #include "reply.hpp"
+#include "settings.hpp"
 
 /* constructor ---------------------------------------------------------------*/
 
 Channel::Channel(const std::string & name)
-	:	_channel_name(name), _topic(""), _modes(""), _key("")
+	:	_channel_name(name),
+		_topic(""),
+		_modes(""),
+		_key(""),
+		_limit_clients(MAX_CLIENT_PER_CHANNEL)
 {
 	log_channel(_channel_name, "created", "");
 }
@@ -37,12 +42,12 @@ Channel & Channel::operator = (const Channel & to_assign)
 {
 	if (this == &to_assign)
 		return *this;
-	_topic = to_assign._topic;
-	_clients = to_assign._clients;
-	_modes = to_assign._modes;
-	_invit_list = to_assign._invit_list;
-	_key = to_assign._key;
-	_limit_clients = to_assign._limit_clients;
+	_topic			= to_assign._topic;
+	_clients		= to_assign._clients;
+	_modes			= to_assign._modes;
+	_invit_list 	= to_assign._invit_list;
+	_key			= to_assign._key;
+	_limit_clients	= to_assign._limit_clients;
 	return *this;
 }
 
@@ -78,6 +83,16 @@ const std::string & Channel::get_client_status(const Client & client)
 	return _clients.find(client.get_nickname())->second.second;
 }
 
+int  Channel::get_limit_clients()
+{
+	return _limit_clients;
+}
+
+int  Channel::get_nbr_client()
+{
+	return _clients.size();
+}
+
 bool Channel::is_mode_invite_only(void)
 {
 	return _modes.find("i") != std::string::npos;
@@ -86,6 +101,11 @@ bool Channel::is_mode_invite_only(void)
 bool Channel::is_mode_protected_topic(void)
 {
 	return _modes.find("t") != std::string::npos;
+}
+
+bool Channel::is_mode_limit_clients(void)
+{
+	return _modes.find("l") != std::string::npos;
 }
 
 bool Channel::is_join(const Client & client)

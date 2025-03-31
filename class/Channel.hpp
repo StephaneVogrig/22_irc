@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 16:27:10 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 20:20:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,18 @@ class Channel
 
 		Channel & operator = (const Channel & to_assign);
 
-		const std::string & get_name(void) const;
-		const std::string & get_topic(void) const;
-		const std::string & get_topic_who(void) const;
-		const std::time_t & get_topic_setat(void) const;
-		const std::string & get_key(void) const;
+		const std::string & get_name() const;
+		const std::string & get_topic() const;
+		const std::string & get_topic_who() const;
+		const std::time_t & get_topic_setat() const;
+		const std::string & get_key() const;
 		const std::string & get_client_status(const Client & client);
+		int 				get_limit_clients();
+		int					get_nbr_client();
 
-		bool is_mode_invite_only(void);
-		bool is_mode_protected_topic(void);
+		bool is_mode_invite_only();
+		bool is_mode_protected_topic();
+		bool is_mode_limit_clients();
 		bool is_join(const Client & client);
 		bool is_invited(const Client & client);
 		bool is_banned(const Client & client);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 19:13:24 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:28:09 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@
 # include "Part.hpp"
 # include "Protocole_error.hpp"
 
-# define BACKLOG 20
-# define POLL_TIMEOUT 1200
-# define CLIENT_BUFFER_SIZE 256
-# define NBR_CLIENT_MAX 20
-# define MAX_CHANNEL_PER_CLIENT 5
+# include "settings.hpp"
 
 # define MSG_WELCOME "Welcome on the best irc server\n"
 # define MSG_SERV_FULL "Connection refused : server full\n"
