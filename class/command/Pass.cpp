@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 17:07:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:37:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void Pass::exec(Client & client, const Params & params, Server & server)
         ERR_ALREADYREGISTRED(client);
 
     if (!server.get_password().empty() && params.get_nbr() < 1)
-        ERR_NOTREGISTERED(client, server);
+        ERR_NEEDMOREPARAMS(client, "PASS");
 
     if (!server.get_password().empty() && params.get_param(0) != server.get_password())
         ERR_PASSWDMISMATCH(client);
