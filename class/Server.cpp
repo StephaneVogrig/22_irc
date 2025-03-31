@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 14:49:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:02:39 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ int Server::get_nbr_connected(void) const
 	return _nbr_connected ;
 }
 
-Channel & Server::get_channel(const std::string & name)
+Channel * Server::get_channel(const std::string & name)
 {
 	t_map_channel::iterator it = _channels.find(name);
 	if (it == _channels.end())
 		throw(Channel_not_found());
-	return it->second ;
+	return &(it->second) ;
 }
 
 /* exception -----------------------------------------------------------------*/

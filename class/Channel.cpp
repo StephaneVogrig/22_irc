@@ -6,11 +6,12 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 00:45:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:42:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
+#include "reply.hpp"
 
 /* constructor ---------------------------------------------------------------*/
 
@@ -119,6 +120,7 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 	 _topic = topic;
 	 _topic_who = client.get_nickname();
 	 time(&_topic_setat);
+	 log("set topic to: " + _topic);
 }
 
 /* utilities -----------------------------------------------------------------*/
@@ -151,5 +153,13 @@ void Channel::send_msg(const Client & sender, const std::string & msg)
 	{
 		if (it->first != sender.get_nickname())
 			it->second.first->send_msg(irc_msg + _channel_name + " :" + msg);
+	}
+}
+
+void Channel::send_topic()
+{
+	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		it->second.first->send_msg(RPL_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 13:24:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:44:33 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 /*403*/ void ERR_NOSUCHCHANNEL(Client & client, const std::string & channel_name)
 {
 	client.send_msg("403 " + channel_name + " :No such channel");
-	throw Protocole_error();
 }
 
 /*404*/ void ERR_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name)

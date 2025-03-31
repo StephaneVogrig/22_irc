@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 00:24:39 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/03/31 15:49:55 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 
 # include "Client.hpp"
 # include "Channel.hpp"
+
+/*
+RPL_TOPIC (332)
+  "<client> <channel> :<topic>"
+Sent to a client when joining the <channel> to inform them of the current topic of the channel.
+*/
+/*332*/ # define RPL_TOPIC_(nickname, channel_name, channel_topic) ":server 332 " + nickname + " " + channel_name + " :" + channel_topic
 
 class Server;
 
