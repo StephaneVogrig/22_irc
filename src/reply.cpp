@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:50:14 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:17:31 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Servers that implement spoofed hostmasks in any capacity SHOULD NOT include the 
 
 Clients MUST NOT try to extract the hostname from the final parameter of this message and then attempt to resolve this hostname. This method of operation WILL BREAK and will cause issues when the server returns a spoofed hostname.
 */
-void RPL_WELCOME(Client & client, Server & server)
+/*001*/ void RPL_WELCOME(Client & client, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the Internet Relay Network");
 }
@@ -262,7 +262,7 @@ void RPL_WELCOME(Client & client, Server & server)
 317	RPL_WHOISIDLE
 		"<nick> <integer> :seconds idle"
 */
-void RPL_WHOISIDLE(Client & client, const std::string & name)
+/*317*/ void RPL_WHOISIDLE(Client & client, const std::string & name)
 {
 	client.send_msg(":server 317 " + client.get_nickname() + " " + name + " :End of /WHOIS list");
 }
@@ -326,7 +326,7 @@ RPL_CHANNELMODEIS (324)
   "<client> <channel> <modestring> <mode arguments>..."
 Sent to a client to inform them of the currently-set modes of a channel. <channel> is the name of the channel. <modestring> and <mode arguments> are a mode string and the mode arguments (delimited as separate parameters) as defined in the MODE message description.
 */
-void RPL_CHANNELMODEIS(const Client & client, const Channel & channel)
+/*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel)
 {
 	client.send_msg(":" + client.get_nickname() + " 324 " + client.get_nickname() + " " + channel.get_name() + channel.get_modes());
 }
@@ -345,7 +345,7 @@ RPL_NOTOPIC (331)
   "<client> <channel> :No topic is set"
 Sent to a client when joining a channel to inform them that the channel with the name <channel> does not have any topic set.
 */
-void RPL_NOTOPIC(Client & client, Channel & channel)
+/*331*/ void RPL_NOTOPIC(Client & client, Channel & channel)
 {
 	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :No topic is set");
 }
@@ -355,7 +355,7 @@ RPL_TOPIC (332)
   "<client> <channel> :<topic>"
 Sent to a client when joining the <channel> to inform them of the current topic of the channel.
 */
-void RPL_TOPIC(Client & client, Channel & channel)
+/*332*/ void RPL_TOPIC(Client & client, Channel & channel)
 {
 	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic());
 }
@@ -424,13 +424,15 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 
 	The "comments" field may contain any comments about
 	the version or further version details.
+*/
 
+/*
 352	RPL_WHOREPLY
 		"<channel> <user> <host> <server> <nick>
 		( "H" / "G" > ["*"] [ ( "@" / "+" ) ]
 		:<hopcount> <real name>"
 */
-void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name)
+/*352*/ void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name)
 {
 	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " flags" + " :1 " + target.get_realname());
 }
@@ -460,7 +462,7 @@ Sent as a reply to the NAMES command, this numeric lists the clients that are jo
 ("*", 0x2A) - Private channel (was "+p", no longer widely used today).
 <nick> is the nickname of a client joined to that channel, and <prefix> is the highest channel membership prefix that client has in the channel, if they have one. The last parameter of this numeric is a list of [prefix]<nick> pairs, delimited by a SPACE character (' ', 0x20).
 */
-void RPL_NAMREPLY(Client & client, Channel & channel)
+/*353*/ void RPL_NAMREPLY(Client & client, Channel & channel)
 {
 	client.send_msg(":server 353 " + client.get_nickname() + " <symbol> " + channel.get_name() + " :" + channel.get_topic_who());
 }
@@ -470,7 +472,7 @@ RPL_ENDOFNAMES (366)
   "<client> <channel> :End of /NAMES list"
 Sent as a reply to the NAMES command, this numeric specifies the end of a list of channel member names.
 */
-void RPL_ENDOFNAMES(Client & client, Channel & channel)
+/*366*/ void RPL_ENDOFNAMES(Client & client, Channel & channel)
 {
 	client.send_msg(":server 366 " + client.get_nickname() + " " + channel.get_name() + " :End of /NAMES list");
 }
