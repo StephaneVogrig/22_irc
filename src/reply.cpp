@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:20:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:50:14 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,8 +261,22 @@ void RPL_WELCOME(Client & client, Server & server)
 /*
 317	RPL_WHOISIDLE
 		"<nick> <integer> :seconds idle"
+*/
+void RPL_WHOISIDLE(Client & client, const std::string & name)
+{
+	client.send_msg(":server 317 " + client.get_nickname() + " " + name + " :End of /WHOIS list");
+}
+		
+/*
 318	RPL_ENDOFWHOIS
 		"<nick> :End of WHOIS list"
+*/
+/*318*/ void RPL_ENDOFWHOIS(Client & client, const std::string & name)
+{
+	client.send_msg(":server 318 " + client.get_nickname() + " " + name + " :End of /WHOIS list");
+}
+
+/*
 319	RPL_WHOISCHANNELS
 		"<nick> :*( ( "@" / "+" ) <channel> " " )"
 
@@ -415,7 +429,13 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 		"<channel> <user> <host> <server> <nick>
 		( "H" / "G" > ["*"] [ ( "@" / "+" ) ]
 		:<hopcount> <real name>"
+*/
+void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name)
+{
+	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " flags" + " :1 " + target.get_realname());
+}
 
+/*
 315	RPL_ENDOFWHO
 		"<name> :End of WHO list"
 

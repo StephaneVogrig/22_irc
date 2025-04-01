@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 18:49:30 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:49:34 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 #include "reply.hpp"
 #include "settings.hpp"
+#include "Server.hpp"
 
 /* constructor ---------------------------------------------------------------*/
 
@@ -198,5 +199,13 @@ void Channel::send_topic()
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
 		it->second.first->send_msg(RPL_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
+	}
+}
+
+void Channel::send_who(Client & sender, Server & server)
+{
+	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		RPL_WHOREPLY(sender, *it->second.first, server, _channel_name);
 	}
 }

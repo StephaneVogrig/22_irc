@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 18:23:46 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:51:06 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "Server.hpp"
 #include "utils.hpp"
@@ -226,6 +228,7 @@ void Server::receive_data(const std::string & data, Client & client)
 
 void Server::init_commands(void)
 {
+	_commands["WHO"] = new Who();
 	_commands["NICK"] = new Nick();
 	_commands["USER"] = new User();
 	_commands["PASS"] = new Pass();

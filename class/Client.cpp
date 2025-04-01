@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:35:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:50:48 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void Client::add_channel_subscripted(Channel & channel)
 	_channels_subscripted.push_back(&channel);
 }
 
+Channel * Client::get_last_channel_subscripted()
 Channel * Client::get_last_channel_subscripted()
 {
 	if (_channels_subscripted.size() == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:35:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:49:06 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ class Client
 
 		void		add_channel_subscripted(Channel & channel);
 		void		remove_channel_subscripted(Channel & channel);
+		Channel *	get_last_channel_subscripted();
 		Channel *	get_last_channel_subscripted();
 		int			nbr_channels_subscripted();
 		void		quit_all_channels();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 18:54:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:51:43 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ class Server;
 
 /*001*/ void RPL_WELCOME(Client & client, Server & server);
 /*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel);
+/*318*/ void RPL_ENDOFWHOIS(Client & client, const std::string & name);
 /*331*/ void RPL_NOTOPIC(Client & client, Channel & channel);
 /*332*/ void RPL_TOPIC(Client & client, Channel & channel);
 /*333*/ void RPL_TOPICWHOTIME(Client & client, Channel & channel);
 /*341*/ void RPL_INVITING(Client & client, const std::string & name, Channel & channel);
+/*352*/ void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name);
 /*353*/ void RPL_NAMREPLY(Client & client, Channel & channel);
 /*366*/ void RPL_ENDOFNAMES(Client & client, Channel & channel);
 

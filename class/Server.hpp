@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 18:34:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:51:16 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
@@ -32,6 +34,7 @@
 # include "log.hpp"
 
 # include "Command.hpp"
+# include "Who.hpp"
 # include "Nick.hpp"
 # include "User.hpp"
 # include "Pass.hpp"

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
+#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/01 17:08:09 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/01 18:19:46 by gcannaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCS_CLASS			:=	Client.cpp \
 						Protocole_error.cpp \
 						Elements.cpp \
 						Command.cpp \
+						command/Who.cpp \
 						command/Nick.cpp \
 						command/User.cpp \
 						command/Pass.cpp \
