@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:52:02 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 21:03:23 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void Invite::exec(Client & client, const Params & params, Server & server)
         ERR_NEEDMOREPARAMS(client, "INVITE");
     }
     Channel * channel = server.get_channel(params.get_param(1));
+    if (channel == NULL)
+        ERR_NOSUCHCHANNEL(client, params.get_param(1));
     if (!channel->is_join(client))
         ERR_NOTONCHANNEL(client, *channel);
     try
