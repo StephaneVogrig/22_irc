@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 14:16:53 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:39:04 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,10 @@ void Server::handle_msg(const Message & msg, Client & client)
 		if (cmd_ptr)
 			cmd_ptr->exec(client, msg.get_params(), *this);
 		else
+		{
 			log(FG_RED "command not found" RESET);
+			ERR_UNKNOWNCOMMAND(client, msg.get_command());
+		}
 	}
 	catch(const Protocole_error & e)
 	{}

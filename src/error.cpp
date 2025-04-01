@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 14:15:20 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:40:35 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,14 @@
 	are returned when an invalid use of
 	"PRIVMSG $<server>" or "PRIVMSG #<host>" is attempted.
 */
+
+/*421*/ void ERR_UNKNOWNCOMMAND(Client & client, const std::string & command)
+{
+	client.send_msg("421 " + client.get_nickname() + " " + command + " :Unknown command");
+	throw Protocole_error();
+}
+
 /*
-421    ERR_UNKNOWNCOMMAND
-		"<command> :Unknown command"
-
-	- Returned to a registered client to indicate that the
-	command sent is unknown by the server.
-
 422    ERR_NOMOTD
 		":MOTD File is missing"
 
