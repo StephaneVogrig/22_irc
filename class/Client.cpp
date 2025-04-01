@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/31 14:50:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:35:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,11 @@ void Client::add_channel_subscripted(Channel & channel)
 	_channels_subscripted.push_back(&channel);
 }
 
-Channel & Client::get_last_channel_subscripted()
+Channel * Client::get_last_channel_subscripted()
 {
-	return (*_channels_subscripted.back());
+	if (_channels_subscripted.size() == 0)
+		return (NULL);
+	return (_channels_subscripted.back());
 }
 
 void Client::remove_channel_subscripted(Channel & channel)
