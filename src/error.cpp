@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 14:40:35 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:58:03 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,12 +172,14 @@
 	throw Protocole_error();
 }
 
-/*
-443    ERR_USERONCHANNEL
-		"<user> <channel> :is already on channel"
+/*443*/ void ERR_USERONCHANNEL(Client & client, const std::string & name, const Channel & channel)
+{
+	client.send_msg("443 " + client.get_nickname() + " " + name + " " + channel.get_name() + " :is already on channell");
+	throw Protocole_error();
+}
 
-	- Returned when a client tries to invite a user to a
-	channel they are already on.
+
+/*
 
 444    ERR_NOLOGIN
 		"<user> :User not logged in"

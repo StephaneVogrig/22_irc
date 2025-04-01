@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 20:30:33 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:35:18 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,11 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 	 _topic_who = client.get_nickname();
 	 time(&_topic_setat);
 	 log("set topic to: " + _topic);
+}
+
+void Channel::invite_client(const std::string & name)
+{
+	_invit_list.insert(name);
 }
 
 /* utilities -----------------------------------------------------------------*/

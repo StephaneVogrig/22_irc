@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 14:38:19 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:02:00 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Server;
 /*433*/ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick);
 /*441*/ void ERR_USERNOTINCHANNEL(Client & client, const std::string & name, const Channel & channel);
 /*442*/ void ERR_NOTONCHANNEL(Client & client, const Channel & channel);
+/*443*/ void ERR_USERONCHANNEL(Client & client, const std::string & name, const Channel & channel);
 /*451*/ void ERR_NOTREGISTERED(Client & client, Server & server); // retirer serveur ?
 /*461*/ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command);
 /*462*/ void ERR_ALREADYREGISTRED(Client & client);

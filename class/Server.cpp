@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 14:39:04 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:05:17 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ void Server::init_commands(void)
 	_commands["PART"] = new Part();
 	_commands["KICK"] = new Kick();
 	_commands["TOPIC"] = new Topic();
+	_commands["INVITE"] = new Invite();
 	_commands["PRIVMSG"] = new Privmsg();
 }
 

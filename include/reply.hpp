@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 15:49:55 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:01:50 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class Server;
 /*331*/ void RPL_NOTOPIC(Client & client, Channel & channel);
 /*332*/ void RPL_TOPIC(Client & client, Channel & channel);
 /*333*/ void RPL_TOPICWHOTIME(Client & client, Channel & channel);
+/*341*/ void RPL_INVITING(Client & client, const std::string & name, Channel & channel);
 /*353*/ void RPL_NAMREPLY(Client & client, Channel & channel);
 /*366*/ void RPL_ENDOFNAMES(Client & client, Channel & channel);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 00:47:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:01:51 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,7 +352,13 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 	- Returned by the server to indicate that the
 	attempted INVITE message was successful and is
 	being passed onto the end client.
+*/
+/*341*/ void RPL_INVITING(Client & client, const std::string & name, Channel & channel)
+{
+	client.send_msg(":server 341 " + client.get_nickname() + " " + name + " " + channel.get_name());
+}
 
+/*
 342	RPL_SUMMONING
 		"<user> :Summoning user to IRC"
 
