@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 16:05:39 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:09:49 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # include "Quit.hpp"
 # include "Part.hpp"
 # include "Kick.hpp"
+# include "Mode.hpp"
 # include "Invite.hpp"
 # include "Privmsg.hpp"
 # include "Protocole_error.hpp"
