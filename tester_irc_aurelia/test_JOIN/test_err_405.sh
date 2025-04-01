@@ -1,6 +1,6 @@
 SERVER=127.0.0.1
 PORT=8080
-LOGFILE=test01
+LOGFILE=test_err_405
 PASSWORD=salutlamif
 TEMPFILE=temp_file
 
