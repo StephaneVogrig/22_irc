@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 16:01:51 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:20:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,17 @@ void RPL_WELCOME(Client & client, Server & server)
 	command.  If there are no channels available to return,
 	only the end reply MUST be sent.
 */
+
+/*
+RPL_CHANNELMODEIS (324)
+  "<client> <channel> <modestring> <mode arguments>..."
+Sent to a client to inform them of the currently-set modes of a channel. <channel> is the name of the channel. <modestring> and <mode arguments> are a mode string and the mode arguments (delimited as separate parameters) as defined in the MODE message description.
+*/
+void RPL_CHANNELMODEIS(const Client & client, const Channel & channel)
+{
+	client.send_msg(":" + client.get_nickname() + " 324 " + client.get_nickname() + " " + channel.get_name() + channel.get_modes());
+}
+
 
 /*
 325	RPL_UNIQOPIS

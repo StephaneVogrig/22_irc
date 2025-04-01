@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 16:55:06 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:20:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Mode::~Mode(void)
 
 void Mode::exec(Client & client, const Params & params, Server & server)
 {
-	if (params.get_nbr() < 1)
+	if (params.get_nbr() == 0)
 		ERR_NEEDMOREPARAMS(client, "MODE");
 
 	if (Channel::is_a_valid_name(params.get_first()))
@@ -31,17 +31,16 @@ void Mode::exec(Client & client, const Params & params, Server & server)
 
 void Mode::exec_on_channel(Client & client, const Params & params, Server & server)
 {
-	(void)client;
-	(void)params;
-	(void)server;
-	log("exec Mode on channel");
 	const std::string & channel_name = params.get_first();
-	if (!server.channel_exist(channel_name))
-	{
+	Channel * channel = server.get_channel(channel_name);
+	if (channel == NULL)
 		ERR_NOSUCHCHANNEL(client, channel_name);
+
+	if (params.get_nbr() == 1)
+	{
+		RPL_CHANNELMODEIS(client, *channel);
 		return ;
 	}
-	
 }
 
 void Mode::exec_on_user(Client & client, const Params & params, Server & server)
