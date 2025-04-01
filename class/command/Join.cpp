@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 20:46:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:17:04 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 {
 	char prefix = channel_name[0];
 	if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
-	{
 		ERR_NOSUCHCHANNEL(client, channel_name);
-		return ;
-	}
 
 	if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
 		ERR_TOOMANYCHANNELS(client, channel_name);
@@ -67,6 +64,8 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 		status = "Oo";
 	}
 	Channel * channel = server.get_channel(channel_name);
+	if (channel == NULL)
+		ERR_NOSUCHCHANNEL(client, channel_name);
 
 	// ERR_BADCHANMASK(client, params.get_first()); 476
 

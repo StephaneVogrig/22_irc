@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:10:09 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:42:54 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,11 @@ Channel * Server::get_channel(const std::string & name)
 {
 	t_map_channel::iterator it = _channels.find(name);
 	if (it == _channels.end())
-		throw(Channel_not_found());
+		return NULL;
 	return &(it->second) ;
 }
 
 /* exception -----------------------------------------------------------------*/
-
-Server::Channel_not_found::Channel_not_found()
-{}
 
 Server::Client_not_found::Client_not_found()
 {}
@@ -266,10 +263,6 @@ void Server::handle_msg(const Message & msg, Client & client)
 	}
 	catch(const Protocole_error & e)
 	{}
-	catch (const Server::Channel_not_found & e)
-	{
-		ERR_NOSUCHCHANNEL(client, msg.get_params().get_first());
-	}
 }
 
 void Server::info_waiting(bool state)

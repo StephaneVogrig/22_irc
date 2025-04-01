@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:09:49 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:43:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ class Server
 		Channel *			get_channel(const std::string & name);
 		void				close_connection(int i);
 
-		class Channel_not_found : std::exception
-		{
-			public:
-				Channel_not_found();
-		};
 		class Client_not_found : std::exception
 		{
 			public:

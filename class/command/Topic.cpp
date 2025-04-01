@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 17:43:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:22:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 	if (params.get_nbr() < 1)
 		ERR_NEEDMOREPARAMS(client, _name);
 
-	Channel * channel = server.get_channel(params.get_first());
+	const std::string & channel_name = params.get_first();
+	Channel * channel = server.get_channel(channel_name);
+	if (channel == NULL)
+		ERR_NOSUCHCHANNEL(client, channel_name);
+
 	if (!channel->is_join(client))
 		ERR_NOTONCHANNEL(client, *channel);
 

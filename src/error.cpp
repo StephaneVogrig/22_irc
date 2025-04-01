@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 15:58:03 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:16:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 /*403*/ void ERR_NOSUCHCHANNEL(Client & client, const std::string & channel_name)
 {
 	client.send_msg("403 " + channel_name + " :No such channel");
+	throw Protocole_error();
 }
 
 /*404*/ void ERR_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name)
