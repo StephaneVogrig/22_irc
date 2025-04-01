@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/31 17:09:14 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:22:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 		ERR_ERRONEUSNICKNAME(client, params.get_first());
 	for (int i = server.get_nbr_connected(); i > 0; --i)
 	{
-		if (server.get_client(i)->get_nickname() == params.get_first())
+		if (server.get_client_by_idx(i)->get_nickname() == params.get_first())
 			ERR_NICKNAMEINUSE(client, params.get_first());
 	}
 

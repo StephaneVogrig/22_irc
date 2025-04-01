@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 17:47:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:22:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 		int i;
 		for (i = server.get_nbr_connected(); i > 0; --i)
 		{
-			if (server.get_client(i)->get_nickname() == target)
+			if (server.get_client_by_idx(i)->get_nickname() == target)
 				break;
 		}
 		if (i == 0)
 			ERR_NOSUCHNICK(client, server, target);
-		server.get_client(i)->send_msg(":" + client.get_nickname() + " PRIVMSG " + target + " :" + message);
+		server.get_client_by_idx(i)->send_msg(":" + client.get_nickname() + " PRIVMSG " + target + " :" + message);
 	}
 }

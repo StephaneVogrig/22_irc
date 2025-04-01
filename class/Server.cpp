@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:42:54 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:23:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,20 @@ const std::string & Server::get_name() const
 	return (_name);
 }
 
-const Client *Server::get_client(int idx_in_array) const
+const Client *Server::get_client_by_idx(int idx_in_array) const
 {
 	return _clients[idx_in_array] ;
+}
+
+Client & Server::get_client_by_name(const std::string & name)
+{
+	int i;
+	for (i = get_nbr_connected(); i > 0; --i)
+	{
+		if (get_client_by_idx(i)->get_nickname() == name)
+			return (*_clients[i]);
+	}
+	throw(Client_not_found());
 }
 
 const std::string &Server::get_password(void) const
@@ -66,17 +77,6 @@ const std::string &Server::get_password(void) const
 int Server::get_nbr_connected(void) const
 {
 	return _nbr_connected ;
-}
-
-Client & Server::get_client_r(const std::string & name)
-{
-	int i;
-	for (i = get_nbr_connected(); i > 0; --i)
-	{
-		if (get_client(i)->get_nickname() == name)
-			return (*_clients[i]);
-	}
-	throw(Client_not_found());
 }
 
 Channel * Server::get_channel(const std::string & name)
@@ -109,7 +109,7 @@ void Server::run(void)
 		if (nbr_event == 0)
 		{
 			for (int i = _nbr_connected; i > 0; --i)
-				if (get_client(i)->is_kicked())
+				if (get_client_by_idx(i)->is_kicked())
 					close_connection(i);
 			continue ;
 		}
@@ -189,7 +189,7 @@ void Server::handle_client_data(int i)
 	char buffer[CLIENT_BUFFER_SIZE];
 	memset(buffer, 0, sizeof(buffer));
 	int size_read = recv(_fds[i].fd, buffer, CLIENT_BUFFER_SIZE - 1, 0);
-	if (size_read <= 0 || get_client(i)->is_kicked())
+	if (size_read <= 0 || get_client_by_idx(i)->is_kicked())
 	{
 		close_connection(i);
 		return ;

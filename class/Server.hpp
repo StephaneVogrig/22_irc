@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:43:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:34:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ class Server
 		~Server();
 
 		const std::string &	get_name() const;
-		const Client *		get_client(int idx_in_array) const;
+		const Client *		get_client_by_idx(int idx_in_array) const;
+		Client &			get_client_by_name(const std::string & name);
 		const std::string &	get_password() const;
 		int					get_nbr_connected() const;
-		Client &			get_client_r(const std::string & name);
 		Channel *			get_channel(const std::string & name);
-		void				close_connection(int i);
 
 		class Client_not_found : std::exception
 		{
@@ -82,6 +81,7 @@ class Server
 		};
 
 		void run(void);
+		void close_connection(int i);
 		bool channel_exist(const std::string & name);
 		void create_channel(const std::string & name);
 		void info_waiting(bool state);
@@ -103,10 +103,10 @@ class Server
 		void handle_event();
 		void handle_client_data(int i);
 		void receive_data(const std::string & data, Client & client);
+		void handle_msg(const Message & msg, Client & client);
 
 		void init_commands();
 		void destroy_commands();
-		void handle_msg(const Message & msg, Client & client);
 
 };
 

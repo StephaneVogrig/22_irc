@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 16:35:52 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:23:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void Invite::exec(Client & client, const Params & params, Server & server)
         ERR_NOTONCHANNEL(client, *channel);
     try
     {
-        Client & target = server.get_client_r(params.get_first());
+        Client & target = server.get_client_by_name(params.get_first());
         if (channel->is_join(target))
             ERR_USERONCHANNEL(client, params.get_param(1), *channel);
         if (channel->is_mode_invite_only() && !channel->is_operator(client))

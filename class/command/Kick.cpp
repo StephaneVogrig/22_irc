@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 17:56:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:23:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 	{
 		try
 		{
-			Client & target = server.get_client_r(users.get_element(i));
+			Client & target = server.get_client_by_name(users.get_element(i));
 			if (channel->is_join(target))
 			{
 				channel->remove_client(target);
