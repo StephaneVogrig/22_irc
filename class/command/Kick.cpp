@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 14:15:00 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:43:33 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void Kick::exec(Client & client, const Params & params, Server & server)
     Channel * channel = server.get_channel(params.get_first());
     if (!channel->is_join(client))
         ERR_NOTONCHANNEL(client, *channel);
+    if (!channel->is_operator(client))
+        ERR_CHANOPRIVSNEEDED(client, *channel);
     Elements users(params.get_param(1));
     std::string arg;
     if (params.get_nbr() >= 3)
