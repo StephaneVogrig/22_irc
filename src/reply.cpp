@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 20:17:31 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:40:52 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,11 +262,7 @@ Clients MUST NOT try to extract the hostname from the final parameter of this me
 317	RPL_WHOISIDLE
 		"<nick> <integer> :seconds idle"
 */
-/*317*/ void RPL_WHOISIDLE(Client & client, const std::string & name)
-{
-	client.send_msg(":server 317 " + client.get_nickname() + " " + name + " :End of /WHOIS list");
-}
-		
+
 /*
 318	RPL_ENDOFWHOIS
 		"<nick> :End of WHOIS list"

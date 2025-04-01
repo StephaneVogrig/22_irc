@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:55:20 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:36:37 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void Who::exec(Client & client, const Params & params, Server & server)
 {
 	
 	if (params.get_nbr() < 1)
-		ERR_NEEDMOREPARAMS(client, "MODE");
+		ERR_NEEDMOREPARAMS(client, "WHO");
 
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);
