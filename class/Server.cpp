@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 19:13:40 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:16:53 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,17 @@ int Server::get_nbr_connected(void) const
 	return _nbr_connected ;
 }
 
+Client & Server::get_client_r(const std::string & name)
+{
+	int i;
+	for (i = get_nbr_connected(); i > 0; --i)
+	{
+		if (get_client(i)->get_nickname() == name)
+			return (*_clients[i]);
+	}
+	throw(Client_not_found());
+}
+
 Channel * Server::get_channel(const std::string & name)
 {
 	t_map_channel::iterator it = _channels.find(name);
@@ -79,6 +90,9 @@ Channel * Server::get_channel(const std::string & name)
 /* exception -----------------------------------------------------------------*/
 
 Server::Channel_not_found::Channel_not_found()
+{}
+
+Server::Client_not_found::Client_not_found()
 {}
 
 /* public utilities ----------------------------------------------------------*/
@@ -222,9 +236,10 @@ void Server::init_commands(void)
 	_commands["PING"] = new Ping();
 	_commands["PONG"] = new Pong();
 	_commands["QUIT"] = new Quit();
+	_commands["PART"] = new Part();
+	_commands["KICK"] = new Kick();
 	_commands["TOPIC"] = new Topic();
 	_commands["PRIVMSG"] = new Privmsg();
-	_commands["PART"] = new Part();
 }
 
 void Server::destroy_commands(void)

@@ -6,7 +6,7 @@
 #    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/03/31 19:13:10 by gcannaud         ###   ########.fr        #
+#    Updated: 2025/04/01 12:21:15 by gcannaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRCS_CLASS			:=	Client.cpp \
 						command/Pong.cpp \
 						command/Topic.cpp \
 						command/Quit.cpp \
+						command/Kick.cpp \
 						command/Privmsg.cpp \
 						command/Part.cpp
 						

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 20:02:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 14:15:08 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Server;
 /*431*/ void ERR_NONICKNAMEGIVEN(Client & client);
 /*432*/ void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick);
 /*433*/ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick);
+/*441*/ void ERR_USERNOTINCHANNEL(Client & client, const std::string & name, const Channel & channel);
 /*442*/ void ERR_NOTONCHANNEL(Client & client, const Channel & channel);
 /*451*/ void ERR_NOTREGISTERED(Client & client, Server & server); // retirer serveur ?
 /*461*/ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command);

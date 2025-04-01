@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 20:03:53 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 14:15:20 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,13 +158,12 @@
 	- Returned by a server to a user trying to change nickname
 	when the desired nickname is blocked by the nick delay
 	mechanism.
-
-441    ERR_USERNOTINCHANNEL
-		"<nick> <channel> :They aren't on that channel"
-
-	- Returned by the server to indicate that the target
-	user of the command is not on the given channel.
 */
+
+/*441*/ void ERR_USERNOTINCHANNEL(Client & client, const std::string & name, const Channel & channel)
+{
+	client.send_msg("441 " + client.get_nickname() + " " + name + " " + channel.get_name() + " :They aren't on that channel");
+}
 
 /*442*/ void ERR_NOTONCHANNEL(Client & client, const Channel & channel)
 {

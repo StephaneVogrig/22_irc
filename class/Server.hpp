@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 20:28:09 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 13:39:30 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # include "Quit.hpp"
 # include "Privmsg.hpp"
 # include "Part.hpp"
+# include "Kick.hpp"
 # include "Protocole_error.hpp"
 
 # include "settings.hpp"
@@ -68,6 +69,7 @@ class Server
 		const Client *		get_client(int idx_in_array) const;
 		const std::string &	get_password() const;
 		int					get_nbr_connected() const;
+		Client &			get_client_r(const std::string & name);
 		Channel *			get_channel(const std::string & name);
 		void				close_connection(int i);
 
@@ -75,6 +77,11 @@ class Server
 		{
 			public:
 				Channel_not_found();
+		};
+		class Client_not_found : std::exception
+		{
+			public:
+				Client_not_found();
 		};
 
 		void run(void);
