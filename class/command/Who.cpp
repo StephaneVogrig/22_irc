@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:47:19 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:55:20 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void Who::exec_on_user(Client & client, const Params & params, Server & server)
 {
 	try
 	{
-		Client & target = server.get_client_r(params.get_first());
+		Client & target = server.get_client_by_name(params.get_first());
 		Channel *channel = target.get_last_channel_subscripted();
 		if (!channel)
 		{
