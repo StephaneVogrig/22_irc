@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:50:29 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:11:30 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ class Channel
 			h : halfop
 		*/
 		//   map<  nickname ,   status   >
-		std::map<std::string, std::pair<Client *, std::string> >	_clients;
+		typedef std::map<std::string, std::pair<Client *, std::string> > t_chan_clients;
+		t_chan_clients	_clients;
 
 		/*
 			_modes store flags :

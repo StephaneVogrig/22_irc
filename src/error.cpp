@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:16:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:40:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,12 @@ Returned to indicate that a JOIN command failed because the client limit mode ha
 	unsuccessful.
 */
 
-/*482*/ void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel)
+/*
+ERR_CHANOPRIVSNEEDED (482)
+  "<client> <channel> :You're not channel operator"
+Indicates that a command failed because the client does not have the appropriate channel privileges. This numeric can apply for different prefixes such as halfop, operator, etc. The text used in the last param of this message may vary.
+*/
+void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel)
 {
 	client.send_msg("482 " + channel.get_name() + " :You're not channel operator");
 	throw Protocole_error();

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:20:00 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:17:43 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		RPL_CHANNELMODEIS(client, *channel);
 		return ;
 	}
+
+	if (!channel->is_operator(client))
+		ERR_CHANOPRIVSNEEDED(client, *channel);
+
 }
 
 void Mode::exec_on_user(Client & client, const Params & params, Server & server)
