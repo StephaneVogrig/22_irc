@@ -1,20 +1,13 @@
 #!/bin/bash
 
-SERVER=127.0.0.1
-PORT=8080
+. ./core.sh
+
 LOGFILE=test_ok
 PASSWORD=salutlamif
 TEMPFILE=temp_file_ok_aurelia
 TEMPFILE2=temp_file_ok_jacqueline
 
-GREEN="\e[32m"
-RED="\e[31m"
-RESET="\e[0m"
-
-if [ -f "$LOGFILE" ]; then
-    rm "$LOGFILE"
-fi
-
+start_test $LOGFILE
 #{
 #    printf "PASS $PASSWORD\r\n"
 #    printf "NICK aurelia\r\n"
@@ -51,11 +44,5 @@ rm "$TEMPFILE2"
 
 count=$(cat "$LOGFILE" | grep "JOIN" | wc -l)
 
-if [ "$count" -eq 2 ]; then
-    echo "${GREEN}$LOGFILE : OK${RESET}"
-else
-    echo "${RED}$LOGFILE : KO${RESET}"
-    cat $LOGFILE
-fi
+end_test $count 2 $LOGFILE
 
-rm $LOGFILE

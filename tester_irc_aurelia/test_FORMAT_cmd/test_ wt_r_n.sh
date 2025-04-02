@@ -4,14 +4,7 @@ LOGFILE=test_output_wt_space
 PASSWORD=salutlamif
 TEMPFILE=temp_file
 
-GREEN="\e[32m"
-RED="\e[31m"
-RESET="\e[0m"
-
-if [ -f "$LOGFILE" ]; then
-    rm "$LOGFILE"
-fi
-
+start_test $LOGFILE
 #{
 #    printf ""
 #} > "$TEMPFILE"
@@ -35,10 +28,7 @@ fi
 
 
 } > "$TEMPFILE"
-
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
-
-rm $TEMPFILE
 
 count=$(cat "$LOGFILE" | grep "421" | wc -l)
 
