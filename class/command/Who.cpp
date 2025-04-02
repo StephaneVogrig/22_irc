@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 20:36:37 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:07:09 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ Who::~Who()
 
 void Who::exec(Client & client, const Params & params, Server & server)
 {
-	
+	if (!client.is_registed())
+		ERR_NOTREGISTERED(client, server);
 	if (params.get_nbr() < 1)
 		ERR_NEEDMOREPARAMS(client, "WHO");
 

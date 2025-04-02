@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/02 16:42:38 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:09:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 		if (server.get_client_by_idx(i)->get_nickname() == params.get_first())
 			ERR_NICKNAMEINUSE(client, params.get_first());
 	}
-
 	if (client.is_registed())
 	{
 		std::string oldnam = client.get_nickname();
