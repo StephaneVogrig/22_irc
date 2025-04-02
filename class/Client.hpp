@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:54:37 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:26:45 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ class Client
 		Channel *	get_last_channel_subscripted();
 		int			nbr_channels_subscripted();
 		void		quit_all_channels();
+		void 		quit_serv_channels(const std::string & msg);
 
 	private :
 

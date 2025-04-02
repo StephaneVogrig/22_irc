@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 21:36:10 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/02 17:26:35 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,15 @@ void Client::quit_all_channels()
 {
 	while (_channels_subscripted.size() > 0)
 	{
+		_channels_subscripted.back()->remove_client(*this);
+	}
+}
+
+void Client::quit_serv_channels(const std::string & msg)
+{
+	while (_channels_subscripted.size() > 0)
+	{
+		_channels_subscripted.back()->send_quit(*this, msg);
 		_channels_subscripted.back()->remove_client(*this);
 	}
 }

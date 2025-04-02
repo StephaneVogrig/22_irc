@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 20:11:30 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/02 17:21:06 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ class Channel
 		void send_msg(const Client & client, const std::string & msg);
 		void send_topic();
 		void send_who(Client & sender, Server & server);
+		void send_quit(Client & sender, const std::string & msg);
 
 		static bool is_a_valid_name(const std::string & str);
 
