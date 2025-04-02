@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 17:28:58 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:02:53 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ void Channel::send_quit(Client & sender, const std::string & msg)
 {
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
-		it->second.first->send_msg(":" + sender.get_nickname() + " QUIT :" + msg);
+		if (sender.get_nickname() != it->second.first->get_nickname())
+			it->second.first->send_msg(":" + sender.get_nickname() + " QUIT :" + msg);
 	}
 }
