@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 18:22:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:42:38 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 	if (!client.is_hasPass())
 		ERR_NOTREGISTERED(client, server);
 	if (params.get_nbr() < 1)
+		ERR_NEEDMOREPARAMS(client, "NICK");
+	if (params.get_first().empty())
 		ERR_NONICKNAMEGIVEN(client);
 	if (params.get_first().length() > 9)
+		ERR_ERRONEUSNICKNAME(client, params.get_first());
+	if (Channel::is_a_valid_name(params.get_first()) || params.get_first()[0] == '@')
 		ERR_ERRONEUSNICKNAME(client, params.get_first());
 	for (int i = server.get_nbr_connected(); i > 0; --i)
 	{

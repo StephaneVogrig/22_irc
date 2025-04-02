@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 17:59:48 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:32:21 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void User::exec(Client & client, const Params & params, Server & server)
 	if (!client.is_hasPass())
 		ERR_NOTREGISTERED(client, server);
 
-	if (client.is_registed())
+	if (client.is_registed() || client.get_username() != "*")
 		ERR_ALREADYREGISTRED(client);
 
 	if (params.get_nbr() < 4)

@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 21:03:23 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:17:49 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void Invite::exec(Client & client, const Params & params, Server & server)
     }
     catch(const Server::Client_not_found & e)
     {
-        ERR_USERNOTINCHANNEL(client, params.get_first(), *channel);
+        ERR_NOSUCHNICK(client, server, params.get_first());
     }
 }
