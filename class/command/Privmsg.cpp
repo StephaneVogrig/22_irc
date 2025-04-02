@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/02 15:11:27 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:39:18 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 	if (!client.is_registed())
 		ERR_NOTREGISTERED(client, server);
 
-	if (params.get_nbr() < 2)
+	if (params.get_nbr() != 2)
 		ERR_NEEDMOREPARAMS(client, "PRIVMSG");
 
 	const std::string & target = params.get_first();
@@ -35,14 +35,15 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 	if (message.empty())
 		ERR_NOTEXTTOSEND(client);
 
-	if (target[0] == '#' || target[0] == '&')
+	if (Channel::is_a_valid_name(target))
 	{
 		if (!server.channel_exist(target))
 			ERR_NOSUCHCHANNEL(client, target);
-
 		Channel * channel = server.get_channel(target);
 		if (channel == NULL)
 			ERR_NOSUCHCHANNEL(client, target);
+		if (!channel->is_join(client))
+			ERR_NOTONCHANNEL(client, *channel);
 		channel->send_msg(client, message);
 	}
 	else
