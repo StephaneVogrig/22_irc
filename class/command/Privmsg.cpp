@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 18:22:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:11:27 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 
 	const std::string & target = params.get_first();
 	const std::string & message = params.get_param(1);
+
+	if (message.empty())
+		ERR_NOTEXTTOSEND(client);
 
 	if (target[0] == '#' || target[0] == '&')
 	{

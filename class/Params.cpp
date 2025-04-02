@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Params.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:04:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 14:47:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:04:53 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ Params::Params(const std::string & str)
 			nbr_param++;
 		}
 	}
-	if (start < str.length())
+	if (start <= str.length())
 		_params.push_back(str.substr(start, str.length() - start));
 }
 

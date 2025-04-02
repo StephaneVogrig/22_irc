@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 20:40:40 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:12:07 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,21 @@
 
 411    ERR_NORECIPIENT
 		":No recipient given (<command>)"
-412    ERR_NOTEXTTOSEND
-		":No text to send"
+*/
+
+/*
+ERR_NOTEXTTOSEND (412)
+
+  "<client> :No text to send"
+
+Returned by the PRIVMSG command to indicate the message wasn’t delivered because there was no text to send.
+*/
+void ERR_NOTEXTTOSEND(Client & client)
+{
+	client.send_msg("412 " + client.get_nickname() + " :No text to send");
+	throw Protocole_error();
+}
+/*
 413    ERR_NOTOPLEVEL
 		"<mask> :No toplevel domain specified"
 414    ERR_WILDTOPLEVEL
