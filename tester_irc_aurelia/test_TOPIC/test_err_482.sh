@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_482
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 NAME=aurelia
 SALON=salut
 

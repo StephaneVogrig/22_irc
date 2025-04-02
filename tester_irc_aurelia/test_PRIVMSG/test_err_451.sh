@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_451
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 NAME=aurelia
 
 start_test $LOGFILE
@@ -37,3 +35,5 @@ nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 count=$(cat "$LOGFILE" | grep "451" | wc -l)
+
+end_test $count 4 $LOGFILE

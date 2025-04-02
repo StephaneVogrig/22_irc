@@ -1,13 +1,11 @@
 . ./core.sh
 
 LOGFILE=test_ok
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 
 start_test $LOGFILE
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia aurelia aurelia :aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"

@@ -1,14 +1,12 @@
 . ./core.sh
 
 LOGFILE=test_ok
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 NAME=aurelia
 
 start_test $LOGFILE
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "NICK $NAME\r\n"
     printf "USER $NAME $NAME $NAME :$NAME\r\n"
     printf "QUIT\r\n"
@@ -16,7 +14,7 @@ start_test $LOGFILE
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "NICK $NAME\r\n"
     printf "USER $NAME $NAME $NAME :$NAME\r\n"
     printf "QUIT :Too smart for here\r\n"

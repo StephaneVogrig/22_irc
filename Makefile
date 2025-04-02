@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
+#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/01 18:19:46 by gcannaud         ###   ########.fr        #
+#    Updated: 2025/04/02 18:07:21 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,7 @@ init:
 	@echo -e ""
 
 test: all
-	./$(NAME) 1024 "admin"
+	./$(NAME) 6666 "admin"
 
 makeall: $(NAME)
 

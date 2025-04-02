@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_432
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 
 start_test $LOGFILE
 

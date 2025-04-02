@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_412
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 NAME=aurelia
 
 start_test $LOGFILE

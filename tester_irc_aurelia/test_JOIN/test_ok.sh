@@ -3,7 +3,6 @@
 . ./core.sh
 
 LOGFILE=test_ok
-PASSWORD=salutlamif
 TEMPFILE=temp_file_ok_aurelia
 TEMPFILE2=temp_file_ok_jacqueline
 

@@ -6,16 +6,12 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/02 01:58:42 by svogrig           #+#    #+#              #
-#    Updated: 2025/04/02 02:41:48 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/02 16:28:55 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 . ./utils.sh
 . ./settings.sh
-
-SERVER=127.0.0.1
-PORT=8080
-PASSWORD=salutlamif
 
 TEMPFILE=temp_file
 

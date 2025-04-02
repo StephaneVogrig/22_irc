@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_433
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 TEMPFILE2=temp_file2
 
 start_test $LOGFILE

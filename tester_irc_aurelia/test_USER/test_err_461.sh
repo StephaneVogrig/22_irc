@@ -5,56 +5,56 @@ LOGFILE=test_err_461
 start_test $LOGFILE
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER \r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia aurelia aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia aurelia aurelia aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER :aurelia aurelia aurelia aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia &aurelia aurelia aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia aurelia #aurelia aurelia\r\n"
     printf "QUIT\r\n"
 } > "$TEMPFILE"

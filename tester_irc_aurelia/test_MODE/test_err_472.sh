@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_472
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 SALON=salut
 NAME=aurelia
 

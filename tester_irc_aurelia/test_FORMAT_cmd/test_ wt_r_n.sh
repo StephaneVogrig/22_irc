@@ -1,8 +1,6 @@
 SERVER=127.0.0.1
 PORT=8080
 LOGFILE=test_output_wt_space
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 
 start_test $LOGFILE
 #{

@@ -1,13 +1,11 @@
 . ./core.sh
 
 LOGFILE=test_err_462
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 
 start_test $LOGFILE
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "USER aurelia aurelia aurelia :aurelia\r\n"
     printf "USER aurelia aurelia aurelia :aurelia\r\n"
     printf "QUIT\r\n"
@@ -15,7 +13,7 @@ start_test $LOGFILE
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 {
-    printf "PASS salutlamif\r\n"
+    printf "PASS $PASSWORD\r\n"
     printf "NICK aurelia\r\n"
     printf "USER aurelia aurelia aurelia :aurelia\r\n"
     printf "USER aurelia aurelia aurelia :aurelia\r\n"

@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_err_467
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 SALON2=aurevoir
 NAME=aurelia
 

@@ -1,9 +1,8 @@
 #!/bin/bash
 
-SERVER=127.0.0.1
-PORT=8080
+. ./settings.sh
+
 LOGFILE=test_output
-PASSWORD=salutlamif
 
 # Initialiser ou vider le fichier de log
 echo "Démarrage des connexions IRC..." > "$LOGFILE"

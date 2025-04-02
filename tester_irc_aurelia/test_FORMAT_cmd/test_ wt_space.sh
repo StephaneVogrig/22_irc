@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_output_wt_space
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 
 start_test $LOGFILE
 

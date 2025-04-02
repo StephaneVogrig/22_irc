@@ -1,8 +1,6 @@
 . ./core.sh
 
 LOGFILE=test_ok
-PASSWORD=salutlamif
-TEMPFILE=temp_file
 SALON=salut
 NAME=aurelia
 

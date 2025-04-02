@@ -1,6 +1,0 @@
-PASS salutlamif
-NICK aurelia
-USER aurelia aurelia aurelia :aurelia
-JOIN &salut
-TOPIC :salut
-QUIT
