@@ -1,6 +1,8 @@
-. ./utils.sh
+. ./core.sh
 
 title "IRC tester" $FG_PURPLE
+
+gnome-terminal -x ./../ircserv $PORT $PASSWORD
 
 sh ./test_PASS/test_all.sh
 sh ./test_USER/test_all.sh
