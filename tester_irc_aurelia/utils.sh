@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 23:31:31 by svogrig           #+#    #+#              #
-#    Updated: 2025/04/02 14:52:48 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/02 22:37:18 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,4 +58,26 @@ subtitle() {
 	printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '-'
 
 	echo -n "$FG_DEFAULT"
+
+	{
+		columns=60
+		ln_before=$((($columns - ${#1})/2))
+		ln_after=$(($columns - ${#1} - $ln_before))
+
+		echo -n "$FG_YELLOW"
+
+		printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '-'
+
+		printf "%*s" $ln_before " "
+		printf "%s" "$1"
+		printf "%*s\n" $ln_after ""
+
+		printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '-'
+	} >> $ERROR_FILE
+}
+
+clean_file() {
+	if [ -f $1 ]; then
+		rm $1
+	fi
 }

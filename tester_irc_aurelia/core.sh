@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/02 01:58:42 by svogrig           #+#    #+#              #
-#    Updated: 2025/04/02 16:28:55 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/02 22:34:23 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,12 @@ start_test() {
 	if [ -f "$1" ]; then
 		rm "$1"
 	fi
+	{
+		echo -n "${FG_YELLOW}"
+		printf "%12s" "$1"
+		echo -n " : "
+	} >> $ERROR_FILE
+	printf "1" >> $NBR_TEST
 }
 
 end_test() {
@@ -29,9 +35,17 @@ end_test() {
 	rm $TEMPFILE
 	if [ "$1" -eq $2 ]; then
 		echo "${FG_GREEN}OK${FG_DEFAULT}"
+		{
+			echo "${FG_GREEN}OK${FG_DEFAULT}"
+		} >> $ERROR_FILE
+		printf "1" >> $NBR_SUCCESS
 	else
 		echo "${FG_RED}KO${FG_DEFAULT}"
-		cat $3
+		{
+			echo "${FG_RED}KO${FG_DEFAULT}"
+			cat $3
+		} >> $ERROR_FILE
+		printf "1" >> $NBR_FAIL
 	fi
 	rm $3
 }
