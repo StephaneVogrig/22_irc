@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 19:53:53 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/01 21:36:10 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void Client::send_msg(const std::string & msg) const
 {
 	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, 0) == -1)
 		throw(std::runtime_error("send failed"));
-	log_msg(_fd, FG_GREEN ">>" RESET, msg);
+	log_msg(_fd, FG_GREEN ">>", msg);
 }
 
 void Client::add_channel_subscripted(Channel & channel)

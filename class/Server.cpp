@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:51:06 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/02 02:57:47 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void Server::run(void)
 	while (true)
 	{
 		info_waiting(true);
-		int nbr_event = poll(_fds, _nbr_connected + 1, POLL_TIMEOUT);
+		int nbr_event = poll(_fds, _nbr_connected + 1, POLL_TIMEOUT_MS);
 		if (g_signal)
 			break ;
 		if( nbr_event == -1)
@@ -214,8 +214,10 @@ void Server::receive_data(const std::string & data, Client & client)
 	size_t pos = str.find(delim);
 	while (pos != std::string::npos)
 	{
+		std::string data_clean(str.substr(0, pos));
+		log_msg(client.get_fd(), FG_YELLOW "<<", to_string(data_clean));
 		Message msg(str.substr(0, pos));
-		log_msg(client.get_fd(), FG_RED "<<" RESET, to_string(msg));
+		// log_msg(client.get_fd(), FG_RED "<<", to_string(msg));
 		handle_msg(msg, client);
 		if (client.is_kicked())
 			return ;

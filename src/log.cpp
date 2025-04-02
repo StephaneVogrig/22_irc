@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:04:21 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/29 01:51:18 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/01 21:42:17 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ std::string fd_log(int fd)
 
 void log_msg(int fd, const std::string & action, const std::string & msg)
 {
-	log(fd_log(fd) + " " + to_string_left(action, 7, ' ') + ": " RESET + msg);
+	log(fd_log(fd) + " " + to_string_left(action, 7, ' ') + " " + msg + RESET);
 }
 
 void log_server(int fd, const std::string & msg)
 {
-	log(fd_log(fd) + " " + FG_YELLOW + msg + RESET);
+	log(fd_log(fd) + " " + FG_PURPLE + msg + RESET);
 }
 
 void log_channel(const std::string & channel_name, const std::string & action, const std::string & who)

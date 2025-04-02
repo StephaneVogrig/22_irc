@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 23:31:31 by svogrig           #+#    #+#              #
-#    Updated: 2025/04/02 02:17:06 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/02 14:52:48 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,13 @@ title() {
 	ln_after=$(($columns - 2 - ${#1} - $ln_before))
 
 	echo -n "$2"
-	
+
 	printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '*'
-	
+
 	printf "*%*s" $ln_before " "
 	printf "%s" "$1"
 	printf "%*s*\n" $ln_after ""
-	
+
 	printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '*'
 
 	echo -n "$FG_DEFAULT"
@@ -48,13 +48,13 @@ subtitle() {
 	ln_after=$(($columns - ${#1} - $ln_before))
 
 	echo -n "$FG_YELLOW"
-	
+
 	printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '-'
-	
+
 	printf "%*s" $ln_before " "
 	printf "%s" "$1"
 	printf "%*s\n" $ln_after ""
-	
+
 	printf "%*s\n" "${COLUMNS:-$columns}" '' | tr ' ' '-'
 
 	echo -n "$FG_DEFAULT"
