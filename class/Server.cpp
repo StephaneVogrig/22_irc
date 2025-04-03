@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 14:29:10 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:18:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,13 +258,19 @@ void Server::handle_msg(const Message & msg, Client & client)
 	try
 	{
 		Command * cmd_ptr = _commands[msg.get_command()];
-		if (cmd_ptr)
-			cmd_ptr->exec(client, msg.get_params(), *this);
-		else
+		if (!cmd_ptr)
 		{
 			log(FG_RED "command not found" RESET);
 			ERR_UNKNOWNCOMMAND(client, msg.get_command());
 		}
+		if (client.is_registed())
+		{
+			cmd_ptr->exec(client, msg.get_params(), *this);
+			return ;
+		}
+		if (!is_cmd_to_register(*cmd_ptr))
+			ERR_NOTREGISTERED(client, *this);
+		cmd_ptr->exec(client, msg.get_params(), *this);
 	}
 	catch(const Protocole_error & e)
 	{}
@@ -318,4 +324,10 @@ void Server::quit_all_serv_channels(Client & client, const std::string & msg)
 			remove_client_from_channel(client, it->second);
 		}
 	}
+}
+
+bool Server::is_cmd_to_register(const Command & cmd) const
+{
+	const std::string & cmd_name = cmd.get_name();
+	return cmd_name == "PASS" || cmd_name == "NICK" || cmd_name == "USER" || cmd_name == "QUIT";
 }

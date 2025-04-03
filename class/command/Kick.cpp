@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 16:02:08 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:25:14 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ Kick::~Kick()
 
 void Kick::exec(Client & client, const Params & params, Server & server)
 {
-	if (!client.is_registed())
-		ERR_NOTREGISTERED(client, server);
-
 	if (params.get_nbr() != 2)
 		ERR_NEEDMOREPARAMS(client, "KICK");
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:47:39 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 13:07:41 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:25:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ Part::~Part()
 
 void Part::exec(Client & client, const Params & params, Server & server)
 {
-	if (!client.is_registed())
-		ERR_NOTREGISTERED(client, server);
-
 	if (params.get_nbr() < 2)
 		ERR_NEEDMOREPARAMS(client, "PART");
 

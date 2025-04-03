@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:50:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/26 12:46:36 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:51:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ class Command
 		Command(const Command &to_cpy);
 		virtual ~Command();
 		Command & operator=(const Command & to_assign);
+
+		const std::string & get_name() const;
 
 		virtual void	exec(Client & client, const Params & params, Server & Server);
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/27 19:55:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/03 17:25:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ Ping::~Ping()
 
 void Ping::exec(Client & client, const Params & params, Server & server)
 {
-    if (!client.is_registed())
-        ERR_NOTREGISTERED(client, server);
-
     if (params.get_nbr() < 1)
         ERR_NEEDMOREPARAMS(client, "PING");
 

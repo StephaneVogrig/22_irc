@@ -35,4 +35,4 @@ nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
 count=$(cat "$LOGFILE" | grep "451" | wc -l)
 
-end_test $count 1 $LOGFILE
+end_test $count 4 $LOGFILE
