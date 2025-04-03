@@ -49,7 +49,7 @@ else
 			"NICK") sh ./test_NICK/test_all.sh ;;
 			"JOIN") sh ./test_JOIN/test_all.sh ;;
 			"KICK") sh ./test_KICK/test_all.sh ;;
-			"JOIN") sh ./test_INVITE/test_all.sh ;;
+			"INVITE") sh ./test_INVITE/test_all.sh ;;
 			"PRIVMSG") sh ./test_PRIVMSG/test_all.sh ;;
 			"TOPIC") sh ./test_TOPIC/test_all.sh ;;
 			"MODE") sh ./test_MODE/test_all.sh ;;
