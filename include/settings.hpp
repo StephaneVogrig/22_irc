@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 20:27:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 02:57:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/03 16:08:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SETTINGS_HPP
 
 # define BACKLOG 20
-# define POLL_TIMEOUT_MS 100
+# define POLL_TIMEOUT_MS 10
 # define CLIENT_BUFFER_SIZE 256
 # define NBR_CLIENT_MAX 20
 # define MAX_CHANNEL_PER_CLIENT 5
