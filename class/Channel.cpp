@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 20:02:53 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:55:13 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int  Channel::get_limit_clients()
 	return _limit_clients;
 }
 
-int  Channel::get_nbr_client()
+int  Channel::get_nbr_client() const
 {
 	return _clients.size();
 }

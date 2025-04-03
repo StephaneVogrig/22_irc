@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/02 17:26:35 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:45:34 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "Channel.hpp"
 #include "utils.hpp"
 #include "log.hpp"
+#include "Server.hpp"
 
 /* constructor ---------------------------------------------------------------*/
 
@@ -145,19 +146,19 @@ int  Client::nbr_channels_subscripted()
 	return _channels_subscripted.size();
 }
 
-void Client::quit_all_channels()
+void Client::quit_all_channels(Server & server)
 {
 	while (_channels_subscripted.size() > 0)
 	{
-		_channels_subscripted.back()->remove_client(*this);
+		server.remove_client_from_channel(*this, *_channels_subscripted.back());
 	}
 }
 
-void Client::quit_serv_channels(const std::string & msg)
+void Client::send_msg_all_channels(Server & server, const std::string & msg)
 {
 	while (_channels_subscripted.size() > 0)
 	{
 		_channels_subscripted.back()->send_quit(*this, msg);
-		_channels_subscripted.back()->remove_client(*this);
+		server.remove_client_from_channel(*this, *_channels_subscripted.back());
 	}
 }

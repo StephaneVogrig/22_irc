@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/02 17:10:20 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:06:57 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 			Client & target = server.get_client_by_name(users.get_element(i));
 			if (channel->is_join(target))
 			{
-				channel->remove_client(target);
+				// channel->remove_client(target);
+				server.remove_client_from_channel(target, *channel);
 				client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
 				target.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
 			}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:17:04 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/03 13:43:30 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void Join::exec(Client & client, const Params & params, Server & server)
 
 	if (params.get_first() == "0")
 	{
-		client.quit_all_channels();
+		client.quit_all_channels(server);
 		return ;
 	}
 

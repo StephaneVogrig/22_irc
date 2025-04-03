@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 02:57:47 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/03 14:29:10 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ const std::string &Server::get_password(void) const
 	return _password ;
 }
 
-int Server::get_nbr_connected(void) const
+int Server::get_nbr_connected(void)
 {
 	return _nbr_connected ;
 }
@@ -293,4 +293,29 @@ void Server::info_waiting(bool state)
 	waiting_state++;
 	if (waiting_state == 10)
 		waiting_state = 0;
+}
+
+void Server::remove_client_from_channel(Client & client, Channel & channel)
+{
+	t_map_channel::iterator it = _channels.find(channel.get_name());
+	channel.remove_client(client);
+	log("client in channel : " + to_string(channel.get_nbr_client()));
+	if (channel.get_nbr_client() == 0)
+	{
+		log("erase channel : " + to_string(it->second.get_name()));
+		_channels.erase(it);
+	}
+}
+
+void Server::quit_all_serv_channels(Client & client, const std::string & msg)
+{
+	for(t_map_channel::iterator it = _channels.begin();
+		it != _channels.end(); ++it)
+	{
+		if (it->second.is_join(client))
+		{
+			it->second.send_quit(client, msg);
+			remove_client_from_channel(client, it->second);
+		}
+	}
 }

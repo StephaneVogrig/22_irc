@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 17:21:06 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:55:24 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class Channel
 		const std::string & get_key() const;
 		const std::string & get_client_status(const Client & client);
 		int 				get_limit_clients();
-		int					get_nbr_client();
+		int					get_nbr_client() const;
 
 		bool is_mode_invite_only();
 		bool is_mode_protected_topic();

@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:51:16 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:11:59 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ class Server
 		const Client *		get_client_by_idx(int idx_in_array) const;
 		Client &			get_client_by_name(const std::string & name);
 		const std::string &	get_password() const;
-		int					get_nbr_connected() const;
+		int					get_nbr_connected();
 		Channel *			get_channel(const std::string & name);
 
 		class Client_not_found : std::exception
@@ -88,6 +88,8 @@ class Server
 		bool channel_exist(const std::string & name);
 		void create_channel(const std::string & name);
 		void info_waiting(bool state);
+		void remove_client_from_channel(Client & client, Channel & channel);
+		void quit_all_serv_channels(Client & client, const std::string & msg);
 
 	private:
 

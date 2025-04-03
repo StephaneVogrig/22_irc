@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/02 17:50:47 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:20:54 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ Quit::~Quit()
 {
 }
 
-void Quit::exec(Client & client, const Params & params, Server & Server)
+void Quit::exec(Client & client, const Params & params, Server & server)
 {
-	(void) Server;
-
 	std::string msg;
 	try
 	{
@@ -39,7 +37,9 @@ void Quit::exec(Client & client, const Params & params, Server & Server)
 	{
 	}
 
-	client.quit_serv_channels(msg);
+	client.send_msg_all_channels(server, msg);
+	//client.quit_all_channels(server);
+	// server.quit_all_serv_channels(client, msg);
 	client.send_msg(":" + client.get_nickname() + " QUIT :" + msg);
 	client.set_kicked(true);
 }
