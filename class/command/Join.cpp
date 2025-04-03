@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 13:43:30 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:31:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 	if (!server.channel_exist(channel_name))
 	{
 		server.create_channel(channel_name);
+		Channel * channel = server.get_channel(channel_name);
 		status = "Oo";
+		channel->add_client(client, status);
+		return ;
 	}
 	Channel * channel = server.get_channel(channel_name);
 	if (channel == NULL)
@@ -94,5 +97,4 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 	RPL_TOPICWHOTIME(client, *channel);
 	RPL_NAMREPLY(client, *channel);
 	RPL_ENDOFNAMES(client, *channel);
-
 }
