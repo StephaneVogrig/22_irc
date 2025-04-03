@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 13:06:57 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:02:08 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 	if (!client.is_registed())
 		ERR_NOTREGISTERED(client, server);
 
-	if (params.get_nbr() < 2 ||params.get_nbr() > 3 )
+	if (params.get_nbr() != 2)
 		ERR_NEEDMOREPARAMS(client, "KICK");
 
 	Channel * channel = server.get_channel(params.get_first());
@@ -51,7 +51,8 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 			{
 				// channel->remove_client(target);
 				server.remove_client_from_channel(target, *channel);
-				client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
+				if (client.get_nickname() != target.get_nickname())
+					client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
 				target.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
 			}
 			else
