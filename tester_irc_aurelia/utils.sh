@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 23:31:31 by svogrig           #+#    #+#              #
-#    Updated: 2025/04/02 22:37:18 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/03 14:12:47 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,5 +79,13 @@ subtitle() {
 clean_file() {
 	if [ -f $1 ]; then
 		rm $1
+	fi
+}
+
+count_in_file() {
+	if [ -f $1 ]; then
+		echo $(cat $1 | wc -c)
+	else
+		echo "0"
 	fi
 }
