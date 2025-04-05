@@ -257,6 +257,22 @@ Clients MUST NOT try to extract the hostname from the final parameter of this me
 313	RPL_WHOISOPERATOR
 		"<nick> :is an IRC operator"
 */
+/*
+ RPL_ENDOFWHO (315)
+
+  "<client> <mask> :End of WHO list"
+
+Sent as a reply to the WHO command, this numeric indicates the end of a WHO response for the mask <mask>.
+
+<mask> MUST be the same <mask> parameter sent by the client in its WHO message, but MAY be casefolded.
+
+This numeric is sent after all other WHO response numerics have been sent to the client.
+*/
+/*315*/ void RPL_ENDOFWHO(Client & client)
+{
+	client.send_msg(":server 315 " + client.get_nickname() + " :End of WHO list");
+}
+
 
 /*
 317	RPL_WHOISIDLE

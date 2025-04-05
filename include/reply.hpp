@@ -27,6 +27,7 @@ class Server;
 
 /*001*/ void RPL_WELCOME(Client & client, Server & server);
 /*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel);
+/*315*/ void RPL_ENDOFWHO(Client & client);
 /*318*/ void RPL_ENDOFWHOIS(Client & client, const std::string & name);
 /*331*/ void RPL_NOTOPIC(Client & client, Channel & channel);
 /*332*/ void RPL_TOPIC(Client & client, Channel & channel);

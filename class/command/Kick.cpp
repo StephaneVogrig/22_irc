@@ -46,7 +46,6 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 			Client & target = server.get_client_by_name(users.get_element(i));
 			if (channel->is_join(target))
 			{
-				// channel->remove_client(target);
 				server.remove_client_from_channel(target, *channel);
 				if (client.get_nickname() != target.get_nickname())
 					client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);

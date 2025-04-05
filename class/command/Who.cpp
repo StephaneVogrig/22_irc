@@ -41,7 +41,7 @@ void Who::exec_on_channel(Client & client, const Params & params, Server & serve
 	if (channel == NULL)
 		ERR_NOSUCHCHANNEL(client, params.get_first());
 	channel->send_who(client, server);
-	RPL_ENDOFWHOIS(client, params.get_first());
+	RPL_ENDOFWHO(client);
 }
 
 void Who::exec_on_user(Client & client, const Params & params, Server & server)
@@ -61,5 +61,5 @@ void Who::exec_on_user(Client & client, const Params & params, Server & server)
 	catch(const Server::Client_not_found & e)
 	{
 	}
-	RPL_ENDOFWHOIS(client, params.get_first());
+	RPL_ENDOFWHO(client);
 }
