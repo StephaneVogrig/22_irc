@@ -29,7 +29,7 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 		ERR_NONICKNAMEGIVEN(client);
 	if (params.get_first().length() > 9)
 		ERR_ERRONEUSNICKNAME(client, params.get_first());
-	if (Channel::is_a_valid_name(params.get_first()) || params.get_first()[0] == '@')
+	if (Channel::is_a_valid_name(params.get_first()) || params.get_first()[0] == '@' || params.get_first()[0] == '#' || params.get_first()[0] == ':' || params.get_first()[0] == '+' || params.get_first()[0] == '!' || params.get_first().find_first_of(" ") != std::string::npos)
 		ERR_ERRONEUSNICKNAME(client, params.get_first());
 	for (int i = server.get_nbr_connected(); i > 0; --i)
 	{

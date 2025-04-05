@@ -430,7 +430,7 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 */
 /*352*/ void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name)
 {
-	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " flags" + " :1 " + target.get_realname());
+	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " H" + " :1 " + target.get_realname());
 }
 
 /*
