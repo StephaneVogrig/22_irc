@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 12:55:13 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:23:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 Channel::Channel(const std::string & name)
 	:	_channel_name(name),
+		_creation_time(current_time_t()),
 		_topic(""),
 		_modes(""),
 		_key(""),
@@ -27,7 +28,9 @@ Channel::Channel(const std::string & name)
 	log_channel(_channel_name, "created", "");
 }
 
-Channel::Channel(const Channel & to_copy) : _channel_name(to_copy._channel_name)
+Channel::Channel(const Channel & to_copy)
+	:	_channel_name(to_copy._channel_name),
+		_creation_time(current_time_t())
 {
 	*this = to_copy;
 }
@@ -57,6 +60,11 @@ Channel & Channel::operator = (const Channel & to_assign)
 const std::string & Channel::get_name(void) const
 {
 	return _channel_name;
+}
+
+const time_t & Channel::get_creation_time() const
+{
+	return _creation_time;
 }
 
 const std::string & Channel::get_topic(void) const

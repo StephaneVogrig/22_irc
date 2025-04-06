@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 20:40:52 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:54:30 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,19 +338,20 @@ RPL_CHANNELMODEIS (324)
   "<client> <channel> <modestring> <mode arguments>..."
 Sent to a client to inform them of the currently-set modes of a channel. <channel> is the name of the channel. <modestring> and <mode arguments> are a mode string and the mode arguments (delimited as separate parameters) as defined in the MODE message description.
 */
-/*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel)
+/*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel, Server & server)
 {
-	client.send_msg(":" + client.get_nickname() + " 324 " + client.get_nickname() + " " + channel.get_name() + channel.get_modes());
+	client.send_msg(":" + server.get_name() + " 324 " + client.get_nickname() + " " + channel.get_name() + channel.get_modes());
 }
 
-
 /*
-325	RPL_UNIQOPIS
-		"<channel> <nickname>"
-
-324	RPL_CHANNELMODEIS
-		"<channel> <mode> <mode params>"
+RPL_CREATIONTIME (329)
+  "<client> <channel> <creationtime>"
+Sent to a client to inform them of the creation time of a channel. <channel> is the name of the channel. <creationtime> is a unix timestamp representing when the channel was created on the network.
 */
+void RPL_CREATIONTIME(const Client & client, const Channel & channel, Server & server)
+{
+	client.send_msg(":" + server.get_name() + " 329 " + client.get_nickname() + " " + channel.get_name() + " " + to_string(channel.get_creation_time()));
+}
 
 /*
 RPL_NOTOPIC (331)

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:39:10 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 16:21:55 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/06 13:31:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "Client.hpp"
 # include "Elements.hpp"
 # include "reply.hpp"
+# include <queue>
 
 class Mode : public Command
 {

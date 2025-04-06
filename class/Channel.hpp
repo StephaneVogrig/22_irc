@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 12:55:24 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:22:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Channel
 		Channel & operator = (const Channel & to_assign);
 
 		const std::string & get_name() const;
+		const time_t & 		get_creation_time() const;
 		const std::string & get_topic() const;
 		const std::string & get_topic_who() const;
 		const std::time_t & get_topic_setat() const;
@@ -71,6 +72,7 @@ class Channel
 	private:
 
 		const std::string					_channel_name;
+		const std::time_t					_creation_time;
 		std::string							_topic;
 		std::string							_topic_who;
 		std::time_t							_topic_setat;

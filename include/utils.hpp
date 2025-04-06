@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:20:20 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/29 01:50:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/06 11:02:26 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ std::string to_string_left(const T & value, int witdh, char c)
 	return oss.str();
 }
 
+time_t		current_time_t();
 struct tm * current_time();
 std::string tm_to_time_str(struct tm * timeinfo);
 std::string current_time_str();

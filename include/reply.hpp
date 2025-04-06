@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 19:51:43 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:45:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ Sent to a client when joining the <channel> to inform them of the current topic 
 class Server;
 
 /*001*/ void RPL_WELCOME(Client & client, Server & server);
-/*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel);
 /*315*/ void RPL_ENDOFWHO(Client & client);
 /*318*/ void RPL_ENDOFWHOIS(Client & client, const std::string & name);
+/*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel, Server & server);
+/*329*/ void RPL_CREATIONTIME(const Client & client, const Channel & channel, Server & server);
 /*331*/ void RPL_NOTOPIC(Client & client, Channel & channel);
 /*332*/ void RPL_TOPIC(Client & client, Channel & channel);
 /*333*/ void RPL_TOPICWHOTIME(Client & client, Channel & channel);
