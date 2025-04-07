@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 19:30:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:35:41 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,15 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		try
 		{
 			if(*it == '+' || *it == '-')
-			{
 				action = *it;
-				continue;
-			}
-			if (*it == 'i' || *it == 't')
+			else if (*it == 'i' || *it == 't')
 			{
 				if (action == '+')
 					channel->set_mode(*it);
 				if (action == '-')
 					channel->unset_mode(*it);
-				continue;
 			}
-			if (*it == 'k')
+			else if (*it == 'k')
 			{
 				if (action == '+')
 				{
@@ -134,7 +130,6 @@ void Mode::exec_on_user(Client & client, const Params & params, Server & server)
 	(void)client;
 	(void)params;
 	(void)server;
-	// log("exec Mode on user");
 	try
 	{
 		Client & target = server.get_client_by_name(params.get_first());
