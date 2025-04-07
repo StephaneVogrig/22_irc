@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 19:09:46 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:30:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 
 	std::string modestring = params.get_param(1);
 
-	std::queue<std::string> queue_params;
-	for (int i = 2; i < params.get_nbr(); ++i)
-	{
-		queue_params.push(params.get_param(i));
-	}
+	int i = 2;
 
 	char action = '\0';
 	for (std::string::iterator it = modestring.begin(); it != modestring.end(); ++it)
@@ -77,21 +73,19 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			{
 				if (action == '+')
 				{
-					if (queue_params.empty())
+					if (i >= params.get_nbr())
 						ERR_NEEDMOREPARAMS(client, _name);
-					channel->set_key(queue_params.front());
+					channel->set_key(params.get_param(i++));
 					channel->set_mode(*it);
-					queue_params.pop();
 				}
 				if (action == '-')
 					channel->unset_mode(*it);
 			}
 			else if (*it == 'o')
 			{
-				if (queue_params.empty())
+				if (i >= params.get_nbr())
 					ERR_NEEDMOREPARAMS(client, _name);
-				std::string mode_param = queue_params.front();
-				queue_params.pop();
+				const std::string & mode_param = params.get_param(i++);
 
 				Client * target = server.get_client_by_name_ptr(mode_param);
 
@@ -113,10 +107,9 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			{
 				if (action == '+')
 				{
-					if (queue_params.empty())
+					if (i >= params.get_nbr())
 						ERR_NEEDMOREPARAMS(client, _name);
-					std::string mode_param = queue_params.front();
-					queue_params.pop();
+					const std::string & mode_param = params.get_param(i++);
 					char *		endptr = NULL;
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
