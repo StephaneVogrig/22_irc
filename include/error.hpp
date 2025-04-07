@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 15:44:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:18:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ class Server;
 /*461*/ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command);
 /*462*/ void ERR_ALREADYREGISTRED(Client & client);
 /*464*/ void ERR_PASSWDMISMATCH(Client & client);
+/*467*/ void ERR_KEYSET(const Client & client, const Channel & channel);
 /*471*/ void ERR_CHANNELISFULL(const Client & client, const Channel & channel);
+/*472*/ void ERR_UNKNOWNMODE(const Client & client, char modechar);
 /*473*/ void ERR_INVITEONLYCHAN(Client & client, const std::string & channel);
 /*474*/ void ERR_BANNEDFROMCHAN(Client & client, const std::string & channel);
 /*475*/ void ERR_BADCHANNELKEY(Client & client, const std::string & channel);

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 19:11:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:17:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,14 +337,18 @@ void ERR_PASSWDMISMATCH(Client & client)
 
 	- Sent by a server to a user to inform that access to the
 	server will soon be denied.
+*/
+
+/*
 
 467    ERR_KEYSET
 		"<channel> :Channel key already set"
-471    ERR_CHANNELISFULL
-		"<channel> :Cannot join channel (+l)"
-472    ERR_UNKNOWNMODE
-		"<char> :is unknown mode char to me for <channel>"
 */
+void ERR_KEYSET(const Client & client, const Channel & channel)
+{
+	client.send_msg("467 " + channel.get_name() + " :Channel key already set");
+	throw Protocole_error();
+}
 
 /*
 ERR_CHANNELISFULL (471)
@@ -354,6 +358,17 @@ Returned to indicate that a JOIN command failed because the client limit mode ha
 void ERR_CHANNELISFULL(const Client & client, const Channel & channel)
 {
 	client.send_msg("471 " + channel.get_name() + " :Cannot join channel (+i)");
+	throw Protocole_error();
+}
+
+/*
+ERR_UNKNOWNMODE (472)
+  "<client> <modechar> :is unknown mode char to me"
+Indicates that a mode character used by a client is not recognized by the server. The text used in the last param of this message may vary.
+*/
+void ERR_UNKNOWNMODE(const Client & client, char modechar)
+{
+	client.send_msg("472 " + client.get_nickname() + modechar + " :is unknown mode char to me");
 	throw Protocole_error();
 }
 

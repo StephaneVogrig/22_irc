@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 20:18:22 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:24:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,10 +161,10 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 	 log("set topic to: " + _topic);
 }
 
-void Channel::set_mode(char c)
+void Channel::set_mode(const Client & client, char c)
 {
 	if (_modes.find(c) != std::string::npos)
-		return ;
+		ERR_KEYSET(client, *this);
 	_modes += c;
 }
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 16:09:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:24:27 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ class Channel
 		bool is_halfop(const Client & client);
 
 		void set_topic(const Client & client, const std::string & topic);
-		void set_mode(char c);
+		void set_mode(const Client & client, char c);
 		void unset_mode(char c);
 		void set_key(const std::string & keystring);
 		void set_client_status(const Client & client, char status);

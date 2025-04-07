@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 20:04:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:33:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			else if (*it == 'i' || *it == 't')
 			{
 				if (action == '+')
-					channel->set_mode(*it);
+					channel->set_mode(client, *it);
 				if (action == '-')
 					channel->unset_mode(*it);
 			}
@@ -72,7 +72,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					if (i >= params.get_nbr())
 						ERR_NEEDMOREPARAMS(client, _name);
 					channel->set_key(params.get_param(i++));
-					channel->set_mode(*it);
+					channel->set_mode(client, *it);
 				}
 				if (action == '-')
 					channel->unset_mode(*it);
@@ -110,11 +110,14 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
 						ERR_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number");
-					channel->set_mode(*it);
+					channel->set_mode(client, *it);
 					channel->set_limit(nbr);
 				}
 				if (action == '-')
-					channel->unset_mode(*it);}
+					channel->unset_mode(*it);
+			}
+			else
+				ERR_UNKNOWNMODE(client, *it);
 		}
 		catch(const Protocole_error& e)
 		{}
