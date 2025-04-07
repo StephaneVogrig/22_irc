@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 15:11:19 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:44:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ class Server;
 /*475*/ void ERR_BADCHANNELKEY(Client & client, const std::string & channel);
 /*476*/ void ERR_BADCHANMASK(Client & client, const std::string & channel);
 /*482*/ void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel);
+/*696*/ void ERR_INVALIDMODEPARAM(const Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 03:38:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:09:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void Mode::exec(Client & client, const Params & params, Server & server)
 void Mode::exec_on_channel(Client & client, const Params & params, Server & server)
 {
 	const std::string & channel_name = params.get_first();
+
 	Channel * channel = server.get_channel(channel_name);
 	if (channel == NULL)
 		ERR_NOSUCHCHANNEL(client, channel_name);
@@ -46,9 +47,93 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 	if (!channel->is_operator(client))
 		ERR_CHANOPRIVSNEEDED(client, *channel);
 
+	std::string modestring = params.get_param(1);
+
 	std::queue<std::string> queue_params;
-	for (int i = 1; i < params.get_nbr(); ++i)
+	for (int i = 2; i < params.get_nbr(); ++i)
+	{
 		queue_params.push(params.get_param(i));
+	}
+
+	char action = '\0';
+	for (std::string::iterator it = modestring.begin(); it != modestring.end(); ++it)
+	{
+		try
+		{
+			if(*it == '+' || *it == '-')
+			{
+				action = *it;
+				continue;
+			}
+			if (*it == 'i' || *it == 't')
+			{
+				if (action == '+')
+					channel->set_mode(*it);
+				if (action == '-')
+					channel->unset_mode(*it);
+				continue;
+			}
+			if (*it == 'k')
+			{
+				if (action == '+')
+				{
+					if (queue_params.empty())
+						ERR_NEEDMOREPARAMS(client, _name);
+					channel->set_key(queue_params.front());
+					channel->set_mode(*it);
+					queue_params.pop();
+				}
+				if (action == '-')
+					channel->unset_mode(*it);
+			}
+			else if (*it == 'o')
+			{
+				if (queue_params.empty())
+					ERR_NEEDMOREPARAMS(client, _name);
+				std::string mode_param = queue_params.front();
+				queue_params.pop();
+
+				Client * target = server.get_client_by_name_ptr(mode_param);
+
+				if (target == NULL)
+					ERR_NOSUCHNICK(client, server, mode_param);
+
+				if (!channel->is_join(*target))
+					ERR_USERNOTINCHANNEL(client, target->get_nickname(), *channel);
+
+				if (action == '+')
+				{
+					channel->set_client_status(*target, *it);
+					channel->set_key(mode_param);
+				}
+				if (action == '-')
+					channel->unset_client_status(*target, *it);
+			}
+			else if (*it == 'l')
+			{
+				if (action == '+')
+				{
+					if (queue_params.empty())
+						ERR_NEEDMOREPARAMS(client, _name);
+					std::string mode_param = queue_params.front();
+					queue_params.pop();
+					char *		endptr = NULL;
+					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
+					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
+						ERR_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number");
+					channel->set_mode(*it);
+					channel->set_limit(nbr);
+				}
+				if (action == '-')
+					channel->unset_mode(*it);}
+		}
+		catch(const Protocole_error& e)
+		{}
+		catch(const Server::Client_not_found& e)
+		{
+			ERR_NOSUCHNICK(client, server, "");
+		}
+	}
 }
 
 void Mode::exec_on_user(Client & client, const Params & params, Server & server)

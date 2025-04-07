@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 17:18:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:07:20 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,17 @@ Client & Server::get_client_by_name(const std::string & name)
 			return (*_clients[i]);
 	}
 	throw(Client_not_found());
+}
+
+Client * Server::get_client_by_name_ptr(const std::string & name)
+{
+	int i;
+	for (i = get_nbr_connected(); i > 0; --i)
+	{
+		if (_clients[i]->get_nickname() == name)
+			return (_clients[i]);
+	}
+	return NULL;
 }
 
 const std::string &Server::get_password(void) const

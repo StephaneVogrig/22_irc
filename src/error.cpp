@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 16:39:51 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:11:43 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -474,3 +474,14 @@ void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel)
 	- Error sent to any user trying to view or change the
 	user mode for a user other than themselves.
 */
+
+/*
+ERR_INVALIDMODEPARAM (696)
+"<client> <target chan/user> <mode char> <parameter> :<description>"
+Indicates that there was a problem with a mode parameter. Replaces various implementation-specific mode-specific numerics.
+*/
+void ERR_INVALIDMODEPARAM(const Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description)
+{
+	client.send_msg("696 " + client.get_nickname() + " " + target + " " + mode + " " + parameter + " :" + description);
+	throw Protocole_error();
+}

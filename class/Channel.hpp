@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/06 11:22:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 16:09:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <ctime>
 # include "log.hpp"
 # include "error.hpp"
+# include <limits.h>
 
 # include "Client.hpp"
 
@@ -48,6 +49,7 @@ class Channel
 
 		bool is_mode_invite_only();
 		bool is_mode_protected_topic();
+		bool is_mode_key_needed();
 		bool is_mode_limit_clients();
 		bool is_join(const Client & client);
 		bool is_invited(const Client & client);
@@ -56,6 +58,12 @@ class Channel
 		bool is_halfop(const Client & client);
 
 		void set_topic(const Client & client, const std::string & topic);
+		void set_mode(char c);
+		void unset_mode(char c);
+		void set_key(const std::string & keystring);
+		void set_client_status(const Client & client, char status);
+		void unset_client_status(const Client & client, char status);
+		void set_limit(int nbr);
 
 		void invite_client(const std::string & name);
 

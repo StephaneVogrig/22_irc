@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 16:18:45 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:13:39 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,11 @@ bool Channel::is_mode_protected_topic(void)
 	return _modes.find("t") != std::string::npos;
 }
 
+bool Channel::is_mode_key_needed()
+{
+	return _modes.find("k") != std::string::npos;
+}
+
 bool Channel::is_mode_limit_clients(void)
 {
 	return _modes.find("l") != std::string::npos;
@@ -154,6 +159,46 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 	 _topic_who = client.get_nickname();
 	 time(&_topic_setat);
 	 log("set topic to: " + _topic);
+}
+
+void Channel::set_mode(char c)
+{
+	if (is_mode_invite_only())
+		return ;
+	_modes += c;
+}
+
+void Channel::unset_mode(char c)
+{
+	if (!is_mode_invite_only())
+		return ;
+	_modes.erase(_modes.find(c));
+}
+
+void Channel::set_key(const std::string & keystring)
+{
+	_key = keystring;
+}
+
+void Channel::set_client_status(const Client & client, char status)
+{
+	std::string & status_string = _clients.find(client.get_nickname())->second.second;
+	if (status_string.find(status) != std::string::npos)
+		return ;
+	status_string += status;
+}
+
+void Channel::unset_client_status(const Client & client, char status)
+{
+	std::string & status_string = _clients.find(client.get_nickname())->second.second;
+	if (status_string.find(status) == std::string::npos)
+		return ;
+	status_string.erase(status_string.find(status));
+}
+
+void Channel::set_limit(int nbr)
+{
+	_limit_clients = nbr;
 }
 
 bool Channel::is_a_valid_name(const std::string & str)
