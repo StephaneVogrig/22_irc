@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 19:13:39 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 20:18:22 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,16 +163,17 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 
 void Channel::set_mode(char c)
 {
-	if (is_mode_invite_only())
+	if (_modes.find(c) != std::string::npos)
 		return ;
 	_modes += c;
 }
 
 void Channel::unset_mode(char c)
 {
-	if (!is_mode_invite_only())
+	std::size_t pos = _modes.find(c);
+	if (pos == std::string::npos)
 		return ;
-	_modes.erase(_modes.find(c));
+	_modes.erase(pos, 1);
 }
 
 void Channel::set_key(const std::string & keystring)
@@ -193,7 +194,7 @@ void Channel::unset_client_status(const Client & client, char status)
 	std::string & status_string = _clients.find(client.get_nickname())->second.second;
 	if (status_string.find(status) == std::string::npos)
 		return ;
-	status_string.erase(status_string.find(status));
+	status_string.erase(status_string.find(status), 1);
 }
 
 void Channel::set_limit(int nbr)

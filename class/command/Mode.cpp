@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 19:35:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 20:04:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			ERR_NOSUCHNICK(client, server, "");
 		}
 	}
+	log("modestring: " + channel->get_modes() + " limit: " + to_string(channel->get_limit_clients()) + " key: " + channel->get_key());
 }
 
 void Mode::exec_on_user(Client & client, const Params & params, Server & server)
