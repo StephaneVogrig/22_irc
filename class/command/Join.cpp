@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 15:31:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 19:49:08 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void Join::exec(Client & client, const Params & params, Server & server)
 void Join::exec_solo(Client & client, const std::string & channel_name, const std::string & key, Server & server)
 {
 	char prefix = channel_name[0];
+	Channel * channel;
+
 	if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
 		ERR_NOSUCHCHANNEL(client, channel_name);
 
@@ -61,28 +63,29 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 	if (!server.channel_exist(channel_name))
 	{
 		server.create_channel(channel_name);
-		Channel * channel = server.get_channel(channel_name);
+		channel = server.get_channel(channel_name);
 		status = "Oo";
-		channel->add_client(client, status);
-		return ;
 	}
-	Channel * channel = server.get_channel(channel_name);
-	if (channel == NULL)
-		ERR_NOSUCHCHANNEL(client, channel_name);
+	else
+	{
+		channel = server.get_channel(channel_name);
+		if (channel == NULL)
+			ERR_NOSUCHCHANNEL(client, channel_name);
 
-	// ERR_BADCHANMASK(client, params.get_first()); 476
+		// ERR_BADCHANMASK(client, params.get_first()); 476
 
-	if (channel->get_key() != key)
-		ERR_BADCHANNELKEY(client, channel_name);
+		if (channel->get_key() != key)
+			ERR_BADCHANNELKEY(client, channel_name);
 
-	if (channel->is_banned(client))
-		ERR_BANNEDFROMCHAN(client, channel_name);
+		if (channel->is_banned(client))
+			ERR_BANNEDFROMCHAN(client, channel_name);
 
-	if (channel->is_mode_limit_clients() && channel->get_nbr_client() == channel->get_limit_clients())
-		ERR_CHANNELISFULL(client, *channel);
+		if (channel->is_mode_limit_clients() && channel->get_nbr_client() == channel->get_limit_clients())
+			ERR_CHANNELISFULL(client, *channel);
 
-	if (channel->is_mode_invite_only() && !channel->is_invited(client))
-		ERR_INVITEONLYCHAN(client, channel_name);
+		if (channel->is_mode_invite_only() && !channel->is_invited(client))
+			ERR_INVITEONLYCHAN(client, channel_name);
+	}
 
 	channel->add_client(client, status);
 
