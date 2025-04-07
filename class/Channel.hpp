@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 22:24:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:03:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Channel
 {
 	public:
 
-		Channel(const std::string & name);
+		Channel(const std::string & name, const std::string & key = "");
 		Channel(const Channel & to_copy);
 
 		~Channel(void);

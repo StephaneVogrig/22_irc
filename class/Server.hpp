@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 17:52:47 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:04:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ class Server
 		void run(void);
 		void close_connection(int i);
 		bool channel_exist(const std::string & name);
-		void create_channel(const std::string & name);
+		void create_channel(const std::string & name, const std::string & key);
 		void info_waiting(bool state);
 		void remove_client_from_channel(Client & client, Channel & channel);
 		void quit_all_serv_channels(Client & client, const std::string & msg);

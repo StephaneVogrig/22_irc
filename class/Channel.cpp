@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 22:24:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:32:10 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@
 
 /* constructor ---------------------------------------------------------------*/
 
-Channel::Channel(const std::string & name)
+Channel::Channel(const std::string & name, const std::string & key)
 	:	_channel_name(name),
 		_creation_time(current_time_t()),
 		_topic(""),
 		_modes(""),
-		_key(""),
+		_key(key),
 		_limit_clients(MAX_CLIENT_PER_CHANNEL)
 {
+	if (!key.empty())
+	{
+		_modes = "k";
+	}
 	log_channel(_channel_name, "created", "");
 }
 

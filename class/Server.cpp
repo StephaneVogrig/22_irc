@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 19:07:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:01:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,9 @@ bool Server::channel_exist(const std::string & name)
 	return true ;
 }
 
-void Server::create_channel(const std::string & name)
+void Server::create_channel(const std::string & name, const std::string & key)
 {
-	_channels.insert(std::make_pair(name, Channel(name)));
+	_channels.insert(std::make_pair(name, Channel(name, key)));
 }
 
 /* private utilities ---------------------------------------------------------*/
