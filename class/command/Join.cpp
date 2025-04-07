@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 23:32:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 00:37:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 		char prefix = channel_name[0];
 		Channel * channel;
 
-		if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
-			ERR_NOSUCHCHANNEL(client, channel_name);
-
 		if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
 			ERR_TOOMANYCHANNELS(client, channel_name);
+
+		if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
+			ERR_BADCHANMASK(client, channel_name);
 
 		std::string status("");
 		if (!server.channel_exist(channel_name))
@@ -73,8 +73,6 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 			channel = server.get_channel(channel_name);
 			if (channel == NULL)
 				ERR_NOSUCHCHANNEL(client, channel_name);
-
-			// ERR_BADCHANMASK(client, params.get_first()); 476
 
 			if (channel->is_mode_key_needed() && channel->get_key() != key)
 				ERR_BADCHANNELKEY(client, channel_name);
@@ -98,8 +96,8 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 			return ;
 		}
 		channel->send_topic();
-		// RPL_TOPIC(client, channel);
 		RPL_TOPICWHOTIME(client, *channel);
+		RPL_CHANNELMODEIS(client, *channel, server);
 		RPL_NAMREPLY(client, *channel);
 		RPL_ENDOFNAMES(client, *channel);
 	}
