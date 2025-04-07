@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Who.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 17:25:10 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 16:21:57 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,18 @@ void Who::exec_on_user(Client & client, const Params & params, Server & server)
 		Channel *channel = target.get_last_channel_subscripted();
 		if (!channel)
 		{
-			RPL_WHOREPLY(client, target, server, "*");
+			RPL_WHOREPLY(client, target, server, "*", "H");
 			return ;
 		}
 		if (channel->is_join(target))
-			RPL_WHOREPLY(client, target, server, channel->get_name());
+		{
+			std::string flags("H");
+			if (channel->get_client_status(target).find("o") != std::string::npos)
+				flags += "*";
+			RPL_WHOREPLY(client, target, server, channel->get_name(), flags);
+		}
 	}
 	catch(const Server::Client_not_found & e)
-	{
-	}
+	{}
 	RPL_ENDOFWHO(client);
 }

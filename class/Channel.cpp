@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/06 11:23:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 16:18:45 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,10 @@ void Channel::send_who(Client & sender, Server & server)
 {
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
-		RPL_WHOREPLY(sender, *it->second.first, server, _channel_name);
+		std::string flags("H");
+		if (get_client_status(*it->second.first).find("o") != std::string::npos)
+			flags += "*";
+		RPL_WHOREPLY(sender, *it->second.first, server, _channel_name, flags);
 	}
 }
 

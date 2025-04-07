@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/06 11:54:30 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/07 16:07:52 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,9 +445,9 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 		( "H" / "G" > ["*"] [ ( "@" / "+" ) ]
 		:<hopcount> <real name>"
 */
-/*352*/ void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name)
+/*352*/ void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name, const std::string & flags)
 {
-	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " H" + " :1 " + target.get_realname());
+	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " " + flags + " :1 " + target.get_realname());
 }
 
 /*
