@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Quit.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:35:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:48:36 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ void Quit::exec(Client & client, const Params & params, Server & server)
 			ERR_412_NOTEXTTOSEND(client);
 	}
 	catch(const Protocole_error& e)
-	{
-	}
+	{}
 
 	client.send_msg_all_channels(server, msg);
-	//client.quit_all_channels(server);
-	// server.quit_all_serv_channels(client, msg);
 	client.send_msg(":" + client.get_nickname() + " QUIT :" + msg);
 	client.set_kicked(true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:39:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:48:45 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 			else
 				ERR_441_USERNOTINCHANNEL(client, users.get_element(i), *channel);
 		}
-		catch(const Server::Client_not_found & e)
+		catch(const Protocole_error& e)
 		{}
 	}
 }

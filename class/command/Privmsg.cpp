@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:39:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:46:41 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,21 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 	{
 		if (!server.channel_exist(target))
 			ERR_403_NOSUCHCHANNEL(client, target);
+
 		Channel * channel = server.get_channel(target);
 		if (channel == NULL)
 			ERR_403_NOSUCHCHANNEL(client, target);
 		if (!channel->is_join(client))
 			ERR_442_NOTONCHANNEL(client, *channel);
+
 		channel->send_msg(client, message);
 	}
 	else
 	{
-		int i;
-		for (i = server.get_nbr_connected(); i > 0; --i)
-		{
-			if (server.get_client_by_idx(i)->get_nickname() == target)
-				break;
-		}
-		if (i == 0)
+		Client * c_target = server.get_client_by_name(target);
+		if (c_target == NULL)
 			ERR_401_NOSUCHNICK(client, server, target);
-		server.get_client_by_idx(i)->send_msg(":" + client.get_nickname() + " PRIVMSG " + target + " :" + message);
+
+		c_target->send_msg(":" + client.get_nickname() + " PRIVMSG " + target + " :" + message);
 	}
 }
