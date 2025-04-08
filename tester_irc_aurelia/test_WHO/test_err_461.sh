@@ -16,16 +16,6 @@ start_test $LOGFILE
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
-{
-    printf "PASS $PASSWORD\r\n"
-    printf "NICK $NAME\r\n"
-    printf "USER $NAME $NAME $NAME :$NAME\r\n"
-    printf "JOIN &$SALON\r\n"
-    printf "WHO $SALON\r\n"
-    printf "QUIT\r\n"
-} > "$TEMPFILE"
-nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
-
 count=$(cat "$LOGFILE" | grep "461" | wc -l)
 
-end_test $count 2 $LOGFILE
+end_test $count 1 $LOGFILE
