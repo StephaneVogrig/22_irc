@@ -6,13 +6,13 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:04:21 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 21:42:17 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 17:47:39 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "log.hpp"
 
-void log(const std::string & msg)
+void log_(const std::string & msg)
 {
 	std::cout << "\r" ERASE_LINE FG_PURPLE "[" << current_time_str() << "] " RESET
 	<< msg << std::endl;
@@ -25,15 +25,10 @@ std::string fd_log(int fd)
 
 void log_msg(int fd, const std::string & action, const std::string & msg)
 {
-	log(fd_log(fd) + " " + to_string_left(action, 7, ' ') + " " + msg + RESET);
+	log_(fd_log(fd) + " " + to_string_left(action, 7, ' ') + " " + msg + RESET);
 }
 
 void log_server(int fd, const std::string & msg)
 {
-	log(fd_log(fd) + " " + FG_PURPLE + msg + RESET);
-}
-
-void log_channel(const std::string & channel_name, const std::string & action, const std::string & who)
-{
-	log(FG_YELLOW "channel " RESET + channel_name + FG_YELLOW " : " + action + " " RESET + who);
+	log_(fd_log(fd) + " " + FG_PURPLE + msg + RESET);
 }

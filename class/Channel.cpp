@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 17:04:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 17:44:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Channel::Channel(const std::string & name, const std::string & key)
 	{
 		_modes = "k";
 	}
-	log_channel(_channel_name, "created", "");
+	log("created");
 }
 
 Channel::Channel(const Channel & to_copy)
@@ -185,7 +185,7 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 	 _topic = topic;
 	 _topic_who = client.get_nickname();
 	 time(&_topic_setat);
-	 log("set topic to: " + _topic);
+	 log("set topic to ", _topic);
 }
 
 void Channel::set_mode(const Client & client, char c)
@@ -251,14 +251,14 @@ void Channel::add_client(Client & client, const std::string & status)
 	_clients[client.get_nickname()].first = &client;
 	_clients[client.get_nickname()].second = status;
 	client.add_channel_subscripted(*this);
-	log_channel(_channel_name, "add", client.get_nickname());
+	log("add", client.get_nickname());
 }
 
 void Channel::remove_client(Client & client)
 {
 	_clients.erase(client.get_nickname());
 	client.remove_channel_subscripted(*this);
-	log_channel(_channel_name, "remove", client.get_nickname());
+	log("remove", client.get_nickname());
 }
 
 void Channel::send_msg(const Client & sender, const std::string & msg)
@@ -308,4 +308,15 @@ void Channel::send_quit(Client & sender, const std::string & msg)
 		if (sender.get_nickname() != it->second.first->get_nickname())
 			it->second.first->send_msg(":" + sender.get_nickname() + " QUIT :" + msg);
 	}
+}
+
+void Channel::log(const std::string & action)
+{
+	log_(FG_YELLOW "channel " RESET + _channel_name + FG_YELLOW " : " + action + RESET);
+}
+
+
+void Channel::log(const std::string & action, const std::string & who)
+{
+	log_(FG_YELLOW "channel " RESET + _channel_name + FG_YELLOW " : " + action + " " RESET + who);
 }

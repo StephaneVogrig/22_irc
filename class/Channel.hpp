@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 16:18:55 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:38:43 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "log.hpp"
 # include "error.hpp"
 # include "Client.hpp"
+# include "log.hpp"
 
 class Server;
 
@@ -76,6 +77,9 @@ class Channel
 		void send_topic();
 		void send_who(Client & sender, Server & server);
 		void send_quit(Client & sender, const std::string & msg);
+
+		void log(const std::string & action);
+		void log(const std::string & action, const std::string & who);
 
 		static bool is_a_valid_name(const std::string & str);
 
