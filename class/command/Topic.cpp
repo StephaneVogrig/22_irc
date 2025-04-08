@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:38:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:46:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 
 	if (!channel->is_join(client))
 		ERR_442_NOTONCHANNEL(client, *channel);
+
+	if (!channel->is_operator(client))
+		ERR_482_CHANOPRIVSNEEDED(client, *channel);
 
 	if (params.get_nbr() == 1)
 	{

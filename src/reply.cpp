@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:23:36 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:06:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ Sent to a client when joining a channel to inform them that the channel with the
 */
 void RPL_331_NOTOPIC(Client & client, Channel & channel)
 {
-	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :No topic is set");
+	client.send_msg(":server 331 " + client.get_nickname() + " " + channel.get_name() + " :No topic is set");
 }
 
 /*
