@@ -6,11 +6,12 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 22:33:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:36:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Mode.hpp"
+#include "Mode_rpl.hpp"
 
 Mode::Mode(void) : Command("MODE")
 {}
@@ -52,13 +53,20 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 	int i = 2;
 
 	char action = '\0';
+	Mode_rpl mode_rpl;
+
 	for (std::string::iterator it = modestring.begin(); it != modestring.end(); ++it)
 	{
 		try
 		{
+			std::string mode_param = "";
 			if(*it == '+' || *it == '-')
+			{
 				action = *it;
-			else if (*it == 'i' || *it == 't')
+				continue ;
+			}
+
+			if (*it == 'i' || *it == 't')
 			{
 				if (action == '+')
 					channel->set_mode(client, *it);
@@ -71,7 +79,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				{
 					if (i >= params.get_nbr())
 						ERR_NEEDMOREPARAMS(client, _name);
-					channel->set_key(params.get_param(i++));
+					mode_param = params.get_param(i++);
+					channel->set_key(mode_param);
 					channel->set_mode(client, *it);
 				}
 				if (action == '-')
@@ -81,7 +90,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			{
 				if (i >= params.get_nbr())
 					ERR_NEEDMOREPARAMS(client, _name);
-				const std::string & mode_param = params.get_param(i++);
+				mode_param = params.get_param(i++);
 
 				Client * target = server.get_client_by_name_ptr(mode_param);
 
@@ -105,7 +114,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				{
 					if (i >= params.get_nbr())
 						ERR_NEEDMOREPARAMS(client, _name);
-					const std::string & mode_param = params.get_param(i++);
+					mode_param = params.get_param(i++);
 					char *		endptr = NULL;
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
@@ -118,6 +127,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			}
 			else
 				ERR_UNKNOWNMODE(client, *it);
+
+			mode_rpl.add_mode(action, *it, mode_param);
 		}
 		catch(const Protocole_error& e)
 		{}
@@ -126,6 +137,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			ERR_NOSUCHNICK(client, server, "");
 		}
 	}
+	log("mode_rpl: " + mode_rpl.get_mode_rpl());
+	channel->send_msg_by_client(client, "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
 	log("modestring: " + channel->get_modes() + " limit: " + to_string(channel->get_limit_clients()) + " key: " + channel->get_key());
 }
 
@@ -141,6 +154,6 @@ void Mode::exec_on_user(Client & client, const Params & params, Server & server)
 	}
 	catch(const Server::Client_not_found & e)
 	{
-        ERR_NOSUCHNICK(client, server, params.get_first());
+		ERR_NOSUCHNICK(client, server, params.get_first());
 	}
 }

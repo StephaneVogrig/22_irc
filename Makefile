@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/02 18:07:21 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/08 04:32:38 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ SRCS_CLASS			:=	Client.cpp \
 						Params.cpp \
 						Protocole_error.cpp \
 						Elements.cpp \
+						Mode_rpl.cpp \
 						Command.cpp \
 						command/Who.cpp \
 						command/Nick.cpp \

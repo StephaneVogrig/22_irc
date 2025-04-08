@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 02:27:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:35:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class Channel
 		void add_client(Client & user, const std::string & status);
 		void remove_client(Client & user);
 
+		void send_msg_by_client(const Client & sender, const std::string & msg);
 		void send_msg(const Client & client, const std::string & msg);
 		void send_topic();
 		void send_who(Client & sender, Server & server);

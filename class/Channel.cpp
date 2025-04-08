@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 02:28:39 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 04:27:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void Channel::unset_mode(char c)
 {
 	std::size_t pos = _modes.find(c);
 	if (pos == std::string::npos)
-		return ;
+		throw Protocole_error();
 	_modes.erase(pos, 1);
 }
 
@@ -262,6 +262,16 @@ void Channel::remove_client(Client & client)
 	client.remove_channel_subscripted(*this);
 	log_channel(_channel_name, "remove", client.get_nickname());
 	send_msg(client, client.get_nickname() + " quit channel");
+}
+
+void Channel::send_msg_by_client(const Client & sender, const std::string & msg)
+{
+	std::string irc_msg = ":" + sender.get_nickname() + " " + msg;
+
+	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		it->second.first->send_msg(irc_msg);
+	}
 }
 
 void Channel::send_msg(const Client & sender, const std::string & msg)
