@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 16:18:55 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:52:26 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ void Channel::add_client(Client & client, const std::string & status)
 	client.add_channel_subscripted(*this);
 
 	log_channel(_channel_name, "add", client.get_nickname());
-	send_priv_msg(client, client.get_nickname() + " join channel");
+	send_msg(client, "JOIN " + _channel_name);
 }
 
 void Channel::remove_client(Client & client)

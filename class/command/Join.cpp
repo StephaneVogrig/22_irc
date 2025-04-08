@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 15:34:09 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 16:52:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 
 		channel->add_client(client, status);
 
-		client.send_msg(":" + client.get_nickname() + " JOIN " + channel->get_name());
 		if (channel->get_topic() == "")
 			RPL_331_NOTOPIC(client, *channel);
 		else
