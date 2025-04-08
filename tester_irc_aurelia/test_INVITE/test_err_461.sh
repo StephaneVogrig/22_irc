@@ -26,26 +26,6 @@ nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
-{
-    printf "PASS $PASSWORD\r\n"
-    printf "NICK $NAME\r\n"
-    printf "USER $NAME $NAME $NAME :$NAME\r\n"
-    printf "JOIN &$SALON\r\n"
-    printf "INVITE &jacqueline &$SALON\r\n"
-    printf "QUIT\r\n"
-} > "$TEMPFILE"
-nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
-
-{
-    printf "PASS $PASSWORD\r\n"
-    printf "NICK $NAME\r\n"
-    printf "USER $NAME $NAME $NAME :$NAME\r\n"
-    printf "JOIN &$SALON\r\n"
-    printf "INVITE jacqueline $SALON\r\n"
-    printf "QUIT\r\n"
-} > "$TEMPFILE"
-nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
-
 count=$(cat "$LOGFILE" | grep "461" | wc -l)
 
-end_test $count 4 $LOGFILE
+end_test $count 2 $LOGFILE
