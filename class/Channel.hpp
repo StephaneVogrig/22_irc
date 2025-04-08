@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 15:41:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 16:18:55 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ class Channel
 		void add_client(Client & user, const std::string & status);
 		void remove_client(Client & user);
 
-		void send_msg_by_client(const Client & sender, const std::string & msg);
-		void send_msg(const Client & client, const std::string & msg);
+		void send_msg(const Client & sender, const std::string & msg);
+		void send_priv_msg(const Client & client, const std::string & msg);
 		void send_topic();
 		void send_who(Client & sender, Server & server);
 		void send_quit(Client & sender, const std::string & msg);

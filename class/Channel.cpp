@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 15:33:40 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 16:18:55 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ void Channel::add_client(Client & client, const std::string & status)
 	client.add_channel_subscripted(*this);
 
 	log_channel(_channel_name, "add", client.get_nickname());
-	send_msg(client, client.get_nickname() + " join channel");
+	send_priv_msg(client, client.get_nickname() + " join channel");
 }
 
 void Channel::remove_client(Client & client)
@@ -261,10 +261,10 @@ void Channel::remove_client(Client & client)
 	_clients.erase(client.get_nickname());
 	client.remove_channel_subscripted(*this);
 	log_channel(_channel_name, "remove", client.get_nickname());
-	send_msg(client, client.get_nickname() + " quit channel");
+	send_priv_msg(client, client.get_nickname() + " quit channel");
 }
 
-void Channel::send_msg_by_client(const Client & sender, const std::string & msg)
+void Channel::send_msg(const Client & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender.get_nickname() + " " + msg;
 
@@ -274,7 +274,7 @@ void Channel::send_msg_by_client(const Client & sender, const std::string & msg)
 	}
 }
 
-void Channel::send_msg(const Client & sender, const std::string & msg)
+void Channel::send_priv_msg(const Client & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender.get_nickname() + " PRIVMSG ";
 

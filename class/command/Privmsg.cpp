@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:46:41 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:17:17 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 		if (!channel->is_join(client))
 			ERR_442_NOTONCHANNEL(client, *channel);
 
-		channel->send_msg(client, message);
+		channel->send_priv_msg(client, message);
 	}
 	else
 	{

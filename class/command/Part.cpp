@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:47:39 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:46 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:18:55 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void Part::exec(Client & client, const Params & params, Server & server)
 
 			server.remove_client_from_channel(client, *channel);
 			client.send_msg(":" + client.get_nickname() + " PART " + channel->get_name() + " " + arg);
-			channel->send_msg_by_client(client, "PART " + channel->get_name() + " " + arg);
+			channel->send_msg(client, "PART " + channel->get_name() + " " + arg);
 		}
 		catch (const Protocole_error &e)
 		{}

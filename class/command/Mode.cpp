@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:39:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 16:18:55 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		}
 	}
 	log("mode_rpl: " + mode_rpl.get_mode_rpl());
-	channel->send_msg_by_client(client, "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
+	channel->send_msg(client, "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
 	log("modestring: " + channel->get_modes() + " limit: " + to_string(channel->get_limit_clients()) + " key: " + channel->get_key());
 }
 
