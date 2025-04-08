@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 16:52:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 17:04:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,9 +251,7 @@ void Channel::add_client(Client & client, const std::string & status)
 	_clients[client.get_nickname()].first = &client;
 	_clients[client.get_nickname()].second = status;
 	client.add_channel_subscripted(*this);
-
 	log_channel(_channel_name, "add", client.get_nickname());
-	send_msg(client, "JOIN " + _channel_name);
 }
 
 void Channel::remove_client(Client & client)
@@ -261,7 +259,6 @@ void Channel::remove_client(Client & client)
 	_clients.erase(client.get_nickname());
 	client.remove_channel_subscripted(*this);
 	log_channel(_channel_name, "remove", client.get_nickname());
-	send_priv_msg(client, client.get_nickname() + " quit channel");
 }
 
 void Channel::send_msg(const Client & sender, const std::string & msg)
