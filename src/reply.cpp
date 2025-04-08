@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 15:06:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 20:01:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 */
 void RPL_333_TOPICWHOTIME(Client & client, Channel & channel)
 {
-	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who());
+	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who() + " " + to_string(channel.get_topic_setat()));
 }
 
 /*
