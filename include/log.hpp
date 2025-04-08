@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:02:37 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/29 01:34:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:39:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <ostream>
 #include <iostream>
 #include <iomanip>
-# include <ctime>
 # include "utils.hpp"
 
 void log(const std::string & msg);

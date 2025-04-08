@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:29:49 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:33:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ const std::string & Channel::get_name(void) const
 	return _channel_name;
 }
 
-const time_t & Channel::get_creation_time() const
+const std::time_t & Channel::get_creation_time() const
 {
 	return _creation_time;
 }
