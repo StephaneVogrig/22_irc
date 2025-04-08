@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/31 17:37:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:31:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ Pass::~Pass()
 void Pass::exec(Client & client, const Params & params, Server & server)
 {
     if (client.is_hasPass())
-        ERR_ALREADYREGISTRED(client);
+        ERR_462_ALREADYREGISTRED(client);
 
     if (!server.get_password().empty() && params.get_nbr() < 1)
-        ERR_NEEDMOREPARAMS(client, "PASS");
+        ERR_461_NEEDMOREPARAMS(client, "PASS");
 
     if (!server.get_password().empty() && params.get_param(0) != server.get_password())
-        ERR_PASSWDMISMATCH(client);
+        ERR_464_PASSWDMISMATCH(client);
 
     client.set_hasPass(true);
 }

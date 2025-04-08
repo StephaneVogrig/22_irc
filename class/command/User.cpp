@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:20:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:31:48 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ User::~User()
 void User::exec(Client & client, const Params & params, Server & server)
 {
 	if (!client.is_hasPass())
-		ERR_NOTREGISTERED(client, server);
+		ERR_451_NOTREGISTERED(client, server);
 
 	if (client.is_registed() || client.get_username() != "*")
-		ERR_ALREADYREGISTRED(client);
+		ERR_462_ALREADYREGISTRED(client);
 
 	if (params.get_nbr() < 4)
-		ERR_NEEDMOREPARAMS(client, "USER");
+		ERR_461_NEEDMOREPARAMS(client, "USER");
 
 	client.set_username(params.get_first());
 	client.set_realname(params.get_param(params.get_nbr() - 1));

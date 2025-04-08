@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:20:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:38:41 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Who::~Who()
 void Who::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() < 1)
-		ERR_NEEDMOREPARAMS(client, "WHO");
+		ERR_461_NEEDMOREPARAMS(client, "WHO");
 
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);
@@ -39,7 +39,7 @@ void Who::exec_on_channel(Client & client, const Params & params, Server & serve
 		RPL_318_ENDOFWHOIS(client, params.get_first());
 	Channel * channel = server.get_channel(params.get_first());
 	if (channel == NULL)
-		ERR_NOSUCHCHANNEL(client, params.get_first());
+		ERR_403_NOSUCHCHANNEL(client, params.get_first());
 	channel->send_who(client, server);
 	RPL_315_ENDOFWHO(client);
 }

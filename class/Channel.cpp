@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:17:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:29:49 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ bool Channel::is_halfop(const Client & client)
 void Channel::set_topic(const Client & client, const std::string & topic)
 {
 	 if (is_mode_protected_topic() && !(is_operator(client) || is_halfop(client)))
-		ERR_CHANOPRIVSNEEDED(client, *this);
+		ERR_482_CHANOPRIVSNEEDED(client, *this);
 	 _topic = topic;
 	 _topic_who = client.get_nickname();
 	 time(&_topic_setat);
@@ -191,7 +191,7 @@ void Channel::set_topic(const Client & client, const std::string & topic)
 void Channel::set_mode(const Client & client, char c)
 {
 	if (_modes.find(c) != std::string::npos)
-		ERR_KEYSET(client, *this);
+		ERR_467_KEYSET(client, *this);
 	_modes += c;
 }
 

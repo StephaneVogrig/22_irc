@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:34:57 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:16:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:31:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ Clients joining the channel in the future will receive a RPL_TOPIC numeric (or l
 
 Numeric Replies:
 
-ERR_NEEDMOREPARAMS (461)
+ERR_461_NEEDMOREPARAMS (461)
 ERR_NOSUCHCHANNEL (403)
 ERR_NOTONCHANNEL (442)
 ERR_CHANOPRIVSNEEDED (482)

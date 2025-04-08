@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 22:18:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:39:09 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,30 @@
 
 class Server;
 
-/*401*/ void ERR_NOSUCHNICK(Client & client, Server & server, const std::string & name);
-/*403*/ void ERR_NOSUCHCHANNEL(Client & client, const std::string & channel_name);
-/*404*/ void ERR_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name);
-/*405*/ void ERR_TOOMANYCHANNELS(Client & client, const std::string & channel_name);
-/*412*/ void ERR_NOTEXTTOSEND(Client & client);
-/*421*/ void ERR_UNKNOWNCOMMAND(Client & client, const std::string & command);
-/*431*/ void ERR_NONICKNAMEGIVEN(Client & client);
-/*432*/ void ERR_ERRONEUSNICKNAME(Client & client, const std::string & nick);
-/*433*/ void ERR_NICKNAMEINUSE(Client & client, const std::string & nick);
-/*441*/ void ERR_USERNOTINCHANNEL(Client & client, const std::string & name, const Channel & channel);
-/*442*/ void ERR_NOTONCHANNEL(Client & client, const Channel & channel);
-/*443*/ void ERR_USERONCHANNEL(Client & client, const std::string & name, const Channel & channel);
-/*451*/ void ERR_NOTREGISTERED(Client & client, Server & server); // retirer serveur ?
-/*461*/ void ERR_NEEDMOREPARAMS(Client & client, const std::string & command);
-/*462*/ void ERR_ALREADYREGISTRED(Client & client);
-/*464*/ void ERR_PASSWDMISMATCH(Client & client);
-/*467*/ void ERR_KEYSET(const Client & client, const Channel & channel);
-/*471*/ void ERR_CHANNELISFULL(const Client & client, const Channel & channel);
-/*472*/ void ERR_UNKNOWNMODE(const Client & client, char modechar);
-/*473*/ void ERR_INVITEONLYCHAN(Client & client, const std::string & channel);
-/*474*/ void ERR_BANNEDFROMCHAN(Client & client, const std::string & channel);
-/*475*/ void ERR_BADCHANNELKEY(Client & client, const std::string & channel);
-/*476*/ void ERR_BADCHANMASK(Client & client, const std::string & channel);
-/*482*/ void ERR_CHANOPRIVSNEEDED(const Client & client, const Channel & channel);
-/*696*/ void ERR_INVALIDMODEPARAM(const Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description);
+void ERR_401_NOSUCHNICK(Client & client, Server & server, const std::string & name);
+void ERR_403_NOSUCHCHANNEL(Client & client, const std::string & channel_name);
+void ERR_404_CANNOTSENDTOCHAN(Client & client, const std::string & channel_name);
+void ERR_405_TOOMANYCHANNELS(Client & client, const std::string & channel_name);
+void ERR_412_NOTEXTTOSEND(Client & client);
+void ERR_421_UNKNOWNCOMMAND(Client & client, const std::string & command);
+void ERR_431_NONICKNAMEGIVEN(Client & client);
+void ERR_432_ERRONEUSNICKNAME(Client & client, const std::string & nick);
+void ERR_433_NICKNAMEINUSE(Client & client, const std::string & nick);
+void ERR_441_USERNOTINCHANNEL(Client & client, const std::string & name, const Channel & channel);
+void ERR_442_NOTONCHANNEL(Client & client, const Channel & channel);
+void ERR_443_USERONCHANNEL(Client & client, const std::string & name, const Channel & channel);
+void ERR_451_NOTREGISTERED(Client & client, Server & server); // retirer serveur ?
+void ERR_461_NEEDMOREPARAMS(Client & client, const std::string & command);
+void ERR_462_ALREADYREGISTRED(Client & client);
+void ERR_464_PASSWDMISMATCH(Client & client);
+void ERR_467_KEYSET(const Client & client, const Channel & channel);
+void ERR_471_CHANNELISFULL(const Client & client, const Channel & channel);
+void ERR_472_UNKNOWNMODE(const Client & client, char modechar);
+void ERR_473_INVITEONLYCHAN(Client & client, const std::string & channel);
+void ERR_474_BANNEDFROMCHAN(Client & client, const std::string & channel);
+void ERR_475_BADCHANNELKEY(Client & client, const std::string & channel);
+void ERR_476_BADCHANMASK(Client & client, const std::string & channel);
+void ERR_482_CHANOPRIVSNEEDED(const Client & client, const Channel & channel);
+void ERR_696_INVALIDMODEPARAM(const Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description);
 
 #endif

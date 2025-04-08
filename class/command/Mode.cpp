@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:19:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:39:05 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Mode::~Mode(void)
 void Mode::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() == 0)
-		ERR_NEEDMOREPARAMS(client, "MODE");
+		ERR_461_NEEDMOREPARAMS(client, "MODE");
 
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);
@@ -36,7 +36,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 
 	Channel * channel = server.get_channel(channel_name);
 	if (channel == NULL)
-		ERR_NOSUCHCHANNEL(client, channel_name);
+		ERR_403_NOSUCHCHANNEL(client, channel_name);
 
 	if (params.get_nbr() == 1)
 	{
@@ -46,7 +46,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 	}
 
 	if (!channel->is_operator(client))
-		ERR_CHANOPRIVSNEEDED(client, *channel);
+		ERR_482_CHANOPRIVSNEEDED(client, *channel);
 
 	std::string modestring = params.get_param(1);
 
@@ -78,7 +78,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (i >= params.get_nbr())
-						ERR_NEEDMOREPARAMS(client, _name);
+						ERR_461_NEEDMOREPARAMS(client, _name);
 					mode_param = params.get_param(i++);
 					channel->set_key(mode_param);
 					channel->set_mode(client, *it);
@@ -89,16 +89,16 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			else if (*it == 'o')
 			{
 				if (i >= params.get_nbr())
-					ERR_NEEDMOREPARAMS(client, _name);
+					ERR_461_NEEDMOREPARAMS(client, _name);
 				mode_param = params.get_param(i++);
 
 				Client * target = server.get_client_by_name(mode_param);
 
 				if (target == NULL)
-					ERR_NOSUCHNICK(client, server, mode_param);
+					ERR_401_NOSUCHNICK(client, server, mode_param);
 
 				if (!channel->is_join(*target))
-					ERR_USERNOTINCHANNEL(client, target->get_nickname(), *channel);
+					ERR_441_USERNOTINCHANNEL(client, target->get_nickname(), *channel);
 
 				if (action == '+')
 				{
@@ -113,12 +113,12 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (i >= params.get_nbr())
-						ERR_NEEDMOREPARAMS(client, _name);
+						ERR_461_NEEDMOREPARAMS(client, _name);
 					mode_param = params.get_param(i++);
 					char *		endptr = NULL;
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
-						ERR_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number");
+						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number");
 					channel->set_mode(client, *it);
 					channel->set_limit(nbr);
 				}
@@ -126,7 +126,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					channel->unset_mode(*it);
 			}
 			else
-				ERR_UNKNOWNMODE(client, *it);
+				ERR_472_UNKNOWNMODE(client, *it);
 
 			mode_rpl.add_mode(action, *it, mode_param);
 		}
@@ -134,7 +134,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		{}
 		catch(const Server::Client_not_found& e)
 		{
-			ERR_NOSUCHNICK(client, server, "");
+			ERR_401_NOSUCHNICK(client, server, "");
 		}
 	}
 	log("mode_rpl: " + mode_rpl.get_mode_rpl());
@@ -154,6 +154,6 @@ void Mode::exec_on_user(Client & client, const Params & params, Server & server)
 	}
 	catch(const Server::Client_not_found & e)
 	{
-		ERR_NOSUCHNICK(client, server, params.get_first());
+		ERR_401_NOSUCHNICK(client, server, params.get_first());
 	}
 }

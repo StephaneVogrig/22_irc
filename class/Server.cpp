@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:34:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ void Server::handle_msg(const Message & msg, Client & client)
 		if (!cmd_ptr)
 		{
 			log(FG_RED "command not found" RESET);
-			ERR_UNKNOWNCOMMAND(client, msg.get_command());
+			ERR_421_UNKNOWNCOMMAND(client, msg.get_command());
 		}
 		if (client.is_registed())
 		{
@@ -269,7 +269,7 @@ void Server::handle_msg(const Message & msg, Client & client)
 			return ;
 		}
 		if (!is_cmd_to_register(*cmd_ptr))
-			ERR_NOTREGISTERED(client, *this);
+			ERR_451_NOTREGISTERED(client, *this);
 		cmd_ptr->exec(client, msg.get_params(), *this);
 	}
 	catch(const Protocole_error & e)
