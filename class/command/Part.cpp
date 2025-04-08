@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:47:39 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:38:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:44:46 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void Part::exec(Client & client, const Params & params, Server & server)
 			if (!channel->is_join(client))
 				ERR_442_NOTONCHANNEL(client, *channel);
 
-			//channel->remove_client(client);
 			server.remove_client_from_channel(client, *channel);
 			client.send_msg(":" + client.get_nickname() + " PART " + channel->get_name() + " " + arg);
+			channel->send_msg_by_client(client, "PART " + channel->get_name() + " " + arg);
 		}
 		catch (const Protocole_error &e)
 		{}

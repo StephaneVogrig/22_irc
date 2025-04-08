@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:48:45 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:06:48 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 				ERR_401_NOSUCHNICK(client, server, users.get_element(i));
 			if (channel->is_join(*target))
 			{
-				server.remove_client_from_channel(*target, *channel);
 				if (client.get_nickname() != target->get_nickname())
 					client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
-				target->send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
+				channel->send_msg_by_client(client, "KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
+				server.remove_client_from_channel(*target, *channel);
 			}
 			else
 				ERR_441_USERNOTINCHANNEL(client, users.get_element(i), *channel);
