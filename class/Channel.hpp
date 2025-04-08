@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 12:35:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:41:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 # include <string>
 # include <map>
 # include <set>
-# include <ctime>
+# include <climits>
+
 # include "log.hpp"
 # include "error.hpp"
-# include <limits.h>
-
 # include "Client.hpp"
 
 class Server;
@@ -37,7 +36,7 @@ class Channel
 		Channel & operator = (const Channel & to_assign);
 
 		const std::string & get_name() const;
-		const time_t & 		get_creation_time() const;
+		const std::time_t & get_creation_time() const;
 		const std::string & get_topic() const;
 		const std::string & get_topic_who() const;
 		const std::time_t & get_topic_setat() const;

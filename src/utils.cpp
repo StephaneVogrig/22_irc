@@ -6,22 +6,22 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 00:19:31 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/06 11:02:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:35:53 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
 
-time_t current_time_t()
+std::time_t current_time_t()
 {
-	time_t rawtime;
+	std::time_t rawtime;
 	time (&rawtime);
 	return (rawtime);
 }
 
 struct tm * current_time()
 {
-	time_t rawtime;
+	std::time_t rawtime;
 	time (&rawtime);
 	return localtime(&rawtime);
 }
