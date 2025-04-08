@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 17:44:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 18:23:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,16 @@ bool Channel::is_halfop(const Client & client)
 	return get_client_status(client).find('h') != std::string::npos;
 }
 
+bool Channel::has_an_operator()
+{
+	for (t_chan_clients::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		if (is_operator(*it->second.first))
+			return true;
+	}
+	return false;
+}
+
 void Channel::set_topic(const Client & client, const std::string & topic)
 {
 	 if (is_mode_protected_topic() && !(is_operator(client) || is_halfop(client)))
@@ -229,6 +239,14 @@ void Channel::set_limit(int nbr)
 	_limit_clients = nbr;
 }
 
+void Channel::set_random_operator(Server & server)
+{
+	Client * client = _clients.begin()->second.first;
+	std::string & status = _clients.begin()->second.second;
+	status += 'o';
+	send_msg(server.get_name(), "MODE " + _channel_name + " +o " + client->get_nickname());
+}
+
 bool Channel::is_a_valid_name(const std::string & str)
 {
 	char prefix = str[0];
@@ -261,9 +279,9 @@ void Channel::remove_client(Client & client)
 	log("remove", client.get_nickname());
 }
 
-void Channel::send_msg(const Client & sender, const std::string & msg)
+void Channel::send_msg(const std::string & sender, const std::string & msg)
 {
-	std::string irc_msg = ":" + sender.get_nickname() + " " + msg;
+	std::string irc_msg = ":" + sender + " " + msg;
 
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{

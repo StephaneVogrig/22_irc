@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 17:38:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 18:22:41 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ class Channel
 		bool is_founder(const Client & client);
 		bool is_operator(const Client & client);
 		bool is_halfop(const Client & client);
+		bool has_an_operator();
 
 		void set_topic(const Client & client, const std::string & topic);
 		void set_mode(const Client & client, char c);
@@ -66,13 +67,14 @@ class Channel
 		void set_client_status(const Client & client, char status);
 		void unset_client_status(const Client & client, char status);
 		void set_limit(int nbr);
+		void set_random_operator(Server & server);
 
 		void invite_client(const std::string & name);
 
 		void add_client(Client & user, const std::string & status);
 		void remove_client(Client & user);
 
-		void send_msg(const Client & sender, const std::string & msg);
+		void send_msg(const std::string & sender, const std::string & msg);
 		void send_priv_msg(const Client & client, const std::string & msg);
 		void send_topic();
 		void send_who(Client & sender, Server & server);

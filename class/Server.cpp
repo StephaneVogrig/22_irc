@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 17:41:52 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 18:29:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,11 +296,16 @@ void Server::remove_client_from_channel(Client & client, Channel & channel)
 {
 	t_map_channel::iterator it = _channels.find(channel.get_name());
 	channel.remove_client(client);
+
 	if (channel.get_nbr_client() == 0)
 	{
 		channel.log("destroyed");
 		_channels.erase(it);
+		return ;
 	}
+
+	if (channel.has_an_operator() == 0)
+		channel.set_random_operator(*this);
 }
 
 void Server::quit_all_serv_channels(Client & client, const std::string & msg)

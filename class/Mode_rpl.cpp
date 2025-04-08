@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 03:28:55 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 04:58:46 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 18:12:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ std::string Mode_rpl::get_mode_rpl()
 #include "log.hpp"
 void Mode_rpl::add_mode(char action, char mode, const std::string & param)
 {
-	std::cout << "action: " << action << " mode: " << mode << " param: " << param << std::endl;
 	if (action != _current_action)
 	{
 		_modes += action;

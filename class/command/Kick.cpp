@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 16:26:20 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:25:49 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 				ERR_401_NOSUCHNICK(client, server, users.get_element(i));
 			if (channel->is_join(*target))
 			{
-				channel->send_msg(client, "KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
+				channel->send_msg(client.get_nickname(), "KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
 				server.remove_client_from_channel(*target, *channel);
 			}
 			else
