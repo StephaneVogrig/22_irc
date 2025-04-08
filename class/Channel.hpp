@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 23:03:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 02:27:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class Channel
 		const std::string & get_client_status(const Client & client);
 		int 				get_limit_clients();
 		int					get_nbr_client() const;
+		std::string			get_clients();
 
 		bool is_mode_invite_only();
 		bool is_mode_protected_topic();
@@ -54,6 +55,7 @@ class Channel
 		bool is_join(const Client & client);
 		bool is_invited(const Client & client);
 		bool is_banned(const Client & client);
+		bool is_founder(const Client & client);
 		bool is_operator(const Client & client);
 		bool is_halfop(const Client & client);
 
@@ -86,10 +88,10 @@ class Channel
 		std::time_t							_topic_setat;
 
 		/*
-			status :
-			O : creator
-			o : operator
-			h : halfop
+					status	prefix
+			founder		q		~
+			operator	o		@
+			halfop		h		%
 		*/
 		//   map<  nickname ,   status   >
 		typedef std::map<std::string, std::pair<Client *, std::string> > t_chan_clients;

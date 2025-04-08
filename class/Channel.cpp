@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 23:32:10 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 02:28:39 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,24 @@ int  Channel::get_nbr_client() const
 	return _clients.size();
 }
 
+std::string Channel::get_clients()
+{
+	std::string str;
+	for (t_chan_clients::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		if (it != _clients.begin())
+			str += " ";
+		if (is_founder(*it->second.first))
+			str += "~";
+		else if (is_operator(*it->second.first))
+			str += "@";
+		else if (is_halfop(*it->second.first))
+			str += "%";
+		str += it->first;
+	}
+	return str;
+}
+
 bool Channel::is_mode_invite_only(void)
 {
 	return _modes.find("i") != std::string::npos;
@@ -143,6 +161,11 @@ bool Channel::is_invited(const Client & client)
 bool Channel::is_banned(const Client & client)
 {
 	return _banned_list.find(client.get_nickname()) != _banned_list.end();
+}
+
+bool Channel::is_founder(const Client & client)
+{
+	return get_client_status(client).find('q') != std::string::npos;
 }
 
 bool Channel::is_operator(const Client & client)

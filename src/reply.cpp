@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 16:07:52 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 02:07:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -464,7 +464,7 @@ Sent to a client to let them know who set the topic (<nick>) and when they set i
 */
 
 /*
-RPL_NAMREPLY (353)
+RPL_353_NAMREPLY (353)
   "<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 Sent as a reply to the NAMES command, this numeric lists the clients that are joined to <channel> and their status in that channel.
 
@@ -475,17 +475,17 @@ Sent as a reply to the NAMES command, this numeric lists the clients that are jo
 ("*", 0x2A) - Private channel (was "+p", no longer widely used today).
 <nick> is the nickname of a client joined to that channel, and <prefix> is the highest channel membership prefix that client has in the channel, if they have one. The last parameter of this numeric is a list of [prefix]<nick> pairs, delimited by a SPACE character (' ', 0x20).
 */
-/*353*/ void RPL_NAMREPLY(Client & client, Channel & channel)
+void RPL_353_NAMREPLY(Client & client, Channel & channel)
 {
-	client.send_msg(":server 353 " + client.get_nickname() + " <symbol> " + channel.get_name() + " :" + channel.get_topic_who());
+	client.send_msg(":server 353 " + client.get_nickname() + " = " + channel.get_name() + " :" + channel.get_clients());
 }
 
 /*
-RPL_ENDOFNAMES (366)
+RPL_366_ENDOFNAMES (366)
   "<client> <channel> :End of /NAMES list"
 Sent as a reply to the NAMES command, this numeric specifies the end of a list of channel member names.
 */
-/*366*/ void RPL_ENDOFNAMES(Client & client, Channel & channel)
+void RPL_366_ENDOFNAMES(Client & client, Channel & channel)
 {
 	client.send_msg(":server 366 " + client.get_nickname() + " " + channel.get_name() + " :End of /NAMES list");
 }

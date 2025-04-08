@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 00:37:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 02:07:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,15 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 
 		client.send_msg(":" + client.get_nickname() + " JOIN " + channel->get_name());
 		if (channel->get_topic() == "")
-		{
 			RPL_NOTOPIC(client, *channel);
-			return ;
+		else
+		{
+			channel->send_topic();
+			RPL_TOPICWHOTIME(client, *channel);
 		}
-		channel->send_topic();
-		RPL_TOPICWHOTIME(client, *channel);
 		RPL_CHANNELMODEIS(client, *channel, server);
-		RPL_NAMREPLY(client, *channel);
-		RPL_ENDOFNAMES(client, *channel);
+		RPL_353_NAMREPLY(client, *channel);
+		RPL_366_ENDOFNAMES(client, *channel);
 	}
 	catch (const Protocole_error& e)
 	{}
