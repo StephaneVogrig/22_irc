@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 18:29:00 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 00:37:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,29 +267,27 @@ void Server::handle_msg(const Message & msg, Client & client)
 	{}
 }
 
-void Server::info_waiting(bool state)
+void Server::info_waiting(bool waiting)
 {
 	static int waiting_state;
 
-	if (state == false)
+	if (waiting == false)
 	{
-		waiting_state = 0;
+		std::cout << "\r" ERASE_LINE FG_GREEN;
+		std::cout.flush();
 		return ;
 	}
-
-	if (waiting_state == 0)
+	clock_t t = clock() / 500;
+	int state = t % 4;
+	if (state != waiting_state)
 	{
-		std::cout	<< "\r" ERASE_LINE FG_GREEN << _nbr_connected << " client connected - serveur waiting";
+		std::cout << "\r" ERASE_LINE FG_GREEN " " << _nbr_connected << " client connected - serveur waiting";
+		for (int i = 1; i <= state; ++i)
+				std::cout << ".";
+		std::cout << "\r";
 		std::cout.flush();
+		waiting_state = state;
 	}
-	else
-	{
-		std::cout << FG_WHITE << "." ;
-		std::cout.flush();
-	}
-	waiting_state++;
-	if (waiting_state == 10)
-		waiting_state = 0;
 }
 
 void Server::remove_client_from_channel(Client & client, Channel & channel)
