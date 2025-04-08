@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 18:23:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:22:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void Channel::set_client_status(const Client & client, char status)
 {
 	std::string & status_string = _clients.find(client.get_nickname())->second.second;
 	if (status_string.find(status) != std::string::npos)
-		return ;
+		throw Protocole_error();
 	status_string += status;
 }
 

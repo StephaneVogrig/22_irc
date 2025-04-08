@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 03:28:41 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 04:08:00 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:30:20 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Mode_rpl
 
 		std::string get_mode_rpl();
 
+		bool is_empty();
 		void add_mode(char action, char mode, const std::string & param);
 
 	private:

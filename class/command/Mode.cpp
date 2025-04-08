@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 18:24:50 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:24:51 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					channel->set_client_status(*target, *it);
-					channel->set_key(mode_param);
 				}
 				if (action == '-')
 					channel->unset_client_status(*target, *it);
@@ -137,7 +136,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			ERR_401_NOSUCHNICK(client, server, "");
 		}
 	}
-	channel->send_msg(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
+	if (!mode_rpl.is_empty())
+		channel->send_msg(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
 }
 
 void Mode::exec_on_user(Client & client, const Params & params, Server & server)

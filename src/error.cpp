@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:40:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:29:08 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ Returned when a client tries to perform a channel+nick affecting command, when t
 void ERR_441_USERNOTINCHANNEL(Client & client, const std::string & name, const Channel & channel)
 {
 	client.send_msg("441 " + client.get_nickname() + " " + name + " " + channel.get_name() + " :They aren't on that channel");
+	throw Protocole_error();
 }
 
 /*
@@ -159,7 +160,7 @@ Returned when a client command cannot be parsed as they are not yet registered. 
 void ERR_451_NOTREGISTERED(Client & client, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 451 :You have not registered");
-		throw Protocole_error();
+	throw Protocole_error();
 }
 
 /*

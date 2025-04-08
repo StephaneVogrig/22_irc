@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:44:05 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:45:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
 #include "Server.hpp"
+
+/*
+	INVITE <nickname> <channel>
+*/
 
 Invite::Invite() : Command("Invite")
 {}
@@ -27,14 +31,16 @@ void Invite::exec(Client & client, const Params & params, Server & server)
     Channel * channel = server.get_channel(params.get_param(1));
     if (channel == NULL)
         ERR_403_NOSUCHCHANNEL(client, params.get_param(1));
+
     if (!channel->is_join(client))
         ERR_442_NOTONCHANNEL(client, *channel);
 
     Client * target = server.get_client_by_name(params.get_first());
     if (target == NULL)
         ERR_401_NOSUCHNICK(client, server, params.get_first());
+
     if (channel->is_join(*target))
-        ERR_443_USERONCHANNEL(client, params.get_param(1), *channel);
+        ERR_443_USERONCHANNEL(client, params.get_param(0), *channel);
 
     if (channel->is_mode_invite_only() && !channel->is_operator(client))
         ERR_482_CHANOPRIVSNEEDED(client, *channel);

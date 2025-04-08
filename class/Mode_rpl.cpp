@@ -6,11 +6,12 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 03:28:55 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 18:12:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:30:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Mode_rpl.hpp"
+#include "log.hpp"
 
 Mode_rpl::Mode_rpl() : _current_action('\0')
 {
@@ -40,7 +41,11 @@ std::string Mode_rpl::get_mode_rpl()
 	return _modes + _params;
 }
 
-#include "log.hpp"
+bool Mode_rpl::is_empty()
+{
+	return _modes.empty();
+}
+
 void Mode_rpl::add_mode(char action, char mode, const std::string & param)
 {
 	if (action != _current_action)

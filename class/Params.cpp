@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Params.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:04:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/02 15:04:53 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:39:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ Params::Params()
 Params::Params(const std::string & str)
 {
 	size_t start = str.find_first_not_of(' ', 0);
+	if (start == std::string::npos)
+		return ;
 	if (str[start] == ':')
 		start++;
 	else
@@ -30,6 +32,8 @@ Params::Params(const std::string & str)
 		{
 			_params.push_back(str.substr(start, stop - start));
 			start = str.find_first_not_of(' ', stop);
+			if (start == std::string::npos)
+				break ;
 			if (str[start] == ':')
 			{
 				start++;
