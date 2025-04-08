@@ -6,11 +6,9 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 15:59:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 17:16:55 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "Server.hpp"
 #include "utils.hpp"
@@ -258,17 +256,11 @@ void Server::handle_msg(const Message & msg, Client & client)
 	{
 		Command * cmd_ptr = _commands[msg.get_command()];
 		if (!cmd_ptr)
-		{
-			log(FG_RED "command not found" RESET);
 			ERR_421_UNKNOWNCOMMAND(client, msg.get_command());
-		}
-		if (client.is_registed())
-		{
-			cmd_ptr->exec(client, msg.get_params(), *this);
-			return ;
-		}
-		if (!is_cmd_to_register(*cmd_ptr))
+
+		if (!client.is_registed() && !is_cmd_to_register(*cmd_ptr))
 			ERR_451_NOTREGISTERED(client, *this);
+
 		cmd_ptr->exec(client, msg.get_params(), *this);
 	}
 	catch(const Protocole_error & e)
