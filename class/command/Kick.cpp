@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 17:25:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,20 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 	{
 		try
 		{
-			Client & target = server.get_client_by_name(users.get_element(i));
-			if (channel->is_join(target))
+			Client * target = server.get_client_by_name(users.get_element(i));
+			if (target == NULL)
+				ERR_NOSUCHNICK(client, server, users.get_element(i));
+			if (channel->is_join(*target))
 			{
-				server.remove_client_from_channel(target, *channel);
-				if (client.get_nickname() != target.get_nickname())
-					client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
-				target.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target.get_nickname() + " " + arg);
+				server.remove_client_from_channel(*target, *channel);
+				if (client.get_nickname() != target->get_nickname())
+					client.send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
+				target->send_msg(":" + client.get_nickname() + " KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
 			}
 			else
 				ERR_USERNOTINCHANNEL(client, users.get_element(i), *channel);
 		}
 		catch(const Server::Client_not_found & e)
-		{
-			try
-			{
-				ERR_NOSUCHNICK(client, server, users.get_element(i));
-			}
-			catch(const Protocole_error& e)
-			{
-			}
-		}
+		{}
 	}
 }

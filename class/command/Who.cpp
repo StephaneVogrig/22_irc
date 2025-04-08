@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/07 16:21:57 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,22 @@ void Who::exec_on_channel(Client & client, const Params & params, Server & serve
 
 void Who::exec_on_user(Client & client, const Params & params, Server & server)
 {
-	try
+	Client * target = server.get_client_by_name(params.get_first());
+	if (target != NULL)
 	{
-		Client & target = server.get_client_by_name(params.get_first());
-		Channel *channel = target.get_last_channel_subscripted();
+		Channel *channel = target->get_last_channel_subscripted();
 		if (!channel)
 		{
-			RPL_WHOREPLY(client, target, server, "*", "H");
+			RPL_WHOREPLY(client, *target, server, "*", "H");
 			return ;
 		}
-		if (channel->is_join(target))
+		if (channel->is_join(*target))
 		{
 			std::string flags("H");
-			if (channel->get_client_status(target).find("o") != std::string::npos)
+			if (channel->get_client_status(*target).find("o") != std::string::npos)
 				flags += "*";
-			RPL_WHOREPLY(client, target, server, channel->get_name(), flags);
+			RPL_WHOREPLY(client, *target, server, channel->get_name(), flags);
 		}
 	}
-	catch(const Server::Client_not_found & e)
-	{}
 	RPL_ENDOFWHO(client);
 }

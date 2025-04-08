@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 23:01:58 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,7 @@ const Client *Server::get_client_by_idx(int idx_in_array) const
 	return _clients[idx_in_array] ;
 }
 
-Client & Server::get_client_by_name(const std::string & name)
-{
-	int i;
-	for (i = get_nbr_connected(); i > 0; --i)
-	{
-		if (get_client_by_idx(i)->get_nickname() == name)
-			return (*_clients[i]);
-	}
-	throw(Client_not_found());
-}
-
-Client * Server::get_client_by_name_ptr(const std::string & name)
+Client * Server::get_client_by_name(const std::string & name)
 {
 	int i;
 	for (i = get_nbr_connected(); i > 0; --i)

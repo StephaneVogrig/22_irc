@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 12:36:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					ERR_NEEDMOREPARAMS(client, _name);
 				mode_param = params.get_param(i++);
 
-				Client * target = server.get_client_by_name_ptr(mode_param);
+				Client * target = server.get_client_by_name(mode_param);
 
 				if (target == NULL)
 					ERR_NOSUCHNICK(client, server, mode_param);
@@ -149,7 +149,7 @@ void Mode::exec_on_user(Client & client, const Params & params, Server & server)
 	(void)server;
 	try
 	{
-		Client & target = server.get_client_by_name(params.get_first());
+		Client * target = server.get_client_by_name(params.get_first());
 		(void)target;
 	}
 	catch(const Server::Client_not_found & e)

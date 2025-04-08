@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/07 23:04:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ class Server
 
 		const std::string &	get_name() const;
 		const Client *		get_client_by_idx(int idx_in_array) const;
-		Client &			get_client_by_name(const std::string & name);
-		Client *			get_client_by_name_ptr(const std::string & name);
+		Client *			get_client_by_name(const std::string & name);
 		const std::string &	get_password() const;
 		int					get_nbr_connected();
 		Channel *			get_channel(const std::string & name);
