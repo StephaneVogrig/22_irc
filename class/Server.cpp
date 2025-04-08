@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:34:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:59:14 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ Server::Server(int port, const std::string & password, const std::string & name)
 Server::~Server(void)
 {
 	log_server(_fds[0].fd, "Closing server: " + to_string(_nbr_connected) + " client to close");
-	// std::cout <<  FG_PURPLE "Closing server " RESET << _nbr_connected <<  FG_PURPLE " client to close" RESET << std::endl;
 	for (int i = _nbr_connected; i > 0; --i)
 	{
 		if (send(_fds[i].fd, MSG_SERV_CLOSED, strlen(MSG_SERV_CLOSED), 0) == -1)
@@ -71,7 +70,7 @@ Client * Server::get_client_by_name(const std::string & name)
 	return NULL;
 }
 
-const std::string &Server::get_password(void) const
+const std::string & Server::get_password(void) const
 {
 	return _password ;
 }
