@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:16:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ void Invite::exec(Client & client, const Params & params, Server & server)
     if (channel->is_mode_invite_only() && !channel->is_operator(client))
         ERR_CHANOPRIVSNEEDED(client, *channel);
     channel->invite_client(target->get_nickname());
-    RPL_INVITING(client, target->get_nickname(), *channel);
+    RPL_341_INVITING(client, target->get_nickname(), *channel);
     target->send_msg(":" + client.get_nickname() + " INVITE " + target->get_nickname() + " " + channel->get_name());
 }

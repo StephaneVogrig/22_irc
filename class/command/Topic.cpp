@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/01 17:22:48 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:18:27 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 	if (params.get_nbr() == 1)
 	{
 		if (channel->get_topic().empty())
-			RPL_NOTOPIC(client, *channel);
+			RPL_331_NOTOPIC(client, *channel);
 		else
 		{
-			client.send_msg(RPL_TOPIC_(client.get_nickname(), channel->get_name(), channel->get_topic()));
-			RPL_TOPICWHOTIME(client, *channel);
+			client.send_msg(RPL_332_TOPIC_(client.get_nickname(), channel->get_name(), channel->get_topic()));
+			RPL_333_TOPICWHOTIME(client, *channel);
 		}
 		return ;
 	}

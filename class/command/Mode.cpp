@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:19:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 
 	if (params.get_nbr() == 1)
 	{
-		RPL_CHANNELMODEIS(client, *channel, server);
-		RPL_CREATIONTIME(client, *channel, server);
+		RPL_324_CHANNELMODEIS(client, *channel, server);
+		RPL_329_CREATIONTIME(client, *channel, server);
 		return ;
 	}
 

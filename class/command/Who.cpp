@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Who.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:20:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void Who::exec_on_channel(Client & client, const Params & params, Server & serve
 {
 	const std::string & channel_name = params.get_first();
 	if (!server.channel_exist(channel_name))
-		RPL_ENDOFWHOIS(client, params.get_first());
+		RPL_318_ENDOFWHOIS(client, params.get_first());
 	Channel * channel = server.get_channel(params.get_first());
 	if (channel == NULL)
 		ERR_NOSUCHCHANNEL(client, params.get_first());
 	channel->send_who(client, server);
-	RPL_ENDOFWHO(client);
+	RPL_315_ENDOFWHO(client);
 }
 
 void Who::exec_on_user(Client & client, const Params & params, Server & server)
@@ -52,7 +52,7 @@ void Who::exec_on_user(Client & client, const Params & params, Server & server)
 		Channel *channel = target->get_last_channel_subscripted();
 		if (!channel)
 		{
-			RPL_WHOREPLY(client, *target, server, "*", "H");
+			RPL_352_WHOREPLY(client, *target, server, "*", "H");
 			return ;
 		}
 		if (channel->is_join(*target))
@@ -60,8 +60,8 @@ void Who::exec_on_user(Client & client, const Params & params, Server & server)
 			std::string flags("H");
 			if (channel->get_client_status(*target).find("o") != std::string::npos)
 				flags += "*";
-			RPL_WHOREPLY(client, *target, server, channel->get_name(), flags);
+			RPL_352_WHOREPLY(client, *target, server, channel->get_name(), flags);
 		}
 	}
-	RPL_ENDOFWHO(client);
+	RPL_315_ENDOFWHO(client);
 }

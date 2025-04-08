@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 02:07:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:20:36 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ RPL_TOPIC (332)
   "<client> <channel> :<topic>"
 Sent to a client when joining the <channel> to inform them of the current topic of the channel.
 */
-/*332*/ # define RPL_TOPIC_(nickname, channel_name, channel_topic) ":server 332 " + nickname + " " + channel_name + " :" + channel_topic
+/*332*/ # define RPL_332_TOPIC_(nickname, channel_name, channel_topic) ":server 332 " + nickname + " " + channel_name + " :" + channel_topic
 
 class Server;
 
-/*001*/ void RPL_WELCOME(Client & client, Server & server);
-/*315*/ void RPL_ENDOFWHO(Client & client);
-/*318*/ void RPL_ENDOFWHOIS(Client & client, const std::string & name);
-/*324*/ void RPL_CHANNELMODEIS(const Client & client, const Channel & channel, Server & server);
-/*329*/ void RPL_CREATIONTIME(const Client & client, const Channel & channel, Server & server);
-/*331*/ void RPL_NOTOPIC(Client & client, Channel & channel);
-/*332*/ void RPL_TOPIC(Client & client, Channel & channel);
-/*333*/ void RPL_TOPICWHOTIME(Client & client, Channel & channel);
-/*341*/ void RPL_INVITING(Client & client, const std::string & name, Channel & channel);
-/*352*/ void RPL_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name, const std::string & flags);
-/*353*/ void RPL_353_NAMREPLY(Client & client, Channel & channel);
-/*366*/ void RPL_366_ENDOFNAMES(Client & client, Channel & channel);
+void RPL_001_WELCOME(Client & client, Server & server);
+void RPL_315_ENDOFWHO(Client & client);
+void RPL_318_ENDOFWHOIS(Client & client, const std::string & name);
+void RPL_324_CHANNELMODEIS(const Client & client, const Channel & channel, Server & server);
+void RPL_329_CREATIONTIME(const Client & client, const Channel & channel, Server & server);
+void RPL_331_NOTOPIC(Client & client, Channel & channel);
+void RPL_332_TOPIC(Client & client, Channel & channel);
+void RPL_333_TOPICWHOTIME(Client & client, Channel & channel);
+void RPL_341_INVITING(Client & client, const std::string & name, Channel & channel);
+void RPL_352_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name, const std::string & flags);
+void RPL_353_NAMREPLY(Client & client, Channel & channel);
+void RPL_366_ENDOFNAMES(Client & client, Channel & channel);
 
 #endif

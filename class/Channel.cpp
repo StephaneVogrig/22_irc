@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 04:27:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:17:59 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ void Channel::send_topic()
 {
 	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
-		it->second.first->send_msg(RPL_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
+		it->second.first->send_msg(RPL_332_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
 	}
 }
 
@@ -300,7 +300,7 @@ void Channel::send_who(Client & sender, Server & server)
 		std::string flags("H");
 		if (get_client_status(*it->second.first).find("o") != std::string::npos)
 			flags += "*";
-		RPL_WHOREPLY(sender, *it->second.first, server, _channel_name, flags);
+		RPL_352_WHOREPLY(sender, *it->second.first, server, _channel_name, flags);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:34:57 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 14:20:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:16:59 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ The TOPIC command is used to change or view the topic of the given channel. If <
 
 If the client sending this command is not joined to the given channel, and tries to view its’ topic, the server MAY return the ERR_NOTONCHANNEL (442) numeric and have the command fail.
 
-If RPL_TOPIC is returned to the client sending this command, RPL_TOPICWHOTIME SHOULD also be sent to that client.
+If RPL_TOPIC is returned to the client sending this command, RPL_333_TOPICWHOTIME SHOULD also be sent to that client.
 
 If the protected topic mode is set on a channel, then clients MUST have appropriate channel permissions to modify the topic of that channel. If a client does not have appropriate channel permissions and tries to change the topic, the ERR_CHANOPRIVSNEEDED (482) numeric is returned and the command will fail.
 
@@ -56,7 +56,7 @@ ERR_NOTONCHANNEL (442)
 ERR_CHANOPRIVSNEEDED (482)
 RPL_NOTOPIC (331)
 RPL_TOPIC (332)
-RPL_TOPICWHOTIME (333)
+RPL_333_TOPICWHOTIME (333)
 Command Examples:
 
   TOPIC #test :New topic          ; Setting the topic on "#test" to
