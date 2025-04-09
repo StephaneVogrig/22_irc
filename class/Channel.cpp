@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 22:36:43 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 23:13:29 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ Channel & Channel::operator = (const Channel & to_assign)
 	if (this == &to_assign)
 		return *this;
 	_topic				= to_assign._topic;
-	_chan_client_map	= to_assign._chan_client_map;
+	_chan_clients		= to_assign._chan_clients;
 	_modes				= to_assign._modes;
 	_invit_list 		= to_assign._invit_list;
 	_key				= to_assign._key;
@@ -97,7 +97,7 @@ const std::string & Channel::get_key(void) const
 
 const std::string & Channel::get_client_status(const Client & client)
 {
-	return _chan_client_map.find(client.get_fd())->second.second;
+	return _chan_clients.find(client.get_fd())->second.second;
 }
 
 int  Channel::get_limit_nbr_client()
@@ -107,15 +107,15 @@ int  Channel::get_limit_nbr_client()
 
 int  Channel::get_nbr_client() const
 {
-	return _chan_client_map.size();
+	return _chan_clients.size();
 }
 
 std::string Channel::get_clients()
 {
 	std::string str;
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
-		if (it != _chan_client_map.begin())
+		if (it != _chan_clients.begin())
 			str += " ";
 		if (is_founder(*it->second.first))
 			str += "~";
@@ -150,7 +150,7 @@ bool Channel::is_mode_limit_nbr_client(void)
 
 bool Channel::is_join(const Client & client)
 {
-	return _chan_client_map.find(client.get_fd()) != _chan_client_map.end();
+	return _chan_clients.find(client.get_fd()) != _chan_clients.end();
 }
 
 bool Channel::is_invited(const Client & client)
@@ -180,7 +180,7 @@ bool Channel::is_halfop(const Client & client)
 
 bool Channel::has_an_operator()
 {
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		if (is_operator(*it->second.first))
 			return true;
@@ -218,7 +218,7 @@ void Channel::set_key(const std::string & keystring)
 
 void Channel::set_client_status(const Client & client, char status)
 {
-	std::string & status_string = _chan_client_map.find(client.get_fd())->second.second;
+	std::string & status_string = _chan_clients.find(client.get_fd())->second.second;
 	if (status_string.find(status) != std::string::npos)
 		throw Protocole_error();
 	status_string += status;
@@ -226,7 +226,7 @@ void Channel::set_client_status(const Client & client, char status)
 
 void Channel::unset_client_status(const Client & client, char status)
 {
-	std::string & status_string = _chan_client_map.find(client.get_fd())->second.second;
+	std::string & status_string = _chan_clients.find(client.get_fd())->second.second;
 	if (status_string.find(status) == std::string::npos)
 		return ;
 	status_string.erase(status_string.find(status), 1);
@@ -239,8 +239,8 @@ void Channel::set_limit(int nbr)
 
 void Channel::set_random_operator(Server & server)
 {
-	Client * client = _chan_client_map.begin()->second.first;
-	std::string & status = _chan_client_map.begin()->second.second;
+	Client * client = _chan_clients.begin()->second.first;
+	std::string & status = _chan_clients.begin()->second.second;
 	status += 'o';
 	send_msg(server.get_name(), "MODE " + _channel_name + " +o " + client->get_nickname());
 }
@@ -262,17 +262,17 @@ void Channel::invite_client(const std::string & name)
 
 void Channel::add_client(Client & client, const std::string & status)
 {
-	if (_chan_client_map.find(client.get_fd()) != _chan_client_map.end())
+	if (_chan_clients.find(client.get_fd()) != _chan_clients.end())
 		return ;
-	_chan_client_map[client.get_fd()].first = &client;
-	_chan_client_map[client.get_fd()].second = status;
+	_chan_clients[client.get_fd()].first = &client;
+	_chan_clients[client.get_fd()].second = status;
 	client.add_channel_subscripted(*this);
 	log("add", client.get_nickname());
 }
 
 void Channel::remove_client(Client & client)
 {
-	_chan_client_map.erase(client.get_fd());
+	_chan_clients.erase(client.get_fd());
 	client.remove_channel_subscripted(*this);
 	log("remove", client.get_nickname());
 }
@@ -280,7 +280,7 @@ void Channel::remove_client(Client & client)
 void Channel::send_msg(const std::string & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender + " " + msg;
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		it->second.first->send_msg(irc_msg);
 	}
@@ -290,7 +290,7 @@ void Channel::send_priv_msg(const Client & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender.get_nickname() + " PRIVMSG ";
 
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		if (it->first != sender.get_fd())
 			it->second.first->send_msg(irc_msg + _channel_name + " :" + msg);
@@ -299,7 +299,7 @@ void Channel::send_priv_msg(const Client & sender, const std::string & msg)
 
 void Channel::send_topic()
 {
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		it->second.first->send_msg(RPL_332_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
 	}
@@ -307,7 +307,7 @@ void Channel::send_topic()
 
 void Channel::send_who(Client & sender, Server & server)
 {
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		std::string flags("H");
 		if (is_operator(*it->second.first))
@@ -318,7 +318,7 @@ void Channel::send_who(Client & sender, Server & server)
 
 void Channel::send_quit(Client & sender, const std::string & msg)
 {
-	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
+	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		if (sender.get_nickname() != it->second.first->get_nickname())
 			it->second.first->send_msg(":" + sender.get_nickname() + " QUIT :" + msg);

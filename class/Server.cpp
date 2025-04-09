@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 20:01:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 23:10:20 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ const std::string & Server::get_name() const
 
 Client * Server::get_client_by_name(const std::string & name)
 {
-	for (t_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
+	for (t_serv_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
 	{
 		if (it->second->get_nickname() == name)
 			return it->second;
@@ -137,7 +137,7 @@ void Server::close_connection(int i)
 	close(_fds[i].fd);
 	_fds[i] = _fds[_nbr_connected];
 
-	t_clients::iterator it = _clients_map.find(fd);
+	t_serv_clients::iterator it = _clients_map.find(fd);
 	delete it->second;
 	_clients_map.erase(it);
 	_nbr_connected--;
@@ -213,7 +213,7 @@ void Server::handle_client_data(Client & client)
 
 bool Server::client_exist(Client * client_ptr)
 {
-	for (t_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
+	for (t_serv_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
 	{
 		if (it->second == client_ptr)
 			return true;

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 22:39:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 23:13:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ class Channel
 			halfop		h		%
 		*/
 		//   map < fd, < ptr, status > >
-		typedef std::map<int, std::pair<Client *, std::string> > t_map_fd_ptr_status;
-		t_map_fd_ptr_status _chan_client_map;
+		typedef std::map<int, std::pair<Client *, std::string> > t_chan_clients;
+		t_chan_clients _chan_clients;
 
 		/*
 			_modes store flags :

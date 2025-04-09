@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 18:06:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 23:10:20 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ class Server
 		int									_nbr_connected;
 		t_pollfd							_fds[NBR_CLIENT_MAX];
 
-		typedef std::map < int, Client * >	t_clients;
-		t_clients							_clients_map;
+		typedef std::map < int, Client * >	t_serv_clients;
+		t_serv_clients							_clients_map;
 
 		std::map<std::string, Command *>	_commands;
 		t_map_channel						_channels;
