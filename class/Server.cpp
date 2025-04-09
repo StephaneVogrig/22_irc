@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 00:37:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:25:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,18 @@ void Server::close_connection(int i)
 	log_server(fd, "connection closed");
 }
 
+void Server::close_connection(Client & client)
+{
+	for (int i = 1; i <=_nbr_connected; ++i)
+	{
+		if (_fds[i].fd == client.get_fd())
+		{
+			close_connection(i);
+			return ;
+		}
+	}
+}
+
 void Server::accept_connection()
 {
 	struct sockaddr_in addr;
@@ -203,9 +215,20 @@ void Server::handle_client_data(int i)
 	receive_data(str_buffer, *(_clients[i]));
 }
 
+bool Server::client_exist(Client * client_ptr)
+{
+	for (int i = 1; i <= _nbr_connected; ++i)
+	{
+		if (_clients[i] == client_ptr)
+			return true ;
+	}
+	return false ;
+}
+
 void Server::receive_data(const std::string & data, Client & client)
 {
 	std::string str = client.get_msg_buffer() + data;
+	Client * client_ptr = &client;
 
 	std::string delim("\r\n");
 	size_t pos = str.find(delim);
@@ -214,9 +237,8 @@ void Server::receive_data(const std::string & data, Client & client)
 		std::string data_clean(str.substr(0, pos));
 		log_msg(client.get_fd(), FG_YELLOW "<<", to_string(data_clean));
 		Message msg(str.substr(0, pos));
-		// log_msg(client.get_fd(), FG_RED "<<", to_string(msg));
 		handle_msg(msg, client);
-		if (client.is_kicked())
+		if (!client_exist(client_ptr))
 			return ;
 		str.erase(0, pos + 2);
 		pos = str.find(delim);

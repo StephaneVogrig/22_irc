@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 15:11:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:25:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 #include "Server.hpp"
 
 Quit::Quit() : Command("QUIT")
-{
-}
+{}
 
 Quit::~Quit()
-{
-}
+{}
 
 void Quit::exec(Client & client, const Params & params, Server & server)
 {
@@ -30,6 +28,5 @@ void Quit::exec(Client & client, const Params & params, Server & server)
 
 	client.quit_quit_all_channels(server, msg);
 	client.send_msg("ERROR :Connection closed");
-	// server.close_connection(client);
-	client.set_kicked(true);
+	server.close_connection(client);
 }

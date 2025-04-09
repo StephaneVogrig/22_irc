@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 12:40:56 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/09 16:25:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ class Server
 
 		void run(void);
 		void close_connection(int i);
+		void close_connection(Client & client);
 		bool channel_exist(const std::string & name);
 		void create_channel(const std::string & name, const std::string & key);
 		void info_waiting(bool state);
@@ -113,6 +114,8 @@ class Server
 		void init_commands();
 		void destroy_commands();
 		bool is_cmd_to_register(const Command & cmd) const;
+
+		bool client_exist(Client * client_ptr);
 
 };
 
