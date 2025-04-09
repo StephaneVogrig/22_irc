@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 20:21:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 22:36:43 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Channel::Channel(const std::string & name, const std::string & key)
 		_topic(""),
 		_modes(""),
 		_key(key),
-		_limit_clients(MAX_CLIENT_PER_CHANNEL)
+		_limit_nbr_client(MAX_CLIENT_PER_CHANNEL)
 {
 	if (!key.empty())
 	{
@@ -50,12 +50,12 @@ Channel & Channel::operator = (const Channel & to_assign)
 {
 	if (this == &to_assign)
 		return *this;
-	_topic			= to_assign._topic;
-	_clients		= to_assign._clients;
-	_modes			= to_assign._modes;
-	_invit_list 	= to_assign._invit_list;
-	_key			= to_assign._key;
-	_limit_clients	= to_assign._limit_clients;
+	_topic				= to_assign._topic;
+	_chan_client_map	= to_assign._chan_client_map;
+	_modes				= to_assign._modes;
+	_invit_list 		= to_assign._invit_list;
+	_key				= to_assign._key;
+	_limit_nbr_client	= to_assign._limit_nbr_client;
 	return *this;
 }
 
@@ -97,25 +97,25 @@ const std::string & Channel::get_key(void) const
 
 const std::string & Channel::get_client_status(const Client & client)
 {
-	return _clients.find(client.get_nickname())->second.second;
+	return _chan_client_map.find(client.get_fd())->second.second;
 }
 
-int  Channel::get_limit_clients()
+int  Channel::get_limit_nbr_client()
 {
-	return _limit_clients;
+	return _limit_nbr_client;
 }
 
 int  Channel::get_nbr_client() const
 {
-	return _clients.size();
+	return _chan_client_map.size();
 }
 
 std::string Channel::get_clients()
 {
 	std::string str;
-	for (t_chan_clients::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
-		if (it != _clients.begin())
+		if (it != _chan_client_map.begin())
 			str += " ";
 		if (is_founder(*it->second.first))
 			str += "~";
@@ -123,7 +123,7 @@ std::string Channel::get_clients()
 			str += "@";
 		else if (is_halfop(*it->second.first))
 			str += "%";
-		str += it->first;
+		str += it->second.first->get_nickname();
 	}
 	return str;
 }
@@ -143,14 +143,14 @@ bool Channel::is_mode_key_needed()
 	return _modes.find("k") != std::string::npos;
 }
 
-bool Channel::is_mode_limit_clients(void)
+bool Channel::is_mode_limit_nbr_client(void)
 {
 	return _modes.find("l") != std::string::npos;
 }
 
 bool Channel::is_join(const Client & client)
 {
-	return _clients.find(client.get_nickname()) != _clients.end();
+	return _chan_client_map.find(client.get_fd()) != _chan_client_map.end();
 }
 
 bool Channel::is_invited(const Client & client)
@@ -180,7 +180,7 @@ bool Channel::is_halfop(const Client & client)
 
 bool Channel::has_an_operator()
 {
-	for (t_chan_clients::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
 		if (is_operator(*it->second.first))
 			return true;
@@ -218,7 +218,7 @@ void Channel::set_key(const std::string & keystring)
 
 void Channel::set_client_status(const Client & client, char status)
 {
-	std::string & status_string = _clients.find(client.get_nickname())->second.second;
+	std::string & status_string = _chan_client_map.find(client.get_fd())->second.second;
 	if (status_string.find(status) != std::string::npos)
 		throw Protocole_error();
 	status_string += status;
@@ -226,7 +226,7 @@ void Channel::set_client_status(const Client & client, char status)
 
 void Channel::unset_client_status(const Client & client, char status)
 {
-	std::string & status_string = _clients.find(client.get_nickname())->second.second;
+	std::string & status_string = _chan_client_map.find(client.get_fd())->second.second;
 	if (status_string.find(status) == std::string::npos)
 		return ;
 	status_string.erase(status_string.find(status), 1);
@@ -234,13 +234,13 @@ void Channel::unset_client_status(const Client & client, char status)
 
 void Channel::set_limit(int nbr)
 {
-	_limit_clients = nbr;
+	_limit_nbr_client = nbr;
 }
 
 void Channel::set_random_operator(Server & server)
 {
-	Client * client = _clients.begin()->second.first;
-	std::string & status = _clients.begin()->second.second;
+	Client * client = _chan_client_map.begin()->second.first;
+	std::string & status = _chan_client_map.begin()->second.second;
 	status += 'o';
 	send_msg(server.get_name(), "MODE " + _channel_name + " +o " + client->get_nickname());
 }
@@ -262,17 +262,17 @@ void Channel::invite_client(const std::string & name)
 
 void Channel::add_client(Client & client, const std::string & status)
 {
-	if (_clients.find(client.get_nickname()) != _clients.end())
+	if (_chan_client_map.find(client.get_fd()) != _chan_client_map.end())
 		return ;
-	_clients[client.get_nickname()].first = &client;
-	_clients[client.get_nickname()].second = status;
+	_chan_client_map[client.get_fd()].first = &client;
+	_chan_client_map[client.get_fd()].second = status;
 	client.add_channel_subscripted(*this);
 	log("add", client.get_nickname());
 }
 
 void Channel::remove_client(Client & client)
 {
-	_clients.erase(client.get_nickname());
+	_chan_client_map.erase(client.get_fd());
 	client.remove_channel_subscripted(*this);
 	log("remove", client.get_nickname());
 }
@@ -280,8 +280,7 @@ void Channel::remove_client(Client & client)
 void Channel::send_msg(const std::string & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender + " " + msg;
-
-	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
 		it->second.first->send_msg(irc_msg);
 	}
@@ -291,16 +290,16 @@ void Channel::send_priv_msg(const Client & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender.get_nickname() + " PRIVMSG ";
 
-	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
-		if (it->first != sender.get_nickname())
+		if (it->first != sender.get_fd())
 			it->second.first->send_msg(irc_msg + _channel_name + " :" + msg);
 	}
 }
 
 void Channel::send_topic()
 {
-	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
 		it->second.first->send_msg(RPL_332_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
 	}
@@ -308,10 +307,10 @@ void Channel::send_topic()
 
 void Channel::send_who(Client & sender, Server & server)
 {
-	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
 		std::string flags("H");
-		if (get_client_status(*it->second.first).find("o") != std::string::npos)
+		if (is_operator(*it->second.first))
 			flags += "*";
 		RPL_352_WHOREPLY(sender, *it->second.first, server, _channel_name, flags);
 	}
@@ -319,7 +318,7 @@ void Channel::send_who(Client & sender, Server & server)
 
 void Channel::send_quit(Client & sender, const std::string & msg)
 {
-	for (std::map<std::string, std::pair<Client *, std::string> >::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (t_map_fd_ptr_status::iterator it = _chan_client_map.begin(); it != _chan_client_map.end(); ++it)
 	{
 		if (sender.get_nickname() != it->second.first->get_nickname())
 			it->second.first->send_msg(":" + sender.get_nickname() + " QUIT :" + msg);

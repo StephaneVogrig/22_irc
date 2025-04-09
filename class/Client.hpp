@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 20:23:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 21:34:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Client
 		~Client();
 
 		const std::string & get_msg_buffer() const;
-		int get_fd();
+		int get_fd() const;
 		const std::string get_nickname() const;
 		const std::string get_username() const;
 		const std::string get_realname() const;

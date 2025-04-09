@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 20:21:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 22:39:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ class Channel
 		const std::string & get_modes() const;
 		const std::string & get_key() const;
 		const std::string & get_client_status(const Client & client);
-		int 				get_limit_clients();
+		int 				get_limit_nbr_client();
 		int					get_nbr_client() const;
 		std::string			get_clients();
 
 		bool is_mode_invite_only();
 		bool is_mode_protected_topic();
 		bool is_mode_key_needed();
-		bool is_mode_limit_clients();
+		bool is_mode_limit_nbr_client();
 		bool is_join(const Client & client);
 		bool is_invited(const Client & client);
 		bool is_banned(const Client & client);
@@ -99,9 +99,9 @@ class Channel
 			operator	o		@
 			halfop		h		%
 		*/
-		//   map<  nickname ,   status   >
-		typedef std::map<std::string, std::pair<Client *, std::string> > t_chan_clients;
-		t_chan_clients	_clients;
+		//   map < fd, < ptr, status > >
+		typedef std::map<int, std::pair<Client *, std::string> > t_map_fd_ptr_status;
+		t_map_fd_ptr_status _chan_client_map;
 
 		/*
 			_modes store flags :
@@ -114,7 +114,7 @@ class Channel
 		std::set<std::string>				_invit_list;
 		std::set<std::string>				_banned_list;
 		std::string							_key;
-		int									_limit_clients;
+		int									_limit_nbr_client;
 
 };
 

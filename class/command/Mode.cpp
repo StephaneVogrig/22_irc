@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 21:34:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 21:23:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number");
-					if (channel->get_limit_clients() == nbr && channel->is_mode_limit_clients())
+					if (channel->get_limit_nbr_client() == nbr && channel->is_mode_limit_nbr_client())
 						ERR_467_KEYSET(client, *channel);
 
 					channel->set_mode(*it);

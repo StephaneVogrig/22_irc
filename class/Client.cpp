@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 20:34:02 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 21:34:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ const std::string & Client::get_msg_buffer(void) const
 	return (_msg_buffer);
 }
 
-int Client::get_fd(void)
+int Client::get_fd(void) const
 {
 	return _fd;
 }

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 20:12:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 21:23:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 			if (channel->is_banned(client))
 				ERR_474_BANNEDFROMCHAN(client, channel_name);
 
-			if (channel->is_mode_limit_clients() && channel->get_nbr_client() == channel->get_limit_clients())
+			if (channel->is_mode_limit_nbr_client() && channel->get_nbr_client() == channel->get_limit_nbr_client())
 				ERR_471_CHANNELISFULL(client, *channel);
 
 			if (channel->is_mode_invite_only() && !channel->is_invited(client))
