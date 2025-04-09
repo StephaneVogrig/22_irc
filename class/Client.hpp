@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 14:19:28 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:43:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ class Client
 		Channel *	get_last_channel_subscripted();
 		int			nbr_channels_subscripted();
 		void		quit_all_channels(Server & server);
-		void 		send_msg_all_channels(Server & server, const std::string & msg);
+		void 		quit_quit_all_channels(Server & server, const std::string & msg);
 
 	private :
 

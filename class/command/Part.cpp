@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:47:39 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 18:25:18 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 13:48:51 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ void Part::exec(Client & client, const Params & params, Server & server)
 			if (!channel->is_join(client))
 				ERR_442_NOTONCHANNEL(client, *channel);
 
-			server.remove_client_from_channel(client, *channel);
-			client.send_msg(":" + client.get_nickname() + " PART " + channel->get_name() + " " + arg);
 			channel->send_msg(client.get_nickname(), "PART " + channel->get_name() + " " + arg);
+			server.remove_client_from_channel(client, *channel);
 		}
 		catch (const Protocole_error &e)
 		{}

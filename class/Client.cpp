@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/03 14:45:34 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:43:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,11 +154,13 @@ void Client::quit_all_channels(Server & server)
 	}
 }
 
-void Client::send_msg_all_channels(Server & server, const std::string & msg)
+void Client::quit_quit_all_channels(Server & server, const std::string & msg)
 {
 	while (_channels_subscripted.size() > 0)
 	{
-		_channels_subscripted.back()->send_quit(*this, msg);
+		std::string channel_name = _channels_subscripted.back()->get_name();
 		server.remove_client_from_channel(*this, *_channels_subscripted.back());
+		if (server.channel_exist(channel_name))
+			server.get_channel(channel_name)->send_msg(_nickName, msg);
 	}
 }

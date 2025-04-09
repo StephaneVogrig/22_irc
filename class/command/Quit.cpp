@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Quit.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 13:48:36 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:11:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,13 @@ Quit::~Quit()
 
 void Quit::exec(Client & client, const Params & params, Server & server)
 {
-	std::string msg;
-	try
-	{
-		if (params.get_nbr() > 1)
-			ERR_461_NEEDMOREPARAMS(client, _name);
-		if (params.get_nbr() == 1)
-			msg = params.get_param(0);
-		if (params.get_nbr() == 1 && msg.empty())
-			ERR_412_NOTEXTTOSEND(client);
-	}
-	catch(const Protocole_error& e)
-	{}
+	std::string msg("QUIT");
 
-	client.send_msg_all_channels(server, msg);
-	client.send_msg(":" + client.get_nickname() + " QUIT :" + msg);
+	if (params.get_nbr() != 0)
+		msg += " :" + params.get_first();
+
+	client.quit_quit_all_channels(server, msg);
+	client.send_msg("ERROR :Connection closed");
+	// server.close_connection(client);
 	client.set_kicked(true);
 }

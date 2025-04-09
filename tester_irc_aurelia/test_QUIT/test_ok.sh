@@ -21,6 +21,6 @@ nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 } > "$TEMPFILE"
 nc $SERVER $PORT < "$TEMPFILE" >> "$LOGFILE" 2>&1
 
-count=$(cat "$LOGFILE" | grep "QUIT" | wc -l)
+count=$(cat "$LOGFILE" | grep "ERROR" | wc -l)
 
 end_test $count 2 $LOGFILE
