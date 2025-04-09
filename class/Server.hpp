@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 16:25:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 18:06:01 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ class Server
 		~Server();
 
 		const std::string &	get_name() const;
-		const Client *		get_client_by_idx(int idx_in_array) const;
 		Client *			get_client_by_name(const std::string & name);
 		const std::string &	get_password() const;
 		int					get_nbr_connected();
@@ -84,7 +83,6 @@ class Server
 		};
 
 		void run(void);
-		void close_connection(int i);
 		void close_connection(Client & client);
 		bool channel_exist(const std::string & name);
 		void create_channel(const std::string & name, const std::string & key);
@@ -99,15 +97,19 @@ class Server
 		const std::string					_password;
 		int									_nbr_connected;
 		t_pollfd							_fds[NBR_CLIENT_MAX];
-		Client *							_clients[NBR_CLIENT_MAX];
+
+		typedef std::map < int, Client * >	t_clients;
+		t_clients							_clients_map;
+
 		std::map<std::string, Command *>	_commands;
 		t_map_channel						_channels;
 
 		void open_connection(int fd);
 		void accept_connection();
+		void close_connection(int i);
 
 		void handle_event();
-		void handle_client_data(int i);
+		void handle_client_data(Client & client);
 		void receive_data(const std::string & data, Client & client);
 		void handle_msg(const Message & msg, Client & client);
 

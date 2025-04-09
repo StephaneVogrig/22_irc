@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 16:25:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 18:05:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,12 @@ const std::string & Server::get_name() const
 	return (_name);
 }
 
-const Client *Server::get_client_by_idx(int idx_in_array) const
-{
-	return _clients[idx_in_array] ;
-}
-
 Client * Server::get_client_by_name(const std::string & name)
 {
-	int i;
-	for (i = get_nbr_connected(); i > 0; --i)
+	for (t_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
 	{
-		if (_clients[i]->get_nickname() == name)
-			return (_clients[i]);
+		if (it->second->get_nickname() == name)
+			return it->second;
 	}
 	return NULL;
 }
@@ -106,12 +100,7 @@ void Server::run(void)
 		if( nbr_event == -1)
 			throw(std::runtime_error("poll failed"));
 		if (nbr_event == 0)
-		{
-			for (int i = _nbr_connected; i > 0; --i)
-				if (get_client_by_idx(i)->is_kicked())
-					close_connection(i);
 			continue ;
-		}
 		info_waiting(false);
 		handle_event();
 	}
@@ -134,10 +123,11 @@ void Server::create_channel(const std::string & name, const std::string & key)
 
 void Server::open_connection(int fd)
 {
+	Client * client = new Client(fd);
 	_nbr_connected++;
 	_fds[_nbr_connected].fd = fd;
 	_fds[_nbr_connected].events = POLLIN;
-	_clients[_nbr_connected] = new Client(fd);
+	_clients_map[fd] = client;
 	log_server(fd, "connection accepted");
 }
 
@@ -146,8 +136,10 @@ void Server::close_connection(int i)
 	int fd = _fds[i].fd;
 	close(_fds[i].fd);
 	_fds[i] = _fds[_nbr_connected];
-	delete _clients[i];
-	_clients[i] = _clients[_nbr_connected];
+
+	t_clients::iterator it = _clients_map.find(fd);
+	delete it->second;
+	_clients_map.erase(it);
 	_nbr_connected--;
 	log_server(fd, "connection closed");
 }
@@ -191,18 +183,21 @@ void Server::handle_event(void)
 	for (int i = imax; i > 0; --i)
 	{
 		if (_fds[i].revents & POLLIN)
-			handle_client_data(i);
+		{
+			Client * client = _clients_map.find(_fds[i].fd)->second;
+			handle_client_data(*client);
+		}
 	}
 }
 
-void Server::handle_client_data(int i)
+void Server::handle_client_data(Client & client)
 {
 	char buffer[CLIENT_BUFFER_SIZE];
 	memset(buffer, 0, sizeof(buffer));
-	int size_read = recv(_fds[i].fd, buffer, CLIENT_BUFFER_SIZE - 1, 0);
-	if (size_read <= 0 || get_client_by_idx(i)->is_kicked())
+	int size_read = recv(client.get_fd(), buffer, CLIENT_BUFFER_SIZE - 1, 0);
+	if (size_read <= 0)
 	{
-		close_connection(i);
+		close_connection(client);
 		return ;
 	}
 	std::string str_buffer(buffer);
@@ -212,17 +207,17 @@ void Server::handle_client_data(int i)
 				<< str_buffer << std::endl
 				<< FG_YELLOW "------- end receive -------" RESET << std::endl;
 	#endif
-	receive_data(str_buffer, *(_clients[i]));
+	receive_data(str_buffer, client);
 }
 
 bool Server::client_exist(Client * client_ptr)
 {
-	for (int i = 1; i <= _nbr_connected; ++i)
+	for (t_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
 	{
-		if (_clients[i] == client_ptr)
-			return true ;
+		if (it->second == client_ptr)
+			return true;
 	}
-	return false ;
+	return false;
 }
 
 void Server::receive_data(const std::string & data, Client & client)
