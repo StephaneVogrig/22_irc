@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 15:50:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/03 16:51:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:07:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Command
 
 		const std::string & get_name() const;
 
-		virtual void	exec(Client & client, const Params & params, Server & Server);
+		virtual void	exec(Client & client, const Params & params, Server & Server) = 0;
 
 	protected:
 		
