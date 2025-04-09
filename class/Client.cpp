@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 14:43:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:34:02 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /* constructor ---------------------------------------------------------------*/
 
-Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false), _kicked(false)
+Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false), _kicked(false), _connection_ko(false)
 {}
 
 /* destructor ----------------------------------------------------------------*/
@@ -115,10 +115,16 @@ void Client::clear_msg_buffer(void)
 	_msg_buffer.clear();
 }
 
-void Client::send_msg(const std::string & msg) const
+void Client::send_msg(const std::string & msg)
 {
+	if (_connection_ko)
+		return ;
 	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, 0) == -1)
-		throw(std::runtime_error("send failed"));
+	{
+		log_msg(_fd, FG_RED "xx" FG_PURPLE, msg);
+		_connection_ko = true;
+		return ;
+	}
 	log_msg(_fd, FG_GREEN ">>", msg);
 }
 

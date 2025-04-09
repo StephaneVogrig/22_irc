@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:01 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:39:09 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:19:22 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void ERR_451_NOTREGISTERED(Client & client, Server & server); // retirer serveur
 void ERR_461_NEEDMOREPARAMS(Client & client, const std::string & command);
 void ERR_462_ALREADYREGISTRED(Client & client);
 void ERR_464_PASSWDMISMATCH(Client & client);
-void ERR_467_KEYSET(const Client & client, const Channel & channel);
-void ERR_471_CHANNELISFULL(const Client & client, const Channel & channel);
-void ERR_472_UNKNOWNMODE(const Client & client, char modechar);
+void ERR_467_KEYSET(Client & client, const Channel & channel);
+void ERR_471_CHANNELISFULL(Client & client, const Channel & channel);
+void ERR_472_UNKNOWNMODE(Client & client, char modechar);
 void ERR_473_INVITEONLYCHAN(Client & client, const std::string & channel);
 void ERR_474_BANNEDFROMCHAN(Client & client, const std::string & channel);
 void ERR_475_BADCHANNELKEY(Client & client, const std::string & channel);
 void ERR_476_BADCHANMASK(Client & client, const std::string & channel);
-void ERR_482_CHANOPRIVSNEEDED(const Client & client, const Channel & channel);
-void ERR_696_INVALIDMODEPARAM(const Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description);
+void ERR_482_CHANOPRIVSNEEDED(Client & client, const Channel & channel);
+void ERR_696_INVALIDMODEPARAM(Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 19:29:08 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:19:07 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void ERR_464_PASSWDMISMATCH(Client & client)
 467    ERR_KEYSET
 		"<channel> :Channel key already set"
 */
-void ERR_467_KEYSET(const Client & client, const Channel & channel)
+void ERR_467_KEYSET(Client & client, const Channel & channel)
 {
 	client.send_msg("467 " + channel.get_name() + " :Channel key already set");
 	throw Protocole_error();
@@ -211,7 +211,7 @@ ERR_CHANNELISFULL (471)
   "<client> <channel> :Cannot join channel (+l)"
 Returned to indicate that a JOIN command failed because the client limit mode has been set and the maximum number of users are already joined to the channel. The text used in the last param of this message may vary.
 */
-void ERR_471_CHANNELISFULL(const Client & client, const Channel & channel)
+void ERR_471_CHANNELISFULL(Client & client, const Channel & channel)
 {
 	client.send_msg("471 " + channel.get_name() + " :Cannot join channel (+i)");
 	throw Protocole_error();
@@ -222,7 +222,7 @@ ERR_UNKNOWNMODE (472)
   "<client> <modechar> :is unknown mode char to me"
 Indicates that a mode character used by a client is not recognized by the server. The text used in the last param of this message may vary.
 */
-void ERR_472_UNKNOWNMODE(const Client & client, char modechar)
+void ERR_472_UNKNOWNMODE(Client & client, char modechar)
 {
 	client.send_msg("472 " + client.get_nickname() + modechar + " :is unknown mode char to me");
 	throw Protocole_error();
@@ -283,7 +283,7 @@ ERR_CHANOPRIVSNEEDED (482)
   "<client> <channel> :You're not channel operator"
 Indicates that a command failed because the client does not have the appropriate channel privileges. This numeric can apply for different prefixes such as halfop, operator, etc. The text used in the last param of this message may vary.
 */
-void ERR_482_CHANOPRIVSNEEDED(const Client & client, const Channel & channel)
+void ERR_482_CHANOPRIVSNEEDED(Client & client, const Channel & channel)
 {
 	client.send_msg("482 " + channel.get_name() + " :You're not channel operator");
 	throw Protocole_error();
@@ -294,7 +294,7 @@ ERR_INVALIDMODEPARAM (696)
 "<client> <target chan/user> <mode char> <parameter> :<description>"
 Indicates that there was a problem with a mode parameter. Replaces various implementation-specific mode-specific numerics.
 */
-void ERR_696_INVALIDMODEPARAM(const Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description)
+void ERR_696_INVALIDMODEPARAM(Client & client, const std::string & target, char mode, const std::string & parameter, const std::string & description)
 {
 	client.send_msg("696 " + client.get_nickname() + " " + target + " " + mode + " " + parameter + " :" + description);
 	throw Protocole_error();

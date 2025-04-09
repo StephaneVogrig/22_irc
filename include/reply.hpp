@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:20:36 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:19:52 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ class Server;
 void RPL_001_WELCOME(Client & client, Server & server);
 void RPL_315_ENDOFWHO(Client & client);
 void RPL_318_ENDOFWHOIS(Client & client, const std::string & name);
-void RPL_324_CHANNELMODEIS(const Client & client, const Channel & channel, Server & server);
-void RPL_329_CREATIONTIME(const Client & client, const Channel & channel, Server & server);
+void RPL_324_CHANNELMODEIS(Client & client, const Channel & channel, Server & server);
+void RPL_329_CREATIONTIME(Client & client, const Channel & channel, Server & server);
 void RPL_331_NOTOPIC(Client & client, Channel & channel);
 void RPL_332_TOPIC(Client & client, Channel & channel);
 void RPL_333_TOPICWHOTIME(Client & client, Channel & channel);

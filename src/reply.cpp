@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 20:01:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:20:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ RPL_CHANNELMODEIS (324)
   "<client> <channel> <modestring> <mode arguments>..."
 Sent to a client to inform them of the currently-set modes of a channel. <channel> is the name of the channel. <modestring> and <mode arguments> are a mode string and the mode arguments (delimited as separate parameters) as defined in the MODE message description.
 */
-void RPL_324_CHANNELMODEIS(const Client & client, const Channel & channel, Server & server)
+void RPL_324_CHANNELMODEIS(Client & client, const Channel & channel, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 324 " + client.get_nickname() + " " + channel.get_name() + channel.get_modes());
 }
@@ -74,7 +74,7 @@ RPL_CREATIONTIME (329)
   "<client> <channel> <creationtime>"
 Sent to a client to inform them of the creation time of a channel. <channel> is the name of the channel. <creationtime> is a unix timestamp representing when the channel was created on the network.
 */
-void RPL_329_CREATIONTIME(const Client & client, const Channel & channel, Server & server)
+void RPL_329_CREATIONTIME(Client & client, const Channel & channel, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 329 " + client.get_nickname() + " " + channel.get_name() + " " + to_string(channel.get_creation_time()));
 }

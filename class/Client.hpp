@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 14:43:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:23:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ class Client
 		void append_to_buffer(const std::string & str);
 		void clear_msg_buffer();
 
-		void send_msg(const std::string & msg) const;
+		void send_msg(const std::string & msg);
 
 		void		add_channel_subscripted(Channel & channel);
 		void		remove_channel_subscripted(Channel & channel);
@@ -71,7 +71,8 @@ class Client
 		std::string _hostadress;
 
 		typedef std::vector<Channel *> t_channels;
-		t_channels _channels_subscripted;
+		t_channels	_channels_subscripted;
+		bool		_connection_ko;
 
 };
 

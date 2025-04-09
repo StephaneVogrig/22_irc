@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 18:05:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:01:59 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void Server::handle_client_data(Client & client)
 	int size_read = recv(client.get_fd(), buffer, CLIENT_BUFFER_SIZE - 1, 0);
 	if (size_read <= 0)
 	{
+		client.quit_quit_all_channels(*this, "QUIT :Conncetion lost");
 		close_connection(client);
 		return ;
 	}
