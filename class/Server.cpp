@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 23:10:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 00:15:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,128 +121,6 @@ void Server::create_channel(const std::string & name, const std::string & key)
 
 /* private utilities ---------------------------------------------------------*/
 
-void Server::open_connection(int fd)
-{
-	Client * client = new Client(fd);
-	_nbr_connected++;
-	_fds[_nbr_connected].fd = fd;
-	_fds[_nbr_connected].events = POLLIN;
-	_clients_map[fd] = client;
-	log_server(fd, "connection accepted");
-}
-
-void Server::close_connection(int i)
-{
-	int fd = _fds[i].fd;
-	close(_fds[i].fd);
-	_fds[i] = _fds[_nbr_connected];
-
-	t_serv_clients::iterator it = _clients_map.find(fd);
-	delete it->second;
-	_clients_map.erase(it);
-	_nbr_connected--;
-	log_server(fd, "connection closed");
-}
-
-void Server::close_connection(Client & client)
-{
-	for (int i = 1; i <=_nbr_connected; ++i)
-	{
-		if (_fds[i].fd == client.get_fd())
-		{
-			close_connection(i);
-			return ;
-		}
-	}
-}
-
-void Server::accept_connection()
-{
-	struct sockaddr_in addr;
-	socklen_t addr_len = sizeof(addr);
-	int fd = accept(_fds[0].fd, (struct sockaddr *) &addr, &addr_len);
-	if (fd == -1)
-		throw(std::runtime_error("accept failed"));
-	fcntl(fd, F_SETFL, O_NONBLOCK);
-	if (_nbr_connected == NBR_CLIENT_MAX)
-	{
-		log_server(fd, "connection refused");
-		if (send(fd, MSG_SERV_FULL, strlen(MSG_SERV_FULL), 0) == -1)
-			throw(std::runtime_error("send failed"));
-		close(fd);
-		return ;
-	}
-	open_connection(fd);
-}
-
-void Server::handle_event(void)
-{
-	int imax = _nbr_connected;
-	if (_fds[0].revents & POLLIN)
-		accept_connection();
-	for (int i = imax; i > 0; --i)
-	{
-		if (_fds[i].revents & POLLIN)
-		{
-			Client * client = _clients_map.find(_fds[i].fd)->second;
-			handle_client_data(*client);
-		}
-	}
-}
-
-void Server::handle_client_data(Client & client)
-{
-	char buffer[CLIENT_BUFFER_SIZE];
-	memset(buffer, 0, sizeof(buffer));
-	int size_read = recv(client.get_fd(), buffer, CLIENT_BUFFER_SIZE - 1, 0);
-	if (size_read <= 0)
-	{
-		client.quit_quit_all_channels(*this, "QUIT :Conncetion lost");
-		close_connection(client);
-		return ;
-	}
-	std::string str_buffer(buffer);
-	#if DEBUG
-	std::cout 	<< FG_YELLOW "---- receive on fd [" RESET << _fds[i].fd
-				<< FG_YELLOW "] ----" RESET << std::endl
-				<< str_buffer << std::endl
-				<< FG_YELLOW "------- end receive -------" RESET << std::endl;
-	#endif
-	receive_data(str_buffer, client);
-}
-
-bool Server::client_exist(Client * client_ptr)
-{
-	for (t_serv_clients::iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
-	{
-		if (it->second == client_ptr)
-			return true;
-	}
-	return false;
-}
-
-void Server::receive_data(const std::string & data, Client & client)
-{
-	std::string str = client.get_msg_buffer() + data;
-	Client * client_ptr = &client;
-
-	std::string delim("\r\n");
-	size_t pos = str.find(delim);
-	while (pos != std::string::npos)
-	{
-		std::string data_clean(str.substr(0, pos));
-		log_msg(client.get_fd(), FG_YELLOW "<<", to_string(data_clean));
-		Message msg(str.substr(0, pos));
-		handle_msg(msg, client);
-		if (!client_exist(client_ptr))
-			return ;
-		str.erase(0, pos + 2);
-		pos = str.find(delim);
-	}
-	client.clear_msg_buffer();
-	client.append_to_buffer(str);
-}
-
 void Server::init_commands(void)
 {
 	_commands["WHO"] = new Who();
@@ -268,6 +146,121 @@ void Server::destroy_commands(void)
 		delete (it->second);
 }
 
+bool Server::is_cmd_to_register(const Command & cmd) const
+{
+	const std::string & cmd_name = cmd.get_name();
+	return cmd_name == "PASS" || cmd_name == "NICK" || cmd_name == "USER" || cmd_name == "QUIT";
+}
+
+void Server::accept_connection()
+{
+	struct sockaddr_in addr;
+	socklen_t addr_len = sizeof(addr);
+	int fd = accept(_fds[0].fd, (struct sockaddr *) &addr, &addr_len);
+	if (fd == -1)
+		throw(std::runtime_error("accept failed"));
+	fcntl(fd, F_SETFL, O_NONBLOCK);
+	if (_nbr_connected == NBR_CLIENT_MAX)
+	{
+		log_server(fd, "connection refused");
+		if (send(fd, MSG_SERV_FULL, strlen(MSG_SERV_FULL), 0) == -1)
+			throw(std::runtime_error("send failed"));
+		close(fd);
+		return ;
+	}
+	open_connection(fd);
+}
+
+void Server::open_connection(int fd)
+{
+	Client * client = new Client(fd);
+	_nbr_connected++;
+	_fds[_nbr_connected].fd = fd;
+	_fds[_nbr_connected].events = POLLIN;
+	_clients_map[fd] = client;
+	log_server(fd, "connection accepted");
+}
+
+void Server::close_connection(Client & client)
+{
+	for (int i = 1; i <=_nbr_connected; ++i)
+	{
+		if (_fds[i].fd == client.get_fd())
+		{
+			close_connection(i);
+			return ;
+		}
+	}
+}
+
+void Server::close_connection(int i)
+{
+	int fd = _fds[i].fd;
+	close(_fds[i].fd);
+	_fds[i] = _fds[_nbr_connected];
+
+	t_serv_clients::iterator it = _clients_map.find(fd);
+	delete it->second;
+	_clients_map.erase(it);
+	_nbr_connected--;
+	log_server(fd, "connection closed");
+}
+
+void Server::handle_event(void)
+{
+	int imax = _nbr_connected;
+	if (_fds[0].revents & POLLIN)
+		accept_connection();
+	for (int i = imax; i > 0; --i)
+	{
+		if (_fds[i].revents & POLLIN)
+		{
+			Client * client = _clients_map.find(_fds[i].fd)->second;
+			handle_client_data(*client);
+		}
+	}
+}
+
+void Server::handle_client_data(Client & client)
+{
+	char buffer[CLIENT_BUFFER_SIZE];
+	memset(buffer, 0, sizeof(buffer));
+	int size_read = recv(client.get_fd(), buffer, CLIENT_BUFFER_SIZE - 1, 0);
+	if (size_read <= 0)
+	{
+		client.quit_quit_all_channels(*this, "QUIT :Connection lost");
+		close_connection(client);
+		return ;
+	}
+	std::string str_buffer(buffer);
+	#if DEBUG
+	std::cout 	<< FG_YELLOW "---- receive on fd [" RESET << _fds[i].fd
+				<< FG_YELLOW "] ----" RESET << std::endl
+				<< str_buffer << std::endl
+				<< FG_YELLOW "------- end receive -------" RESET << std::endl;
+	#endif
+	receive_data(str_buffer, client);
+}
+
+void Server::receive_data(const std::string & data, Client & client)
+{
+	std::string str = client.get_msg_buffer() + data;
+	std::string delim("\r\n");
+	size_t pos = str.find(delim);
+	while (pos != std::string::npos)
+	{
+		std::string msg(str.substr(0, pos));
+		log_msg(client.get_fd(), FG_YELLOW "<<", msg);
+		handle_msg(Message(msg), client);
+		if (!client_exist(client))
+			return ;
+		str.erase(0, pos + 2);
+		pos = str.find(delim);
+	}
+	client.clear_msg_buffer();
+	client.append_to_buffer(str);
+}
+
 void Server::handle_msg(const Message & msg, Client & client)
 {
 	try
@@ -283,6 +276,16 @@ void Server::handle_msg(const Message & msg, Client & client)
 	}
 	catch(const Protocole_error & e)
 	{}
+}
+
+bool Server::client_exist(const Client & client) const
+{
+	for (t_serv_clients::const_iterator it = _clients_map.begin(); it != _clients_map.end(); ++it)
+	{
+		if (it->second == &client)
+			return true;
+	}
+	return false;
 }
 
 void Server::info_waiting(bool waiting)
@@ -335,10 +338,4 @@ void Server::quit_all_serv_channels(Client & client, const std::string & msg)
 			remove_client_from_channel(client, it->second);
 		}
 	}
-}
-
-bool Server::is_cmd_to_register(const Command & cmd) const
-{
-	const std::string & cmd_name = cmd.get_name();
-	return cmd_name == "PASS" || cmd_name == "NICK" || cmd_name == "USER" || cmd_name == "QUIT";
 }

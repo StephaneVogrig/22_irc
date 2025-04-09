@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 23:10:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 00:37:16 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ class Server
 		void close_connection(Client & client);
 		bool channel_exist(const std::string & name);
 		void create_channel(const std::string & name, const std::string & key);
-		void info_waiting(bool state);
 		void remove_client_from_channel(Client & client, Channel & channel);
 		void quit_all_serv_channels(Client & client, const std::string & msg);
 
@@ -104,8 +103,12 @@ class Server
 		std::map<std::string, Command *>	_commands;
 		t_map_channel						_channels;
 
-		void open_connection(int fd);
+		void init_commands();
+		void destroy_commands();
+		bool is_cmd_to_register(const Command & cmd) const;
+
 		void accept_connection();
+		void open_connection(int fd);
 		void close_connection(int i);
 
 		void handle_event();
@@ -113,11 +116,9 @@ class Server
 		void receive_data(const std::string & data, Client & client);
 		void handle_msg(const Message & msg, Client & client);
 
-		void init_commands();
-		void destroy_commands();
-		bool is_cmd_to_register(const Command & cmd) const;
+		bool client_exist(const Client & client_ptr) const;
 
-		bool client_exist(Client * client_ptr);
+		void info_waiting(bool state);
 
 };
 
