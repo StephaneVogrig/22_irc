@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 03:50:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:52:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,9 +156,11 @@ void Server::accept_connection()
 {
 	struct sockaddr_in addr;
 	socklen_t addr_len = sizeof(addr);
+
 	int fd = accept(_pollfds[0].fd, (struct sockaddr *) &addr, &addr_len);
 	if (fd == -1)
 		throw(std::runtime_error("accept failed"));
+
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 	if (_nbr_connected == NBR_CLIENT_MAX)
 	{
@@ -168,16 +170,11 @@ void Server::accept_connection()
 		close(fd);
 		return ;
 	}
-	open_connection(fd);
-}
 
-void Server::open_connection(int fd)
-{
-	Client * client = new Client(fd);
 	_nbr_connected++;
 	_pollfds[_nbr_connected].fd = fd;
 	_pollfds[_nbr_connected].events = POLLIN;
-	_serv_clients[fd] = client;
+	_serv_clients[fd] = new Client(fd, addr);
 	log_server(fd, "connection accepted");
 }
 

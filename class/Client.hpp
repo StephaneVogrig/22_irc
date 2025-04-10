@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 21:34:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:52:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Client
 {
 	public :
 
-		Client(int fd);
+		Client(int fd, struct sockaddr_in addr);
 		~Client();
 
 		const std::string & get_msg_buffer() const;
@@ -33,9 +33,11 @@ class Client
 		const std::string get_nickname() const;
 		const std::string get_username() const;
 		const std::string get_realname() const;
+		const std::string get_hostname() const;
+		const std::string get_hostadress() const;
+
 		bool is_registed() const;
 		bool is_hasPass() const;
-		bool is_kicked() const;
 		void set_hasPass(bool pass);
 		void set_kicked(bool kick);
 		void set_nickname(std::string name);
@@ -63,16 +65,15 @@ class Client
 		std::string _userName;
 		std::string _realName;
 
-		bool _hasPass;
-
-		bool _kicked;
-
-		std::string _hostname;
-		std::string _hostadress;
+		std::string		_hostname;
+		std::string		_hostadress;
+		unsigned short	_port;
 
 		typedef std::vector<Channel *> t_channels;
 		t_channels	_channels_subscripted;
-		bool		_connection_ko;
+
+		bool _connection_ko;
+		bool _hasPass;
 
 };
 

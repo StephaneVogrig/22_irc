@@ -6,10 +6,11 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 02:53:46 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:51:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <arpa/inet.h>
 #include "Client.hpp"
 #include "Channel.hpp"
 #include "utils.hpp"
@@ -18,7 +19,15 @@
 
 /* constructor ---------------------------------------------------------------*/
 
-Client::Client(int fd) : _fd(fd), _msg_buffer(""), _nickName("*"), _userName("*"), _hasPass(false), _kicked(false), _connection_ko(false)
+Client::Client(int fd, struct sockaddr_in addr)
+	:	_fd(fd),
+		_msg_buffer(""),
+		_nickName("*"),
+		_userName("*"),
+		_hostadress(inet_ntoa(addr.sin_addr)),
+		_port(ntohs(addr.sin_port)),
+		_connection_ko(false),
+		_hasPass(false)
 {}
 
 /* destructor ----------------------------------------------------------------*/
@@ -61,6 +70,16 @@ const std::string Client::get_realname(void) const
 	return (_realName);
 }
 
+const std::string Client::get_hostname() const
+{
+	return (_hostname);
+}
+
+const std::string Client::get_hostadress() const
+{
+	return (_hostadress);
+}
+
 bool Client::is_registed() const
 {
 	if (_nickName != "*" && _userName != "*")
@@ -71,16 +90,6 @@ bool Client::is_registed() const
 bool Client::is_hasPass() const
 {
 	return _hasPass;
-}
-
-bool Client::is_kicked() const
-{
-	return _kicked;
-}
-
-void Client::set_kicked(bool kick)
-{
-	_kicked = kick;
 }
 
 void Client::set_hasPass(bool pass)

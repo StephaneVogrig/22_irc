@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 03:51:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:49:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ class Server
 		bool is_cmd_to_register(const Command & cmd) const;
 
 		void accept_connection();
-		void open_connection(int fd);
 		void close_connection(int i);
 
 		void handle_event();
