@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 17:24:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 18:47:04 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ Channel & Channel::operator = (const Channel & to_assign)
 	_topic				= to_assign._topic;
 	_chan_clients		= to_assign._chan_clients;
 	_modes				= to_assign._modes;
-	_invit_list 		= to_assign._invit_list;
+	_invited 		= to_assign._invited;
 	_key				= to_assign._key;
 	_limit_nbr_client	= to_assign._limit_nbr_client;
 	return *this;
@@ -155,12 +155,7 @@ bool Channel::is_join(const Client & client)
 
 bool Channel::is_invited(const Client & client)
 {
-	return _invit_list.find(client.get_nickname()) != _invit_list.end();
-}
-
-bool Channel::is_banned(const Client & client)
-{
-	return _banned_list.find(client.get_nickname()) != _banned_list.end();
+	return _invited.find(client.get_fd()) != _invited.end();
 }
 
 bool Channel::is_founder(const Client & client)
@@ -253,9 +248,16 @@ bool Channel::is_a_valid_name(const std::string & str)
 	return (false);
 }
 
-void Channel::invite_client(const std::string & name)
+void Channel::invite_client(const Client & client)
 {
-	_invit_list.insert(name);
+	_invited.insert(client.get_fd());
+}
+
+void Channel::remove_from_invited(const Client & client)
+{
+	t_invited::iterator it = _invited.find(client.get_fd());
+	if (it != _invited.end())
+		_invited.erase(it);
 }
 
 /* utilities -----------------------------------------------------------------*/
@@ -264,6 +266,11 @@ void Channel::add_client(Client & client, const std::string & status)
 {
 	if (_chan_clients.find(client.get_fd()) != _chan_clients.end())
 		return ;
+
+	t_invited::iterator it = _invited.find(client.get_fd());
+	if (it != _invited.end())
+		_invited.erase(it);
+
 	_chan_clients[client.get_fd()].first = &client;
 	_chan_clients[client.get_fd()].second = status;
 	client.add_channel_subscripted(*this);

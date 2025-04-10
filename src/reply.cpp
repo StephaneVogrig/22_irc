@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:07:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 18:58:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ Sent to a client to inform them of the currently-set modes of a channel. <channe
 */
 void RPL_324_CHANNELMODEIS(Client & client, const Channel & channel, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 324 " + client.get_nickname() + " " + channel.get_name() + channel.get_modes());
+	client.send_msg(":" + server.get_name() + " 324 " + client.get_nickname() + " " + channel.get_name() + " " + channel.get_modes());
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:51:30 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 18:45:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ class Channel
 		bool is_mode_limit_nbr_client();
 		bool is_join(const Client & client);
 		bool is_invited(const Client & client);
-		bool is_banned(const Client & client);
 		bool is_founder(const Client & client);
 		bool is_operator(const Client & client);
 		bool is_halfop(const Client & client);
@@ -69,7 +68,8 @@ class Channel
 		void set_limit(int nbr);
 		void set_random_operator(Server & server);
 
-		void invite_client(const std::string & name);
+		void invite_client(const Client & client);
+		void remove_from_invited(const Client & client);
 
 		void add_client(Client & user, const std::string & status);
 		void remove_client(Client & user);
@@ -104,16 +104,18 @@ class Channel
 
 		/*
 			_modes store flags :
-			i : new member are only accepted if they are in _invit_list
+			i : new member are only accepted if they are in _invited
 			t : restrict the usage of the TOPIC command to channel operators
 			k : user need to give a key to join the channel
 			l : limit the number of user in the channel to _limit_client
 		*/
-		std::string							_modes;
-		std::set<std::string>				_invit_list;
-		std::set<std::string>				_banned_list;
-		std::string							_key;
-		int									_limit_nbr_client;
+		std::string	_modes;
+
+		typedef std::set<int> t_invited;
+		t_invited	_invited;
+
+		std::string	_key;
+		int			_limit_nbr_client;
 
 };
 

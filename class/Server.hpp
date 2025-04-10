@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 15:49:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 19:06:43 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,20 @@ class Server
 
 	private:
 
-		std::string							_name;
-		const int							_port;
-		const std::string					_password;
-		int									_nbr_connected;
-		t_pollfd							_pollfds[NBR_CLIENT_MAX];
+		std::string			_name;
+		const int			_port;
+		const std::string	_password;
+		int					_nbr_connected;
+		t_pollfd			_pollfds[NBR_CLIENT_MAX];
 
 		typedef std::map < int, Client * >	t_clients_serv;
-		t_clients_serv						_serv_clients;
+		t_clients_serv		_serv_clients;
 
-		std::map<std::string, Command *>	_commands;
+		typedef std::map<std::string, Command *> t_commands;
+		t_commands			_commands;
 
 		typedef std::map<std::string, Channel> t_channels;
-		t_channels						_channels;
+		t_channels			_channels;
 
 		void init_commands();
 		void destroy_commands();

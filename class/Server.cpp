@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:50:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 18:48:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,11 @@ void Server::accept_connection()
 
 void Server::close_connection(Client & client)
 {
+	for (t_channels::iterator it = _channels.begin(); it != _channels.end(); ++it)
+	{
+		it->second.remove_from_invited(client);
+	}
+
 	for (int i = 1; i <=_nbr_connected; ++i)
 	{
 		if (_pollfds[i].fd == client.get_fd())
