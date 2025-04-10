@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:47:39 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 15:59:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:44:43 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Part::~Part()
 void Part::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() < 2)
-		ERR_461_NEEDMOREPARAMS(client, "PART");
+		ERR_461_NEEDMOREPARAMS(client, "PART", server);
 
 	Elements channels(params.get_first());
 	std::string arg;
@@ -36,10 +36,10 @@ void Part::exec(Client & client, const Params & params, Server & server)
 			const std::string & channel_name = channels.get_element(i);
 			Channel * channel = server.get_channel(channel_name);
 			if (channel == NULL)
-				ERR_403_NOSUCHCHANNEL(client, channel_name);
+				ERR_403_NOSUCHCHANNEL(client, channel_name, server);
 
 			if (!channel->is_join(client))
-				ERR_442_NOTONCHANNEL(client, *channel);
+				ERR_442_NOTONCHANNEL(client, *channel, server);
 
 			channel->send_msg(client.get_nickname(), "PART " + channel->get_name() + " :" + arg);
 			server.remove_client_from_channel(client, *channel);

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 15:52:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:50:41 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ void Server::handle_msg(const Message & msg, Client & client)
 	{
 		Command * cmd_ptr = _commands[msg.get_command()];
 		if (!cmd_ptr)
-			ERR_421_UNKNOWNCOMMAND(client, msg.get_command());
+			ERR_421_UNKNOWNCOMMAND(client, msg.get_command(), *this);
 
 		if (!client.is_registed() && !is_cmd_to_register(*cmd_ptr))
 			ERR_451_NOTREGISTERED(client, *this);

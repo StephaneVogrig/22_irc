@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 13:22:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:41:06 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Who::~Who()
 void Who::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() < 1)
-		ERR_461_NEEDMOREPARAMS(client, "WHO");
+		ERR_461_NEEDMOREPARAMS(client, "WHO", server);
 
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);

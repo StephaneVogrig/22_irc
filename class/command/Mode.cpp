@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 21:23:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:46:33 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Mode::~Mode(void)
 void Mode::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() == 0)
-		ERR_461_NEEDMOREPARAMS(client, "MODE");
+		ERR_461_NEEDMOREPARAMS(client, "MODE", server);
 
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);
@@ -36,7 +36,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 
 	Channel * channel = server.get_channel(channel_name);
 	if (channel == NULL)
-		ERR_403_NOSUCHCHANNEL(client, channel_name);
+		ERR_403_NOSUCHCHANNEL(client, channel_name, server);
 
 	if (params.get_nbr() == 1)
 	{
@@ -46,7 +46,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 	}
 
 	if (!channel->is_operator(client))
-		ERR_482_CHANOPRIVSNEEDED(client, *channel);
+		ERR_482_CHANOPRIVSNEEDED(client, *channel, server);
 
 	std::string modestring = params.get_param(1);
 
@@ -71,7 +71,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (channel->is_mode_invite_only())
-						ERR_467_KEYSET(client, *channel);
+						ERR_467_KEYSET(client, *channel, server);
 					channel->set_mode(*it);
 				}
 				if (action == '-')
@@ -82,7 +82,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (channel->is_mode_protected_topic())
-						ERR_467_KEYSET(client, *channel);
+						ERR_467_KEYSET(client, *channel, server);
 					channel->set_mode(*it);
 				}
 				if (action == '-')
@@ -93,10 +93,10 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (i >= params.get_nbr())
-						ERR_461_NEEDMOREPARAMS(client, _name);
+						ERR_461_NEEDMOREPARAMS(client, _name, server);
 					mode_param = params.get_param(i++);
 					if (channel->get_key() == mode_param && channel->is_mode_key_needed())
-						ERR_467_KEYSET(client, *channel);
+						ERR_467_KEYSET(client, *channel, server);
 
 					channel->set_key(mode_param);
 					channel->set_mode(*it);
@@ -107,7 +107,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			else if (*it == 'o')
 			{
 				if (i >= params.get_nbr())
-					ERR_461_NEEDMOREPARAMS(client, _name);
+					ERR_461_NEEDMOREPARAMS(client, _name, server);
 				mode_param = params.get_param(i++);
 
 				Client * target = server.get_client_by_name(mode_param);
@@ -116,7 +116,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					ERR_401_NOSUCHNICK(client, server, mode_param);
 
 				if (!channel->is_join(*target))
-					ERR_441_USERNOTINCHANNEL(client, target->get_nickname(), *channel);
+					ERR_441_USERNOTINCHANNEL(client, target->get_nickname(), *channel, server);
 
 				if (action == '+')
 				{
@@ -130,14 +130,14 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (i >= params.get_nbr())
-						ERR_461_NEEDMOREPARAMS(client, _name);
+						ERR_461_NEEDMOREPARAMS(client, _name, server);
 					mode_param = params.get_param(i++);
 					char *		endptr = NULL;
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
-						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number");
+						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number", server);
 					if (channel->get_limit_nbr_client() == nbr && channel->is_mode_limit_nbr_client())
-						ERR_467_KEYSET(client, *channel);
+						ERR_467_KEYSET(client, *channel, server);
 
 					channel->set_mode(*it);
 					channel->set_limit(nbr);
@@ -146,7 +146,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					channel->unset_mode(*it);
 			}
 			else
-				ERR_472_UNKNOWNMODE(client, *it);
+				ERR_472_UNKNOWNMODE(client, *it, server);
 
 			mode_rpl.add_mode(action, *it, mode_param);
 		}

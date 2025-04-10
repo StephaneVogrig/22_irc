@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:25:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:51:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ Topic::~Topic(void)
 void Topic::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() < 1)
-		ERR_461_NEEDMOREPARAMS(client, _name);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	const std::string & channel_name = params.get_first();
 	Channel * channel = server.get_channel(channel_name);
 	if (channel == NULL)
-		ERR_403_NOSUCHCHANNEL(client, channel_name);
+		ERR_403_NOSUCHCHANNEL(client, channel_name, server);
 
 	if (!channel->is_join(client))
-		ERR_442_NOTONCHANNEL(client, *channel);
+		ERR_442_NOTONCHANNEL(client, *channel, server);
 
 	if (channel->is_mode_protected_topic()
 	&& !channel->is_operator(client)
 	&& channel->is_halfop(client))
-		ERR_482_CHANOPRIVSNEEDED(client, *channel);
+		ERR_482_CHANOPRIVSNEEDED(client, *channel, server);
 
 	if (params.get_nbr() == 1)
 	{
@@ -54,6 +54,6 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 		return ;
 	}
 	const std::string & topic = params.get_param(1);
-	channel->set_topic(client, topic);
+	channel->set_topic(client, topic, server);
 	channel->send_msg(client.get_nickname(), "TOPIC " + channel->get_name() + " :" + channel->get_topic());
 }

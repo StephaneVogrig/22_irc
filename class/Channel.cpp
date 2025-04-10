@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:25:19 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:51:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,10 +188,10 @@ bool Channel::has_an_operator()
 	return false;
 }
 
-void Channel::set_topic(Client & client, const std::string & topic)
+void Channel::set_topic(Client & client, const std::string & topic, Server & server)
 {
 	 if (is_mode_protected_topic() && !(is_operator(client) || is_halfop(client)))
-		ERR_482_CHANOPRIVSNEEDED(client, *this);
+		ERR_482_CHANOPRIVSNEEDED(client, *this, server);
 	 _topic = topic;
 	 _topic_who = client.get_nickname();
 	 time(&_topic_setat);

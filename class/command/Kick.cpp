@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 18:25:49 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:42:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ Kick::~Kick()
 void Kick::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() != 2)
-		ERR_461_NEEDMOREPARAMS(client, "KICK");
+		ERR_461_NEEDMOREPARAMS(client, "KICK", server);
 
 	Channel * channel = server.get_channel(params.get_first());
 	if (channel == NULL)
-		ERR_403_NOSUCHCHANNEL(client, params.get_first());
+		ERR_403_NOSUCHCHANNEL(client, params.get_first(), server);
 
 	if (!channel->is_join(client))
-		ERR_442_NOTONCHANNEL(client, *channel);
+		ERR_442_NOTONCHANNEL(client, *channel, server);
 
 	if (!channel->is_operator(client))
-		ERR_482_CHANOPRIVSNEEDED(client, *channel);
+		ERR_482_CHANOPRIVSNEEDED(client, *channel, server);
 
 	Elements users(params.get_param(1));
 	std::string arg;
@@ -52,7 +52,7 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 				server.remove_client_from_channel(*target, *channel);
 			}
 			else
-				ERR_441_USERNOTINCHANNEL(client, users.get_element(i), *channel);
+				ERR_441_USERNOTINCHANNEL(client, users.get_element(i), *channel, server);
 		}
 		catch(const Protocole_error& e)
 		{}
