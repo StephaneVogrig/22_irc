@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 13:17:50 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 13:22:23 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void Who::exec(Client & client, const Params & params, Server & server)
 		exec_on_channel(client, params, server);
 	else
 		exec_on_user(client, params, server);
-	RPL_315_ENDOFWHO(client);
+	RPL_315_ENDOFWHO(client, server);
 }
 
 void Who::exec_on_channel(Client & client, const Params & params, Server & server)

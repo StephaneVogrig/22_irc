@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 12:38:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 13:27:20 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ Sent as a reply to the WHO command, this numeric indicates the end of a WHO resp
 
 This numeric is sent after all other WHO response numerics have been sent to the client.
 */
-void RPL_315_ENDOFWHO(Client & client)
+void RPL_315_ENDOFWHO(Client & client, Server & server)
 {
-	client.send_msg(":server 315 " + client.get_nickname() + " :End of WHO list");
+	client.send_msg(":" + server.get_name() + " 315 " + client.get_nickname() + " :End of WHO list");
 }
 
 /*
@@ -117,9 +117,9 @@ void RPL_333_TOPICWHOTIME(Client & client, Channel & channel)
 	attempted INVITE message was successful and is
 	being passed onto the end client.
 */
-void RPL_341_INVITING(Client & client, const std::string & name, Channel & channel)
+void RPL_341_INVITING(Client & client, const std::string & name, Channel & channel, Server & server)
 {
-	client.send_msg(":server 341 " + client.get_nickname() + " " + name + " " + channel.get_name());
+	client.send_msg(":" + server.get_name() + " 341 " + client.get_nickname() + " " + name + " " + channel.get_name());
 }
 
 /*
@@ -130,7 +130,7 @@ void RPL_341_INVITING(Client & client, const std::string & name, Channel & chann
 */
 void RPL_352_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name, const std::string & flags)
 {
-	client.send_msg(":server 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " " + flags + " :1 " + target.get_realname());
+	client.send_msg(":" + server.get_name() + " 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + "host" + " " + server.get_name() + " " + target.get_nickname() + " " + flags + " :1 " + target.get_realname());
 }
 
 /*
@@ -145,9 +145,9 @@ Sent as a reply to the NAMES command, this numeric lists the clients that are jo
 ("*", 0x2A) - Private channel (was "+p", no longer widely used today).
 <nick> is the nickname of a client joined to that channel, and <prefix> is the highest channel membership prefix that client has in the channel, if they have one. The last parameter of this numeric is a list of [prefix]<nick> pairs, delimited by a SPACE character (' ', 0x20).
 */
-void RPL_353_NAMREPLY(Client & client, Channel & channel)
+void RPL_353_NAMREPLY(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":server 353 " + client.get_nickname() + " = " + channel.get_name() + " :" + channel.get_clients());
+	client.send_msg(":" + server.get_name() + " 353 " + client.get_nickname() + " = " + channel.get_name() + " :" + channel.get_clients());
 }
 
 /*
@@ -155,7 +155,7 @@ RPL_366_ENDOFNAMES (366)
   "<client> <channel> :End of /NAMES list"
 Sent as a reply to the NAMES command, this numeric specifies the end of a list of channel member names.
 */
-void RPL_366_ENDOFNAMES(Client & client, Channel & channel)
+void RPL_366_ENDOFNAMES(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":server 366 " + client.get_nickname() + " " + channel.get_name() + " :End of /NAMES list");
+	client.send_msg(":" + server.get_name() + " 366 " + client.get_nickname() + " " + channel.get_name() + " :End of /NAMES list");
 }

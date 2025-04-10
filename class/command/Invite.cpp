@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/08 19:45:12 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 13:27:53 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void Invite::exec(Client & client, const Params & params, Server & server)
         ERR_482_CHANOPRIVSNEEDED(client, *channel);
 
     channel->invite_client(target->get_nickname());
-    RPL_341_INVITING(client, target->get_nickname(), *channel);
+    RPL_341_INVITING(client, target->get_nickname(), *channel, server);
     target->send_msg(":" + client.get_nickname() + " INVITE " + target->get_nickname() + " " + channel->get_name());
 }
