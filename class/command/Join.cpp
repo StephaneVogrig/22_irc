@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 13:38:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:09:01 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 			ERR_405_TOOMANYCHANNELS(client, channel_name);
 
 		if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
-			ERR_476_BADCHANMASK(client, channel_name);
+			ERR_476_BADCHANMASK(client, channel_name, server);
 
 		std::string status("");
 		if (!server.channel_exist(channel_name))

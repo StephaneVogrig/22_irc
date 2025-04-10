@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 23:13:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:25:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ class Channel
 
 		void send_msg(const std::string & sender, const std::string & msg);
 		void send_priv_msg(const Client & client, const std::string & msg);
-		void send_topic();
 		void send_who(Client & sender, Server & server);
 		void send_quit(Client & sender, const std::string & msg);
 

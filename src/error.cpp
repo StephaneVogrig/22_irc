@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 20:19:07 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:04:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,9 +272,9 @@ This is similar to, but stronger than, ERR_NOSUCHCHANNEL (403), which indicates 
 
 The text used in the last param of this message may vary.
 */
-void ERR_476_BADCHANMASK(Client & client, const std::string & channel)
+void ERR_476_BADCHANMASK(Client & client, const std::string & channel, Server & server)
 {
-	client.send_msg("476 " + channel + " :Bad Channel Mask");
+	client.send_msg(":" + server.get_name() + " 476 " + channel + " :Bad Channel Mask");
 	throw Protocole_error();
 }
 

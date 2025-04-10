@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 21:07:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:25:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 	if (params.get_nbr() == 1)
 	{
 		if (channel->get_topic().empty())
-			RPL_331_NOTOPIC(client, *channel);
+			RPL_331_NOTOPIC(client, *channel, server);
 		else
 		{
 			client.send_msg(RPL_332_TOPIC_(client.get_nickname(), channel->get_name(), channel->get_topic()));
@@ -55,5 +55,5 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 	}
 	const std::string & topic = params.get_param(1);
 	channel->set_topic(client, topic);
-	channel->send_topic();
+	channel->send_msg(client.get_nickname(), "TOPIC " + channel->get_name() + " :" + channel->get_topic());
 }

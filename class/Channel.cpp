@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 23:13:29 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:25:19 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,14 +294,6 @@ void Channel::send_priv_msg(const Client & sender, const std::string & msg)
 	{
 		if (it->first != sender.get_fd())
 			it->second.first->send_msg(irc_msg + _channel_name + " :" + msg);
-	}
-}
-
-void Channel::send_topic()
-{
-	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
-	{
-		it->second.first->send_msg(RPL_332_TOPIC_(it->second.first->get_nickname(), _channel_name, _topic));
 	}
 }
 

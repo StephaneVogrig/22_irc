@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 15:51:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:07:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ RPL_NOTOPIC (331)
   "<client> <channel> :No topic is set"
 Sent to a client when joining a channel to inform them that the channel with the name <channel> does not have any topic set.
 */
-void RPL_331_NOTOPIC(Client & client, Channel & channel)
+void RPL_331_NOTOPIC(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":server 331 " + client.get_nickname() + " " + channel.get_name() + " :No topic is set");
+	client.send_msg(":" + server.get_name() + " 331 " + client.get_nickname() + " " + channel.get_name() + " :No topic is set");
 }
 
 /*
