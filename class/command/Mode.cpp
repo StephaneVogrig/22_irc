@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:46:33 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 17:31:36 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (channel->is_mode_invite_only())
-						ERR_467_KEYSET(client, *channel, server);
+						ERR_467_KEYSET(client, *channel, server, *it);
 					channel->set_mode(*it);
 				}
 				if (action == '-')
@@ -82,7 +82,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (channel->is_mode_protected_topic())
-						ERR_467_KEYSET(client, *channel, server);
+						ERR_467_KEYSET(client, *channel, server, *it);
 					channel->set_mode(*it);
 				}
 				if (action == '-')
@@ -96,7 +96,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 						ERR_461_NEEDMOREPARAMS(client, _name, server);
 					mode_param = params.get_param(i++);
 					if (channel->get_key() == mode_param && channel->is_mode_key_needed())
-						ERR_467_KEYSET(client, *channel, server);
+						ERR_467_KEYSET(client, *channel, server, *it);
 
 					channel->set_key(mode_param);
 					channel->set_mode(*it);
@@ -137,7 +137,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number", server);
 					if (channel->get_limit_nbr_client() == nbr && channel->is_mode_limit_nbr_client())
-						ERR_467_KEYSET(client, *channel, server);
+						ERR_467_KEYSET(client, *channel, server, *it);
 
 					channel->set_mode(*it);
 					channel->set_limit(nbr);

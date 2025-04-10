@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 16:39:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 17:36:52 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,9 +200,9 @@ void ERR_464_PASSWDMISMATCH(Client & client, Server & server)
 467    ERR_KEYSET
 		"<channel> :Channel key already set"
 */
-void ERR_467_KEYSET(Client & client, const Channel & channel, Server & server)
+void ERR_467_KEYSET(Client & client, const Channel & channel, Server & server, char c)
 {
-	client.send_msg(":" + server.get_name() + " 467 " + channel.get_name() + " :Channel key already set");
+	client.send_msg(":" + server.get_name() + " 467 " + client .get_nickname() + " " + channel.get_name() + " :Channel key " + c + " already set");
 	throw Protocole_error();
 }
 
@@ -224,7 +224,7 @@ Indicates that a mode character used by a client is not recognized by the server
 */
 void ERR_472_UNKNOWNMODE(Client & client, char modechar, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 472 " + client.get_nickname() + modechar + " :is unknown mode char to me");
+	client.send_msg(":" + server.get_name() + " 472 " + client.get_nickname() + " " + modechar + " :is unknown mode char to me");
 	throw Protocole_error();
 }
 
@@ -235,7 +235,7 @@ Returned to indicate that a JOIN command failed because the channel is set to [i
 */
 void ERR_473_INVITEONLYCHAN(Client & client, const std::string & channel, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 473 " + channel + " :Cannot join channel (+i)");
+	client.send_msg(":" + server.get_name() + " 473 " + client.get_nickname() + " " + channel + " :Cannot join channel (+i)");
 	throw Protocole_error();
 }
 
@@ -285,7 +285,7 @@ Indicates that a command failed because the client does not have the appropriate
 */
 void ERR_482_CHANOPRIVSNEEDED(Client & client, const Channel & channel, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 482 " + channel.get_name() + " :You're not channel operator");
+	client.send_msg(":" + server.get_name() + " 482 " + client.get_nickname() + " " + channel.get_name() + " :You're not channel operator");
 	throw Protocole_error();
 }
 
