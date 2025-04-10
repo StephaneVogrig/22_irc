@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 00:37:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 03:51:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@
 // # define DEBUG
 
 typedef struct pollfd t_pollfd;
-typedef std::map<std::string, Channel> t_map_channel;
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -84,6 +83,7 @@ class Server
 
 		void run(void);
 		void close_connection(Client & client);
+
 		bool channel_exist(const std::string & name);
 		void create_channel(const std::string & name, const std::string & key);
 		void remove_client_from_channel(Client & client, Channel & channel);
@@ -95,13 +95,15 @@ class Server
 		const int							_port;
 		const std::string					_password;
 		int									_nbr_connected;
-		t_pollfd							_fds[NBR_CLIENT_MAX];
+		t_pollfd							_pollfds[NBR_CLIENT_MAX];
 
-		typedef std::map < int, Client * >	t_serv_clients;
-		t_serv_clients							_clients_map;
+		typedef std::map < int, Client * >	t_clients_serv;
+		t_clients_serv						_serv_clients;
 
 		std::map<std::string, Command *>	_commands;
-		t_map_channel						_channels;
+
+		typedef std::map<std::string, Channel> t_channels;
+		t_channels						_channels;
 
 		void init_commands();
 		void destroy_commands();

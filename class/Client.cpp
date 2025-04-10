@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 21:34:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 02:53:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void Client::send_msg(const std::string & msg)
 {
 	if (_connection_ko)
 		return ;
-	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, 0) == -1)
+	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, MSG_NOSIGNAL) == -1)
 	{
 		log_msg(_fd, FG_RED "xx" FG_PURPLE, msg);
 		_connection_ko = true;
