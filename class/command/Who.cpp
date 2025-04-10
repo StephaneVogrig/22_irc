@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 13:13:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 13:17:50 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void Who::exec(Client & client, const Params & params, Server & server)
 
 void Who::exec_on_channel(Client & client, const Params & params, Server & server)
 {
-	const std::string & channel_name = params.get_first();
 	Channel * channel = server.get_channel(params.get_first());
 	if (channel != NULL)
 		channel->send_who(client, server);
