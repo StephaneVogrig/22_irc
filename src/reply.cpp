@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/09 20:20:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/10 12:34:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Clients MUST NOT try to extract the hostname from the final parameter of this me
 */
 void RPL_001_WELCOME(Client & client, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the Internet Relay Network");
+	client.send_msg(":" + client.get_nickname() + " 001 " + client.get_nickname() + " :Welcome to the " + server.get_name() + " Network, " + client.get_nickname());
 }
 
 /*
