@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 18:47:04 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:20:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,9 +243,16 @@ void Channel::set_random_operator(Server & server)
 bool Channel::is_a_valid_name(const std::string & str)
 {
 	char prefix = str[0];
-	if ( (prefix == '#' || prefix == '&' || prefix == '!' || prefix == '+'))
-		return (true);
-	return (false);
+
+	if (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+')
+		return (false);
+	if (str.size() == 1 )
+		return (false);
+	if (str.find(' ') != std::string::npos)
+		return (false);
+	if (str.find('\a') != std::string::npos)
+		return (false);
+	return (true);
 }
 
 void Channel::invite_client(const Client & client)

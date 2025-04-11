@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 18:32:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:21:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,26 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 {
 	try
 	{
-		char prefix = channel_name[0];
-		Channel * channel;
+		if (!Channel::is_a_valid_name(channel_name))
+			ERR_476_BADCHANMASK(client, channel_name, server);
+
+		Channel * channel = server.get_channel(channel_name);
+
+		if (channel != NULL && channel->is_join(client))
+				return ;
 
 		if (client.nbr_channels_subscripted() == MAX_CHANNEL_PER_CLIENT)
 			ERR_405_TOOMANYCHANNELS(client, channel_name, server);
 
-		if ( (prefix != '#' && prefix != '&' && prefix != '!' && prefix != '+') || channel_name.size() == 1)
-			ERR_476_BADCHANMASK(client, channel_name, server);
-
-		std::string status("");
-		if (!server.channel_exist(channel_name))
+		std::string status;
+		if (channel == NULL)
 		{
 			server.create_channel(channel_name, key);
 			channel = server.get_channel(channel_name);
-			status = "Oo";
+			status = "qo";
 		}
 		else
 		{
-			channel = server.get_channel(channel_name);
-			if (channel == NULL)
-				ERR_403_NOSUCHCHANNEL(client, channel_name, server);
-
 			if (channel->is_mode_key_needed() && channel->get_key() != key)
 				ERR_475_BADCHANNELKEY(client, channel_name, server);
 
@@ -85,11 +83,13 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 		channel->add_client(client, status);
 
 		channel->send_msg(client.get_nickname(), "JOIN " + channel->get_name());
+
 		if (channel->get_topic() != "")
 		{
 			RPL_332_TOPIC(client, *channel);
 			RPL_333_TOPICWHOTIME(client, *channel);
 		}
+
 		RPL_353_NAMREPLY(client, *channel, server);
 		RPL_366_ENDOFNAMES(client, *channel, server);
 	}
