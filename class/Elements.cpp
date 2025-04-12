@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:26:29 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 18:31:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 18:59:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ Elements::Elements(const std::string & str)
 		start = stop + 1;
 		stop = str.find(',', start);
 	}
-	if (start < str.length())
+	if (start <= str.length())
 		_elements.push_back(str.substr(start, str.length() - start));
 }
 
