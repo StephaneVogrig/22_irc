@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 17:05:41 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:31:47 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,18 @@ void RPL_341_INVITING(Client & client, const std::string & name, Channel & chann
 		( "H" / "G" > ["*"] [ ( "@" / "+" ) ]
 		:<hopcount> <real name>"
 */
-void RPL_352_WHOREPLY(Client & client, Client & target, Server & server, const std::string & channel_name, const std::string & flags)
+void RPL_352_WHOREPLY(Client & client, Client & target, Server & server, Channel * channel)
 {
+	std::string flags("H");
+	std::string channel_name;
+	if (!channel)
+			channel_name = "*";
+	else
+	{
+		channel_name = channel->get_name();
+		if (channel->is_operator(target))
+			flags += "@";
+	}
 	client.send_msg(":" + server.get_name() + " 352 " + client.get_nickname() + " " + channel_name + " " + target.get_username() + " " + client.get_hostadress() + " " + server.get_name() + " " + target.get_nickname() + " " + flags + " :0 " + target.get_realname());
 }
 

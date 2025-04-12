@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 14:53:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:26:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,10 +314,7 @@ void Channel::send_who(Client & sender, Server & server)
 {
 	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
-		std::string flags("H");
-		if (is_operator(*it->second.first))
-			flags += "*";
-		RPL_352_WHOREPLY(sender, *it->second.first, server, _channel_name, flags);
+		RPL_352_WHOREPLY(sender, *it->second.first, server, this);
 	}
 }
 

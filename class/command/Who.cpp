@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 16:41:06 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:26:52 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,7 @@ void Who::exec_on_user(Client & client, const Params & params, Server & server)
 	Client * target = server.get_client_by_name(params.get_first());
 	if (target != NULL)
 	{
-		std::string flags("H");
-		std::string channel_name;
-		Channel *channel = target->get_last_channel_subscripted();
-		if (!channel)
-			channel_name = "*";
-		else
-		{
-			channel_name = channel->get_name();
-			if (channel->is_operator(client))
-				flags += "*";
-		}
-		RPL_352_WHOREPLY(client, *target, server, channel_name, flags);
+		Channel * channel = target->get_last_channel_subscripted();
+		RPL_352_WHOREPLY(client, *target, server, channel);
 	}
 }
