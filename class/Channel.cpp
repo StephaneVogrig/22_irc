@@ -6,7 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/04/11 16:35:09 by gcannaud         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/12 14:36:32 by svogrig          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +121,8 @@ std::string Channel::get_clients()
 	{
 		if (it != _chan_clients.begin())
 			str += " ";
-		if (is_founder(*it->second.first))
-			str += "~";
-		else if (is_operator(*it->second.first))
+
+		if (is_operator(*it->second.first))
 			str += "@";
 		else if (is_halfop(*it->second.first))
 			str += "%";
