@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/11 16:34:23 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/13 00:57:01 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Kick::~Kick()
 
 void Kick::exec(Client & client, const Params & params, Server & server)
 {
-	if (params.get_nbr() != 2)
+	if (params.get_nbr() < 2)
 		ERR_461_NEEDMOREPARAMS(client, "KICK", server);
 
 	Channel * channel = server.get_channel(params.get_first());

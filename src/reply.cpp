@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 22:23:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 23:34:50 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,18 @@ void RPL_324_CHANNELMODEIS(Client & client, Channel & channel, Server & server)
 	std::string params;
 	for (std::string::const_iterator it = modestr.begin(); it != modestr.end(); ++it)
 	{
-		if (*it == 'l')
-			params += " " + to_string(channel.get_limit_nbr_client());
-		if (*it == 'k')
+		if (channel.is_join(client))
 		{
-			if (channel.is_join(client))
+			if (*it == 'l')
+				params += " " + to_string(channel.get_limit_nbr_client());
+			if (*it == 'k')
 				params +=  " " + channel.get_key();
-			else
+		}
+		else
+		{
+			if (*it == 'l')
+				params +=  " **";
+			if (*it == 'k')
 				params +=  " *****";
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/11 16:32:35 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/13 00:45:23 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,10 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 
 	if (Channel::is_a_valid_name(target))
 	{
-		if (!server.channel_exist(target))
-			ERR_403_NOSUCHCHANNEL(client, target, server);
-
 		Channel * channel = server.get_channel(target);
 		if (channel == NULL)
 			ERR_403_NOSUCHCHANNEL(client, target, server);
+
 		if (!channel->is_join(client))
 			ERR_442_NOTONCHANNEL(client, *channel, server);
 

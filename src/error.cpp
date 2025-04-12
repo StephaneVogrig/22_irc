@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 17:36:52 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/13 00:46:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Indicates that no client can be found for the supplied nickname. The text used i
 */
 void ERR_401_NOSUCHNICK(Client & client, Server & server, const std::string & name)
 {
-	client.send_msg(":" + server.get_name() + " 401 " + client.get_nickname() + " " + name + " :No such nick/channel");
+	client.send_msg(":" + server.get_name() + " 401 " + client.get_nickname() + " " + name + " :No such nickname");
 	throw Protocole_error();
 }
 
@@ -170,7 +170,7 @@ Returned when a client command cannot be parsed because not enough parameters we
 */
 void ERR_461_NEEDMOREPARAMS(Client & client, const std::string & command, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 461 " + command + " :Not enough parameters");
+	client.send_msg(":" + server.get_name() + " 461 " + client .get_nickname() + " " + command + " :Not enough parameters");
 	throw Protocole_error();
 }
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 21:58:06 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/13 01:23:50 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 						ERR_467_KEYSET(client, *channel, server, *it);
 					channel->set_mode(*it);
 				}
-				if (action == '-')
+				else
 					channel->unset_mode(*it);
 			}
 			else if (*it == 't')
@@ -85,29 +85,39 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 						ERR_467_KEYSET(client, *channel, server, *it);
 					channel->set_mode(*it);
 				}
-				if (action == '-')
+				else
 					channel->unset_mode(*it);
 			}
 			else if (*it == 'k')
 			{
+				if (i >= params.get_nbr())
+					ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the key mode", server);
+
+				mode_param = params.get_param(i++);
+
 				if (action == '+')
 				{
-					if (i >= params.get_nbr())
-						ERR_461_NEEDMOREPARAMS(client, _name, server);
-					mode_param = params.get_param(i++);
-					if (channel->get_key() == mode_param && channel->is_mode_key_needed())
+					if (channel->is_mode_key_needed())
 						ERR_467_KEYSET(client, *channel, server, *it);
-					if (!channel->is_mode_key_needed())
-						channel->set_mode(*it);
+
+					if (mode_param.find(' ') != std::string::npos)
+						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "parameter invalid (despite Gael's wishes)", server);
+
+					channel->set_mode(*it);
 					channel->set_key(mode_param);
 				}
-				if (action == '-')
+				else
+				{
+					if (channel->get_key() != mode_param)
+						throw Protocole_error();
 					channel->unset_mode(*it);
+				}
 			}
 			else if (*it == 'o')
 			{
 				if (i >= params.get_nbr())
-					ERR_461_NEEDMOREPARAMS(client, _name, server);
+					ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the operator mode", server);
+
 				mode_param = params.get_param(i++);
 
 				Client * target = server.get_client_by_name(mode_param);
@@ -119,10 +129,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					ERR_441_USERNOTINCHANNEL(client, target->get_nickname(), *channel, server);
 
 				if (action == '+')
-				{
 					channel->set_client_status(*target, *it);
-				}
-				if (action == '-')
+				else
 					channel->unset_client_status(*target, *it);
 			}
 			else if (*it == 'l')
@@ -130,19 +138,22 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 				if (action == '+')
 				{
 					if (i >= params.get_nbr())
-						ERR_461_NEEDMOREPARAMS(client, _name, server);
+						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the limit mode", server);
+
 					mode_param = params.get_param(i++);
 					char *		endptr = NULL;
 					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
 					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number", server);
+
 					if (channel->get_limit_nbr_client() == nbr && channel->is_mode_limit_nbr_client())
 						ERR_467_KEYSET(client, *channel, server, *it);
+
 					if (!channel->is_mode_limit_nbr_client())
 						channel->set_mode(*it);
 					channel->set_limit(nbr);
 				}
-				if (action == '-')
+				else
 					channel->unset_mode(*it);
 			}
 			else

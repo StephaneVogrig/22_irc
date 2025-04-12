@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/11 16:36:40 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:06:22 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@
 # include "Pass.hpp"
 # include "Join.hpp"
 # include "Ping.hpp"
-# include "Pong.hpp"
 # include "Topic.hpp"
 # include "Quit.hpp"
 # include "Part.hpp"

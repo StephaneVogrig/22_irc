@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
+#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/11 16:36:57 by gcannaud         ###   ########.fr        #
+#    Updated: 2025/04/13 01:06:00 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,6 @@ SRCS_CLASS			:=	Client.cpp \
 						command/Pass.cpp \
 						command/Join.cpp \
 						command/Ping.cpp \
-						command/Pong.cpp \
 						command/Topic.cpp \
 						command/Quit.cpp \
 						command/Kick.cpp \

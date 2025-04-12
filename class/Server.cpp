@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/11 16:36:16 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/13 01:06:33 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void Server::init_commands(void)
 	_commands["PASS"] = new Pass();
 	_commands["JOIN"] = new Join();
 	_commands["PING"] = new Ping();
-	_commands["PONG"] = new Pong();
 	_commands["QUIT"] = new Quit();
 	_commands["PART"] = new Part();
 	_commands["KICK"] = new Kick();
