@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2025/04/11 16:35:09 by gcannaud         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/12 14:36:32 by svogrig          ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2025/04/12 14:47:19 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
