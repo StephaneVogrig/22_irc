@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 18:48:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/11 16:36:16 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void Server::init_commands(void)
 	_commands["INVITE"] = new Invite();
 	_commands["PRIVMSG"] = new Privmsg();
 	_commands["MODE"] = new Mode();
+	_commands["NOTICE"] = new Notice();
 }
 
 void Server::destroy_commands(void)

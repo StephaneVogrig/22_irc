@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 17:31:36 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/11 16:34:39 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		}
 	}
 	if (!mode_rpl.is_empty())
-		channel->send_msg(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
+		channel->send_to_all(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
 }
 
 void Mode::exec_on_user(Client & client, const Params & params, Server & server)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
+#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/08 04:32:38 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/11 16:36:57 by gcannaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRCS_CLASS			:=	Client.cpp \
 						command/Kick.cpp \
 						command/Invite.cpp \
 						command/Privmsg.cpp \
+						command/Notice.cpp \
 						command/Mode.cpp \
 						command/Part.cpp
 						

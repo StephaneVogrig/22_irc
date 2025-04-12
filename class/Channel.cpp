@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/11 15:20:35 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/11 16:35:09 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ void Channel::set_random_operator(Server & server)
 	Client * client = _chan_clients.begin()->second.first;
 	std::string & status = _chan_clients.begin()->second.second;
 	status += 'o';
-	send_msg(server.get_name(), "MODE " + _channel_name + " +o " + client->get_nickname());
+	send_to_all(server.get_name(), "MODE " + _channel_name + " +o " + client->get_nickname());
 }
 
 bool Channel::is_a_valid_name(const std::string & str)
@@ -291,7 +291,7 @@ void Channel::remove_client(Client & client)
 	log("remove", client.get_nickname());
 }
 
-void Channel::send_msg(const std::string & sender, const std::string & msg)
+void Channel::send_to_all(const std::string & sender, const std::string & msg)
 {
 	std::string irc_msg = ":" + sender + " " + msg;
 	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
@@ -300,14 +300,14 @@ void Channel::send_msg(const std::string & sender, const std::string & msg)
 	}
 }
 
-void Channel::send_priv_msg(const Client & sender, const std::string & msg)
+void Channel::send_to_others(const Client & sender, const std::string & cmd, const std::string & msg)
 {
-	std::string irc_msg = ":" + sender.get_nickname() + " PRIVMSG ";
+	std::string irc_msg = ":" + sender.get_nickname() + " " + cmd + " " + _channel_name;
 
 	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		if (it->first != sender.get_fd())
-			it->second.first->send_msg(irc_msg + _channel_name + " :" + msg);
+			it->second.first->send_msg(irc_msg + " :" + msg);
 	}
 }
 
