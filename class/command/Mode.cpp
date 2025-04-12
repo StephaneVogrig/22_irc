@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/11 16:34:39 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:25:58 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 
 	int i = 2;
 
-	char action = '\0';
+	char action = '+';
 	Mode_rpl mode_rpl;
 
 	for (std::string::iterator it = modestring.begin(); it != modestring.end(); ++it)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:47:39 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/11 16:34:39 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:32:05 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Part::~Part()
 
 void Part::exec(Client & client, const Params & params, Server & server)
 {
-	if (params.get_nbr() < 2)
+	if (params.get_nbr() < 1)
 		ERR_461_NEEDMOREPARAMS(client, "PART", server);
 
 	Elements channels(params.get_first());
