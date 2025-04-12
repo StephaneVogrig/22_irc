@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/10 18:58:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 15:15:00 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ RPL_TOPIC (332)
   "<client> <channel> :<topic>"
 Sent to a client when joining the <channel> to inform them of the current topic of the channel.
 */
-void RPL_332_TOPIC(Client & client, Channel & channel)
+void RPL_332_TOPIC(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":server 332 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic());
+	client.send_msg(":" + server.get_name() + " 332 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic());
 }
 
 /*
@@ -104,9 +104,9 @@ RPL_TOPICWHOTIME (333)
   "<client> <channel> <nick> <setat>"
 Sent to a client to let them know who set the topic (<nick>) and when they set it (<setat> is a unix timestamp). Sent after RPL_TOPIC (332).
 */
-void RPL_333_TOPICWHOTIME(Client & client, Channel & channel)
+void RPL_333_TOPICWHOTIME(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":server 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who() + " " + to_string(channel.get_topic_setat()));
+	client.send_msg(":" + server.get_name() + " 333 " + client.get_nickname() + " " + channel.get_name() + " :" + channel.get_topic_who() + " " + to_string(channel.get_topic_setat()));
 }
 
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/11 16:34:39 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:20:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 			RPL_331_NOTOPIC(client, *channel, server);
 		else
 		{
-			client.send_msg(RPL_332_TOPIC_(client.get_nickname(), channel->get_name(), channel->get_topic()));
-			RPL_333_TOPICWHOTIME(client, *channel);
+			RPL_332_TOPIC(client, *channel, server);
+			RPL_333_TOPICWHOTIME(client, *channel, server);
 		}
 		return ;
 	}

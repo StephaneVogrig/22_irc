@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 14:47:19 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 14:53:15 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void Channel::unset_client_status(const Client & client, char status)
 {
 	std::string & status_string = _chan_clients.find(client.get_fd())->second.second;
 	if (status_string.find(status) == std::string::npos)
-		return ;
+		throw Protocole_error() ;
 	status_string.erase(status_string.find(status), 1);
 }
 
