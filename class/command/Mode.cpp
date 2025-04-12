@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 20:25:58 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 21:58:06 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void Mode::exec(Client & client, const Params & params, Server & server)
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);
 	else
-		exec_on_user(client, params, server);
+		ERR_476_BADCHANMASK(client, params.get_first(), server);
 }
 
 void Mode::exec_on_channel(Client & client, const Params & params, Server & server)
@@ -97,9 +97,9 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 					mode_param = params.get_param(i++);
 					if (channel->get_key() == mode_param && channel->is_mode_key_needed())
 						ERR_467_KEYSET(client, *channel, server, *it);
-
+					if (!channel->is_mode_key_needed())
+						channel->set_mode(*it);
 					channel->set_key(mode_param);
-					channel->set_mode(*it);
 				}
 				if (action == '-')
 					channel->unset_mode(*it);
@@ -138,8 +138,8 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number", server);
 					if (channel->get_limit_nbr_client() == nbr && channel->is_mode_limit_nbr_client())
 						ERR_467_KEYSET(client, *channel, server, *it);
-
-					channel->set_mode(*it);
+					if (!channel->is_mode_limit_nbr_client())
+						channel->set_mode(*it);
 					channel->set_limit(nbr);
 				}
 				if (action == '-')
@@ -159,20 +159,4 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 	}
 	if (!mode_rpl.is_empty())
 		channel->send_to_all(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
-}
-
-void Mode::exec_on_user(Client & client, const Params & params, Server & server)
-{
-	(void)client;
-	(void)params;
-	(void)server;
-	try
-	{
-		Client * target = server.get_client_by_name(params.get_first());
-		(void)target;
-	}
-	catch(const Server::Client_not_found & e)
-	{
-		ERR_401_NOSUCHNICK(client, server, params.get_first());
-	}
 }

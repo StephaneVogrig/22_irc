@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 15:16:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 22:32:27 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 			if (channel->is_mode_key_needed() && channel->get_key() != key)
 				ERR_475_BADCHANNELKEY(client, channel_name, server);
 
-			if (channel->is_mode_limit_nbr_client() && channel->get_nbr_client() == channel->get_limit_nbr_client())
+			if (channel->is_mode_limit_nbr_client() && channel->get_nbr_client() >= channel->get_limit_nbr_client())
 				ERR_471_CHANNELISFULL(client, *channel, server);
 
 			if (channel->is_mode_invite_only() && !channel->is_invited(client))

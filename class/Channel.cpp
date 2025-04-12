@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 17:26:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 22:29:08 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ const std::string & Channel::get_key(void) const
 	return _key;
 }
 
-const std::string & Channel::get_client_status(const Client & client)
+const std::string & Channel::get_client_status(const Client & client) const
 {
 	return _chan_clients.find(client.get_fd())->second.second;
 }
 
-int  Channel::get_limit_nbr_client()
+int  Channel::get_limit_nbr_client() const
 {
 	return _limit_nbr_client;
 }
@@ -110,10 +110,10 @@ int  Channel::get_nbr_client() const
 	return _chan_clients.size();
 }
 
-std::string Channel::get_clients()
+std::string Channel::get_clients() const
 {
 	std::string str;
-	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
+	for (t_chan_clients::const_iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		if (it != _chan_clients.begin())
 			str += " ";
@@ -127,54 +127,54 @@ std::string Channel::get_clients()
 	return str;
 }
 
-bool Channel::is_mode_invite_only(void)
+bool Channel::is_mode_invite_only(void) const
 {
 	return _modes.find("i") != std::string::npos;
 }
 
-bool Channel::is_mode_protected_topic(void)
+bool Channel::is_mode_protected_topic(void) const
 {
 	return _modes.find("t") != std::string::npos;
 }
 
-bool Channel::is_mode_key_needed()
+bool Channel::is_mode_key_needed() const
 {
 	return _modes.find("k") != std::string::npos;
 }
 
-bool Channel::is_mode_limit_nbr_client(void)
+bool Channel::is_mode_limit_nbr_client(void) const
 {
 	return _modes.find("l") != std::string::npos;
 }
 
-bool Channel::is_join(const Client & client)
+bool Channel::is_join(const Client & client) const
 {
 	return _chan_clients.find(client.get_fd()) != _chan_clients.end();
 }
 
-bool Channel::is_invited(const Client & client)
+bool Channel::is_invited(const Client & client) const
 {
 	return _invited.find(client.get_fd()) != _invited.end();
 }
 
-bool Channel::is_founder(const Client & client)
+bool Channel::is_founder(const Client & client) const
 {
 	return get_client_status(client).find('q') != std::string::npos;
 }
 
-bool Channel::is_operator(const Client & client)
+bool Channel::is_operator(const Client & client) const
 {
 	return get_client_status(client).find('o') != std::string::npos;
 }
 
-bool Channel::is_halfop(const Client & client)
+bool Channel::is_halfop(const Client & client) const
 {
 	return get_client_status(client).find('h') != std::string::npos;
 }
 
-bool Channel::has_an_operator()
+bool Channel::has_an_operator() const
 {
-	for (t_chan_clients::iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
+	for (t_chan_clients::const_iterator it = _chan_clients.begin(); it != _chan_clients.end(); ++it)
 	{
 		if (is_operator(*it->second.first))
 			return true;

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 18:23:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/12 22:23:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,23 @@ RPL_CHANNELMODEIS (324)
   "<client> <channel> <modestring> <mode arguments>..."
 Sent to a client to inform them of the currently-set modes of a channel. <channel> is the name of the channel. <modestring> and <mode arguments> are a mode string and the mode arguments (delimited as separate parameters) as defined in the MODE message description.
 */
-void RPL_324_CHANNELMODEIS(Client & client, const Channel & channel, Server & server)
+void RPL_324_CHANNELMODEIS(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 324 " + client.get_nickname() + " " + channel.get_name() + " +" + channel.get_modes());
+	const std::string & modestr = channel.get_modes();
+	std::string params;
+	for (std::string::const_iterator it = modestr.begin(); it != modestr.end(); ++it)
+	{
+		if (*it == 'l')
+			params += " " + to_string(channel.get_limit_nbr_client());
+		if (*it == 'k')
+		{
+			if (channel.is_join(client))
+				params +=  " " + channel.get_key();
+			else
+				params +=  " *****";
+		}
+	}
+	client.send_msg(":" + server.get_name() + " 324 " + client.get_nickname() + " " + channel.get_name() + " +" + modestr + params);
 }
 
 /*

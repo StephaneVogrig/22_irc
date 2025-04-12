@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:12:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/11 16:33:57 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/12 22:28:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ class Channel
 		const std::time_t & get_topic_setat() const;
 		const std::string & get_modes() const;
 		const std::string & get_key() const;
-		const std::string & get_client_status(const Client & client);
-		int 				get_limit_nbr_client();
+		const std::string & get_client_status(const Client & client) const;
+		int 				get_limit_nbr_client() const;
 		int					get_nbr_client() const;
-		std::string			get_clients();
+		std::string			get_clients() const;
 
-		bool is_mode_invite_only();
-		bool is_mode_protected_topic();
-		bool is_mode_key_needed();
-		bool is_mode_limit_nbr_client();
-		bool is_join(const Client & client);
-		bool is_invited(const Client & client);
-		bool is_founder(const Client & client);
-		bool is_operator(const Client & client);
-		bool is_halfop(const Client & client);
-		bool has_an_operator();
+		bool is_mode_invite_only() const;
+		bool is_mode_protected_topic() const;
+		bool is_mode_key_needed() const;
+		bool is_mode_limit_nbr_client() const;
+		bool is_join(const Client & client) const;
+		bool is_invited(const Client & client) const;
+		bool is_founder(const Client & client) const;
+		bool is_operator(const Client & client) const;
+		bool is_halfop(const Client & client) const;
+		bool has_an_operator() const;
 
 		void set_topic(Client & client, const std::string & topic, Server & server);
 		void set_mode(char c);
