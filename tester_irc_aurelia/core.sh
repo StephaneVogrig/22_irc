@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/02 01:58:42 by svogrig           #+#    #+#              #
-#    Updated: 2025/04/02 22:34:23 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/12 16:05:20 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,14 +17,14 @@ TEMPFILE=temp_file
 
 start_test() {
 	echo -n "${FG_YELLOW}"
-	printf "%12s" "$1"
+	printf "%16s" "$1"
 	echo -n " : "
 	if [ -f "$1" ]; then
 		rm "$1"
 	fi
 	{
 		echo -n "${FG_YELLOW}"
-		printf "%12s" "$1"
+		printf "%16s" "$1"
 		echo -n " : "
 	} >> $ERROR_FILE
 	printf "1" >> $NBR_TEST
