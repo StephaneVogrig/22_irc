@@ -1,2 +1,9 @@
 www.prevision-meteo.ch/services/paris
 prevision-meteo.ch/services/json/Marseille
+
+openssl s_client -quiet -connect www.prevision-meteo.ch:443 
+
+GET /services/json/Marseille HTTP/1.1
+Host: www.prevision-meteo.ch
+Connection: close
+
