@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/13 01:06:00 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/16 21:10:56 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ BOLD				:=	\033[1m
 NC					:=	\033[0m
 
 NAME				:= 	ircserv
+NAME_BOT			:=	meteobot
 
 # includes --------------------------------------------------------------------#
 
@@ -45,6 +46,12 @@ SRCS				:= 	main.cpp \
 
 SRCS				:=	$(SRCS:%=$(SRC_DIR)/%)
 
+SRCS_BOT			:=	meteobot.cpp \
+						signal.cpp \
+						utils.cpp \
+						socket.cpp
+
+SRCS_BOT			:=	$(SRCS_BOT:%=$(SRC_DIR)/%)
 
 # sources madatory only -------------------------------------------------------#
 
@@ -73,8 +80,12 @@ SRCS_CLASS			:=	Client.cpp \
 						command/Notice.cpp \
 						command/Mode.cpp \
 						command/Part.cpp
-						
+
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
+
+SRCS_BOT_CLASS		:=	Bot.cpp
+
+SRCS_BOT_CLASS		:=	$(SRCS_BOT_CLASS:%=$(SRC_CLASS_DIR)/%)
 
 # objects ---------------------------------------------------------------------#
 
@@ -85,6 +96,13 @@ OBJS				:= 	$(SRCS:%.cpp=$(OBJ_DIR)%.o)
 OBJS				:= 	$(OBJS) $(SRCS_CLASS:%.cpp=$(OBJ_DIR)%.o) 
 
 DEPS				:=	$(OBJS:.o=.d)
+
+
+OBJS_BOT			:= 	$(SRCS_BOT:%.cpp=$(OBJ_DIR)%.o)
+
+OBJS_BOT			:= 	$(OBJS_BOT) $(SRCS_BOT_CLASS:%.cpp=$(OBJ_DIR)%.o)
+
+DEPS_BOT			:=	$(OBJS_BOT:.o=.d)
 
 # compilation -----------------------------------------------------------------#
 
@@ -120,7 +138,11 @@ init:
 test: all
 	./$(NAME) 6666 "admin"
 
+bot:
+	@$(MAKE) -j makebot
+
 makeall: $(NAME)
+makebot: $(NAME_BOT)
 
 #------------------------------------------------------------------------------#
 # compilation                                                                  #
@@ -138,6 +160,9 @@ $(OBJ_DIR)%.o: %.cpp
 
 $(NAME): $(OBJS)
 	@$(CXX) $(CFLAGS) $(OBJS) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
+
+$(NAME_BOT): $(OBJS_BOT)
+	@$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
 
 #------------------------------------------------------------------------------#
 # specifications                                                               #

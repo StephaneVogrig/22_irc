@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:20:20 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 15:39:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/16 20:00:27 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 #define HIDE_OFF		"\033[28m"
 #define ERASE_LINE		"\033[K"
 
+#include <cstdlib>
 #include <string>
 #include <sstream>
 #include <ostream>
@@ -93,5 +94,8 @@ struct tm * current_time();
 std::string tm_to_time_str(struct tm * timeinfo);
 std::string current_time_str();
 std::string current_date_str();
+
+void check_nbr_arg(int argc, char ** argv);
+int str_to_port(const char * str);
 
 #endif

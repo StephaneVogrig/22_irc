@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   meteobot.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/16 20:00:27 by svogrig          ###   ########.fr       */
+/*   Created: 2025/04/15 10:47:23 by svogrig           #+#    #+#             */
+/*   Updated: 2025/04/16 20:07:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cstdlib>
+#include <exception>
 #include <iostream>
-#include <unistd.h>
-#include <signal.h>
-#include "Server.hpp"
+#include "signal.hpp"
 #include "utils.hpp"
+#include "Bot.hpp"
 
-void sig_handler(int sig)
-{
-	g_signal = sig;
-}
+volatile sig_atomic_t g_sigint;
 
 int main(int argc, char ** argv)
 {
 	try
 	{
-		signal(SIGINT, sig_handler);
+		sigint_handler_setup();
 		check_nbr_arg(argc, argv);
-		int port = str_to_port(argv[1]);
-		std::string password(argv[2]);
-		Server server(port, password, "GreatServer_42");
-		server.run();
+		Bot bot(str_to_port(argv[1]), std::string(argv[2]));
+		bot.authentication();
+		bot.run();
+		return (EXIT_SUCCESS);
 	}
-	catch (const std::runtime_error& e)
+	catch(const std::exception& e)
 	{
-		std::cerr << FG_RED<< e.what() << RESET << std::endl;
+		std::cerr << e.what() << '\n';
 		return (EXIT_FAILURE);
 	}
-	return (EXIT_SUCCESS);
 }

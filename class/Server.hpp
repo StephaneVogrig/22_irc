@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/13 01:06:22 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:31:28 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@
 
 # define MSG_WELCOME "Welcome on the best irc server\n"
 # define MSG_SERV_FULL "Connection refused : server full\n"
-# define MSG_SERV_CLOSED "Server closed\n"
+# define MSG_SERV_CLOSED "Server closed\r\n"
 
 // # define DEBUG
 
