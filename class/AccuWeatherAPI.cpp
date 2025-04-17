@@ -21,14 +21,16 @@ AccuWeatherAPI::AccuWeatherAPI(std::string key)
 AccuWeatherAPI::~AccuWeatherAPI()
 {}
 
-std::string extract_json(const std::string& http_response) {
+std::string extract_json(const std::string& http_response)
+{
 	size_t json_start = http_response.find("\r\n\r\n");
 	if (json_start == std::string::npos)
 		return "";
 	return http_response.substr(json_start + 4);
 }
 
-std::string extract_value(const std::string& json, const std::string& key) {
+std::string extract_value(const std::string& json, const std::string& key)
+{
 	std::string pattern = "\"" + key + "\":\"";
 	size_t start = json.find(pattern);
 	if (start == std::string::npos)
@@ -54,7 +56,7 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 {
 	std::string path = "/currentconditions/v1/" + location + "?apikey=" + apiKey;
 	std::string response = client.get("dataservice.accuweather.com", path);
-	
+
 	std::cout << "Response: " << response << std::endl;
 	// std::string json = extract_json(response);
 	WeatherInfo info;
