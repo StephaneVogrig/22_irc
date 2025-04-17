@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 16:44:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/17 22:46:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ class AccuWeatherAPI
 		WeatherInfo	fetch_current_conditions(const std::string & location);
 
 	private:
-		std::string apiKey;
-		HttpClient  client;
+		std::string _apiKey;
+		HttpClient  _client;
 };
 
 #endif

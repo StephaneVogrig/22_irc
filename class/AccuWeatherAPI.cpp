@@ -6,16 +6,16 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 16:44:59 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 00:00:09 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AccuWeatherAPI.hpp"
 
 AccuWeatherAPI::AccuWeatherAPI(std::string key)
-	: apiKey(key), client()
+	: _apiKey(key), _client()
 {
-	std::cout << "API Key: " << apiKey << std::endl;
+	std::cout << "API Key: " << _apiKey << std::endl;
 }
 
 AccuWeatherAPI::~AccuWeatherAPI()
@@ -44,8 +44,8 @@ std::string extract_value(const std::string& json, const std::string& key)
 
 std::string AccuWeatherAPI::get_location_key(const std::string & location)
 {
-	std::string path = "/locations/v1/cities/search?apikey=" + apiKey + "&q=" + location;
-	std::string response = client.get("dataservice.accuweather.com", path);
+	std::string path = "/locations/v1/cities/search?apikey=" + _apiKey + "&q=" + location;
+	std::string response = _client.get("dataservice.accuweather.com", path);
 
 	std::string json = extract_json(response);
 	std::string locationCode = extract_value(json, "Key");
@@ -54,8 +54,8 @@ std::string AccuWeatherAPI::get_location_key(const std::string & location)
 
 WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & location)
 {
-	std::string path = "/currentconditions/v1/" + location + "?apikey=" + apiKey;
-	std::string response = client.get("dataservice.accuweather.com", path);
+	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey;
+	std::string response = _client.get("dataservice.accuweather.com", path);
 
 	std::cout << "Response: " << response << std::endl;
 	// std::string json = extract_json(response);

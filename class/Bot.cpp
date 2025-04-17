@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/17 00:30:31 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/17 23:54:39 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void Bot::run()
 			continue ;
 		std::string receive = get_next_msg();
 		std::cout << receive << std::endl;
-		if (receive.find("!meteo"))
+		if (receive.find("!meteo") != std::string::npos)
 			WeatherInfo info = meteo.fetch_current_conditions(meteo.get_location_key("Paris"));
 	}
 }
