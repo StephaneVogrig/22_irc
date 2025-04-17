@@ -25,6 +25,8 @@
 #include "socket.hpp"
 #include "utils.hpp"
 
+#include "AccuWeatherAPI.hpp"
+
 #define BOT_NICKNAME "meteobot"
 
 class Bot

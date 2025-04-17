@@ -49,6 +49,8 @@ void Bot::run()
 	struct pollfd pollfds[1];
 	pollfds[0].fd = _socket_irc;
 	pollfds[0].events = POLLIN;
+	AccuWeatherAPI meteo("papFcEEYGbeI8wKArs5dVLz22wSAZ2A1");
+
 	while (true)
 	{
 		int nbr_event = poll(pollfds, 1, 1);
@@ -63,6 +65,8 @@ void Bot::run()
 			continue ;
 		std::string receive = get_next_msg();
 		std::cout << receive << std::endl;
+		if (receive.find("!meteo"))
+			WeatherInfo info = meteo.fetch_current_conditions(meteo.get_location_key("Paris"));
 	}
 }
 

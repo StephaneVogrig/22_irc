@@ -83,7 +83,9 @@ SRCS_CLASS			:=	Client.cpp \
 
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 
-SRCS_BOT_CLASS		:=	Bot.cpp
+SRCS_BOT_CLASS		:=	AccuWeatherAPI.cpp \
+						HttpClient.cpp \
+						Bot.cpp
 
 SRCS_BOT_CLASS		:=	$(SRCS_BOT_CLASS:%=$(SRC_CLASS_DIR)/%)
 
