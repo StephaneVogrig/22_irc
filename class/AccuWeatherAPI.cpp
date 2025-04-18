@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/18 19:26:45 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 21:20:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ std::string AccuWeatherAPI::get_location_key(const std::string & location)
 	std::string path = "/locations/v1/cities/search?apikey=" + _apiKey + "&q=" + location;
 	std::string host = "dataservice.accuweather.com";
 	std::string json = get_json(host, path);
+	if (json == "Unauthorized")
+		return "Unauthorized";
 
 	std::string locationCode = extract_value(json, "Key");
 	return locationCode;
@@ -77,8 +79,15 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey + "&details=true";
 	std::string host = "dataservice.accuweather.com";
 	std::string json = get_json(host, path);
+	
 
 	WeatherInfo info;
+	if (json == "Unauthorized")
+	{
+		info.description = "Unauthorized";
+		return info;
+	}
+	
 	info.description = extract_value(json, "WeatherText");
 	info.temperature = extract_num_value(json, "\"Metric\":{\"Value\":");
 	info.humidity = extract_num_value(json, "\"RelativeHumidity\":");
@@ -98,7 +107,10 @@ std::string AccuWeatherAPI::get_json(const std::string & host, const std::string
 {
 	std::string response = _client.get(host, path);
 	if (response.find("Unauthorized") != std::string::npos)
-		throw std::runtime_error("Invalid API key");
+	{
+		// throw std::runtime_error("Invalid API key");
+		return "Unauthorized";
+	}
 	std::string json = extract_json(response);
 	return json;
 }

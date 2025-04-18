@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/18 20:38:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 21:23:06 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,29 +64,38 @@ std::string Bot::get_api_key()
 	return key;
 }
 
+#define LOCATION_NOT_FOUND ":meteobot PRIVMSG #meteobot :Location not found"
+#define INVALID_API_KEY ":meteobot PRIVMSG #meteobot :Invalid API key"
+
 void Bot::send_meteo(const std::string & location)
 {
 	if (location.empty())
 	{
-		send_to_irc("PRIVMSG #meteobot :Location not found");
+		send_to_irc(LOCATION_NOT_FOUND);
 		std::cout << FG_RED "Location not found" RESET << std::endl;
 		return ;
 	}
-	std::string errmsg = "PRIVMSG #meteobot :Location not found";
+
 	std::string location_key = _meteo.get_location_key(location);
-	if (location_key.empty() || location_key.find("404") != std::string::npos)
+	if (location_key.empty())
 	{
-		send_to_irc(errmsg);
+		send_to_irc(LOCATION_NOT_FOUND);
 		std::cout << FG_RED "Location not found" RESET << std::endl;
 		return ;
 	}
+	else if (location_key == "Unauthorized")
+	{
+		send_to_irc(INVALID_API_KEY);
+		return ;
+	}
+
 	WeatherInfo info = _meteo.fetch_current_conditions(location_key);
-	if (location_key.empty() || location_key.find("404") != std::string::npos)
+	if (info.description == "Unauthorized")
 	{
-		send_to_irc(errmsg);
-		std::cout << FG_RED "Location not found" RESET << std::endl;
+		send_to_irc(INVALID_API_KEY);
 		return ;
 	}
+	
 	std::string msg = "PRIVMSG #meteobot :Weather for " + location +
 	" | " + info.description +
 	" | Temperature: " + info.temperature + "°C" +
