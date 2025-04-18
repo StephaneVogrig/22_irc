@@ -44,6 +44,10 @@ class Bot
 
 	private:
 
+		void		send_meteo(const std::string & location);
+
+		AccuWeatherAPI _meteo;
+
 		std::string	_buffer;
 		int			_socket_irc;
 		std::string _password_irc;

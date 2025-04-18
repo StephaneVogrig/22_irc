@@ -15,7 +15,8 @@
 /* constructor ---------------------------------------------------------------*/
 
 Bot::Bot(int port, const std::string & password_irc)
-	:	_password_irc(password_irc),
+	:	_meteo("dFZr3LarDyGv9z73Z9QyMFW2kiR3KVAv"),
+		_password_irc(password_irc),
 		_connection_irc_ko(false),
 		_nickname(BOT_NICKNAME)
 {
@@ -44,12 +45,39 @@ Bot::~Bot()
 
 /* public utilities ----------------------------------------------------------*/
 
+void Bot::send_meteo(const std::string & location)
+{
+	if (location.empty())
+	{
+		send_to_irc("PRIVMSG #meteobot :Location not found");
+		std::cout << FG_RED "Location not found" RESET << std::endl;
+		return ;
+	}
+	std::string errmsg = "PRIVMSG #meteobot :Location not found";
+	std::string location_key = _meteo.get_location_key(location);
+	std::cout << "Location key: " << location_key << std::endl;
+	if (location_key.empty() || location_key.find("404") != std::string::npos)
+	{
+		send_to_irc(errmsg);
+		std::cout << FG_RED "Location not found" RESET << std::endl;
+		return ;
+	}
+	WeatherInfo info = _meteo.fetch_current_conditions(location_key);
+	if (location_key.empty() || location_key.find("404") != std::string::npos)
+	{
+		send_to_irc(errmsg);
+		std::cout << FG_RED "Location not found" RESET << std::endl;
+		return ;
+	}
+	std::string msg = "PRIVMSG #meteobot :Meteo for " + location + ": " + info.description + ", " + info.temperature + "°C";
+	send_to_irc(msg);
+}
+
 void Bot::run()
 {
 	struct pollfd pollfds[1];
 	pollfds[0].fd = _socket_irc;
 	pollfds[0].events = POLLIN;
-	AccuWeatherAPI meteo("papFcEEYGbeI8wKArs5dVLz22wSAZ2A1");
 
 	while (true)
 	{
@@ -65,8 +93,20 @@ void Bot::run()
 			continue ;
 		std::string receive = get_next_msg();
 		std::cout << receive << std::endl;
-		if (receive.find("!meteo") != std::string::npos)
-			WeatherInfo info = meteo.fetch_current_conditions(meteo.get_location_key("Paris"));
+		size_t pos = receive.find("!meteo");
+		if (pos != std::string::npos)
+		{
+			std::cout << FG_GREEN "Meteo command received" RESET << std::endl;
+			if (receive.length() < pos + 7)
+			{
+				send_to_irc("PRIVMSG #meteobot :Location not found");
+				std::cout << FG_RED "Location not found" RESET << std::endl;
+				continue ;
+			}
+			std::string location = receive.substr(pos + 7, std::string::npos);
+			if (!location.empty())
+				send_meteo(location);
+		}
 	}
 }
 

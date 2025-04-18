@@ -19,7 +19,7 @@
 struct WeatherInfo
 {
 	std::string description;
-	float temperature;
+	std::string temperature;
 };
 
 class AccuWeatherAPI

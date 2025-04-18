@@ -42,6 +42,19 @@ std::string extract_value(const std::string& json, const std::string& key)
 	return json.substr(start, end - start);
 }
 
+std::string extract_temperature(const std::string& json)
+{
+	std::string pattern = "\"Metric\":{\"Value\":";
+	size_t start = json.find(pattern);
+	if (start == std::string::npos)
+		return "";
+	start += pattern.length();
+	size_t end = json.find(",", start);
+	if (end == std::string::npos)
+		return "";
+	return json.substr(start, end - start);
+}
+
 std::string AccuWeatherAPI::get_location_key(const std::string & location)
 {
 	std::string path = "/locations/v1/cities/search?apikey=" + _apiKey + "&q=" + location;
@@ -57,11 +70,9 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey;
 	std::string response = _client.get("dataservice.accuweather.com", path);
 
-	std::cout << "Response: " << response << std::endl;
-	// std::string json = extract_json(response);
+	std::string json = extract_json(response);
 	WeatherInfo info;
-	info.description = "No description available";
-	// info.description = extract_value(json, "WeatherText");
-	// info.temperature = std::stof(extract_nested_value(json, "Temperature", "Metric", "Value"));
+	info.description = extract_value(json, "WeatherText");
+	info.temperature = extract_temperature(json);
 	return info;
 }
