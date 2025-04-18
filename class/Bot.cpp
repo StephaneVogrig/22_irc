@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/18 18:30:18 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 20:38:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 Bot::Bot(int port, const std::string & password_irc)
 	:	_meteo(get_api_key()),
 		_password_irc(password_irc),
-		_connection_irc_ko(false),
-		_nickname(BOT_NICKNAME)
+		_nickname(BOT_NICKNAME),
+		_delimiter_irc("\r\n")
 {
 	_socket_irc = create_socket();
 	struct sockaddr_in addr_irc;
@@ -34,8 +34,6 @@ Bot::Bot(int port, const std::string & password_irc)
 		close(_socket_irc);
 		throw (std::runtime_error(FG_RED "connect failed" RESET));
 	}
-	// if (fcntl(_socket_irc, F_SETFL, O_NONBLOCK) == -1)
-	// 	throw(std::runtime_error(FG_RED "Bot constructor: fcntl failed: " RESET + std::string(strerror(errno))));
 }
 
 /* destructor ----------------------------------------------------------------*/
@@ -46,6 +44,12 @@ Bot::~Bot()
 }
 
 /* public utilities ----------------------------------------------------------*/
+
+void Bot::run()
+{
+	while (true)
+		process_irc_msg(Message(get_next_msg()));
+}
 
 std::string Bot::get_api_key()
 {
@@ -95,28 +99,6 @@ void Bot::send_meteo(const std::string & location)
 	send_to_irc(msg);
 }
 
-void Bot::run()
-{
-	struct pollfd pollfds[1];
-	pollfds[0].fd = _socket_irc;
-	pollfds[0].events = POLLIN;
-
-	while (true)
-	{
-		int nbr_event = poll(pollfds, 1, 1);
-		if (g_sigint)
-		{
-			std::cout << FG_PURPLE "\rBot closed" RESET << std::endl;
-			break ;
-		}
-		if( nbr_event == -1)
-			throw(std::runtime_error("poll failed"));
-		if (nbr_event == 0)
-			continue ;
-		receive_irc_data();
-	}
-}
-
 void Bot::process_irc_msg(const Message & msg)
 {
 	if (msg.get_command() == "JOIN")
@@ -125,95 +107,50 @@ void Bot::process_irc_msg(const Message & msg)
 		send_meteo(msg.get_params().get_param(1));
 }
 
-void Bot::receive_irc_data()
-{
-	static std::string	buffer;
-	std::string			delimiter("\r\n");
-	char				temp[512];
-	while (true)
-	{
-		ssize_t size_read = recv(_socket_irc, temp, sizeof(temp), MSG_NOSIGNAL);
-
-		// handle errors
-		if (size_read == 0)
-			throw (std::runtime_error(FG_PURPLE"Server closed" RESET));
-
-		else if (size_read ==  -1)
-		{
-			if (errno == EAGAIN || errno == EWOULDBLOCK)
-				break ;
-			throw std::runtime_error(FG_PURPLE "receive_irc_data: recv error: " RESET + std::string(strerror(errno)));
-		}
-
-		// handle data
-		std::string temp_str(temp, size_read);
-		size_t start = 0;
-		size_t stop = temp_str.find(delimiter);
-		if (stop == std::string::npos)
-		{
-			buffer += temp_str;
-			continue;
-		}
-
-		// process all complete data
-		process_irc_msg(Message(buffer + temp_str.substr(start, stop - start)));
-		start = stop + delimiter.length();
-		stop = temp_str.find(delimiter, start);
-		while (stop != std::string::npos)
-		{
-			process_irc_msg(Message(temp_str.substr(start, stop - start)));
-			start = stop + delimiter.length();
-			stop = temp_str.find(delimiter, start);
-		}
-
-		// keep remaining data in buffer
-		if (start < temp_str.length())
-			buffer = temp_str.substr(start);
-		else
-			buffer.clear();
-	}
-}
-
 void Bot::send_to_irc(const std::string & msg)
 {
-	if (_connection_irc_ko)
-		return ;
-	if(send(_socket_irc, (msg + "\r\n").c_str(), msg.length() + 2, MSG_NOSIGNAL) == -1)
-		_connection_irc_ko = true;
+	if (send(_socket_irc, (msg + _delimiter_irc).c_str(), msg.length() + _delimiter_irc.length(), MSG_NOSIGNAL) == -1)
+	{
+		if (g_sigint)
+			throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
+		throw std::runtime_error(FG_RED "send_to_irc: send error: " RESET + std::string(strerror(errno)));
+	}
 }
 
 std::string Bot::get_next_msg()
 {
-	std::size_t pos = _buffer.find("\r\n");
+	std::size_t pos = _buffer.find(_delimiter_irc);
 	while (pos == std::string::npos)
 	{
-		char buffer[513];
-		memset(buffer, 0, sizeof(buffer));
-		int size_read = recv(_socket_irc, &buffer, sizeof(buffer) - 1, 0);
-		if ( size_read == -1)
-			throw (std::runtime_error(strerror(errno)));
-		else if ( size_read == 0)
-			throw (std::runtime_error(FG_PURPLE"Server closed" RESET));
+		char temp[512];
+		memset(temp, 0, sizeof(temp));
+		int size_read = recv(_socket_irc, &temp, sizeof(temp), MSG_NOSIGNAL);
 
-		std::string receive(buffer);
-		pos = receive.find("\r\n");
+		// handle errors
+		if (size_read == 0)
+			throw (std::runtime_error(FG_PURPLE"Server closed" RESET));
+		else if (size_read == -1)
+		{
+			if (g_sigint)
+				throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
+			throw std::runtime_error(FG_RED "get_next_msg: recv error: " RESET + std::string(strerror(errno)));
+		}
+
+		// handle data
+		std::string receive(temp, size_read);
+		pos = receive.find(_delimiter_irc);
 		if (pos == std::string::npos)
 			_buffer += receive;
 		else
 		{
 			std::string result = _buffer + receive.substr(0, pos);
-			_buffer = receive.substr(pos + 2, std::string::npos);
+			_buffer = receive.substr(pos + _delimiter_irc.length());
 			return result;
 		}
 	}
 	std::string result = _buffer.substr(0, pos);
-	_buffer = _buffer.substr(pos + 2, std::string::npos);
+	_buffer = _buffer.substr(pos + _delimiter_irc.length());
 	return result;
-}
-
-bool Bot::connection_irc_ko()
-{
-	return _connection_irc_ko;
 }
 
 void Bot::authentication()
@@ -224,7 +161,7 @@ void Bot::authentication()
 
 	std::string receive = get_next_msg();
 
-	if (_connection_irc_ko || receive.find("001") == std::string::npos)
+	if (receive.find("001") == std::string::npos)
 		throw (std::runtime_error(FG_RED"authentication failed" RESET));
 
 	send_to_irc("JOIN #meteobot");

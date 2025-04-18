@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/18 19:09:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 19:26:45 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 AccuWeatherAPI::AccuWeatherAPI(std::string key)
 	: _apiKey(key), _client()
 {
-	std::cout << "API Key: " << _apiKey << std::endl;
 	// if (!is_key_valid())
 	// 	throw std::runtime_error("Invalid API key");
 }

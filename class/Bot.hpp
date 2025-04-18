@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/18 18:12:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 20:35:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <cerrno>
 # include <cstring>
 # include <string>
-# include <poll.h>
 # include <sys/socket.h>
 # include "signal.hpp"
 
@@ -43,7 +42,6 @@ class Bot
 		void		send_to_irc(const std::string & msg);
 		void		authentication();
 		std::string	get_next_msg();
-		bool		connection_irc_ko();
 		void		receive_irc_data();
 		void		process_irc_msg(const Message & msg);
 
@@ -57,8 +55,9 @@ class Bot
 		std::string	_buffer;
 		int			_socket_irc;
 		std::string _password_irc;
-		bool		_connection_irc_ko;
 		std::string	_nickname;
+
+		std::string	_delimiter_irc;
 
 };
 
