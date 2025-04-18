@@ -49,12 +49,12 @@ std::string Bot::get_api_key()
 {
 	std::ifstream file("api_key");
 	if (!file.is_open())
-	{
-		std::cerr << "Error opening api_key file" << std::endl;
-		return "";
-	}
+		throw std::runtime_error("Error opening api_key file");
 	std::string key;
 	std::getline(file, key);
+	file.close();
+	if (key.empty())
+		throw std::runtime_error("Error: api_key file is empty");
 	return key;
 }
 
