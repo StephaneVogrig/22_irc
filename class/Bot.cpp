@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/17 23:54:39 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:30:18 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ Bot::Bot(int port, const std::string & password_irc)
 		close(_socket_irc);
 		throw (std::runtime_error(FG_RED "connect failed" RESET));
 	}
+	// if (fcntl(_socket_irc, F_SETFL, O_NONBLOCK) == -1)
+	// 	throw(std::runtime_error(FG_RED "Bot constructor: fcntl failed: " RESET + std::string(strerror(errno))));
 }
 
 /* destructor ----------------------------------------------------------------*/
@@ -103,22 +105,64 @@ void Bot::run()
 			throw(std::runtime_error("poll failed"));
 		if (nbr_event == 0)
 			continue ;
-		std::string receive = get_next_msg();
-		std::cout << receive << std::endl;
-		size_t pos = receive.find("!meteo");
-		if (pos != std::string::npos)
+		receive_irc_data();
+	}
+}
+
+void Bot::process_irc_msg(const Message & msg)
+{
+	if (msg.get_command() == "JOIN")
+		send_to_irc(":meteobot PRIVMSG #meteobot :Welcome to meteobot. Write the name of the city you want have the meteo");
+	else if (msg.get_command() == "PRIVMSG")
+		send_meteo(msg.get_params().get_param(1));
+}
+
+void Bot::receive_irc_data()
+{
+	static std::string	buffer;
+	std::string			delimiter("\r\n");
+	char				temp[512];
+	while (true)
+	{
+		ssize_t size_read = recv(_socket_irc, temp, sizeof(temp), MSG_NOSIGNAL);
+
+		// handle errors
+		if (size_read == 0)
+			throw (std::runtime_error(FG_PURPLE"Server closed" RESET));
+
+		else if (size_read ==  -1)
 		{
-			std::cout << FG_GREEN "Meteo command received" RESET << std::endl;
-			if (receive.length() < pos + 7)
-			{
-				send_to_irc("PRIVMSG #meteobot :Location not found");
-				std::cout << FG_RED "Location not found" RESET << std::endl;
-				continue ;
-			}
-			std::string location = receive.substr(pos + 7, std::string::npos);
-			if (!location.empty())
-				send_meteo(location);
+			if (errno == EAGAIN || errno == EWOULDBLOCK)
+				break ;
+			throw std::runtime_error(FG_PURPLE "receive_irc_data: recv error: " RESET + std::string(strerror(errno)));
 		}
+
+		// handle data
+		std::string temp_str(temp, size_read);
+		size_t start = 0;
+		size_t stop = temp_str.find(delimiter);
+		if (stop == std::string::npos)
+		{
+			buffer += temp_str;
+			continue;
+		}
+
+		// process all complete data
+		process_irc_msg(Message(buffer + temp_str.substr(start, stop - start)));
+		start = stop + delimiter.length();
+		stop = temp_str.find(delimiter, start);
+		while (stop != std::string::npos)
+		{
+			process_irc_msg(Message(temp_str.substr(start, stop - start)));
+			start = stop + delimiter.length();
+			stop = temp_str.find(delimiter, start);
+		}
+
+		// keep remaining data in buffer
+		if (start < temp_str.length())
+			buffer = temp_str.substr(start);
+		else
+			buffer.clear();
 	}
 }
 
