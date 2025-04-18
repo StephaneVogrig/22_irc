@@ -25,6 +25,8 @@
 #include "socket.hpp"
 #include "utils.hpp"
 
+#include <fstream>
+
 #include "AccuWeatherAPI.hpp"
 
 #define BOT_NICKNAME "meteobot"
@@ -44,6 +46,7 @@ class Bot
 
 	private:
 
+		std::string	get_api_key();
 		void		send_meteo(const std::string & location);
 
 		AccuWeatherAPI _meteo;

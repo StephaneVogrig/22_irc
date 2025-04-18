@@ -15,7 +15,7 @@
 /* constructor ---------------------------------------------------------------*/
 
 Bot::Bot(int port, const std::string & password_irc)
-	:	_meteo("dFZr3LarDyGv9z73Z9QyMFW2kiR3KVAv"),
+	:	_meteo(get_api_key()),
 		_password_irc(password_irc),
 		_connection_irc_ko(false),
 		_nickname(BOT_NICKNAME)
@@ -45,6 +45,19 @@ Bot::~Bot()
 
 /* public utilities ----------------------------------------------------------*/
 
+std::string Bot::get_api_key()
+{
+	std::ifstream file("api_key");
+	if (!file.is_open())
+	{
+		std::cerr << "Error opening api_key file" << std::endl;
+		return "";
+	}
+	std::string key;
+	std::getline(file, key);
+	return key;
+}
+
 void Bot::send_meteo(const std::string & location)
 {
 	if (location.empty())
@@ -55,7 +68,6 @@ void Bot::send_meteo(const std::string & location)
 	}
 	std::string errmsg = "PRIVMSG #meteobot :Location not found";
 	std::string location_key = _meteo.get_location_key(location);
-	std::cout << "Location key: " << location_key << std::endl;
 	if (location_key.empty() || location_key.find("404") != std::string::npos)
 	{
 		send_to_irc(errmsg);

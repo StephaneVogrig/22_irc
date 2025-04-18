@@ -32,6 +32,9 @@ class AccuWeatherAPI
 		WeatherInfo	fetch_current_conditions(const std::string & location);
 
 	private:
+		std::string get_json(const std::string & host, const std::string & path);
+		bool is_key_valid();
+
 		std::string _apiKey;
 		HttpClient  _client;
 };

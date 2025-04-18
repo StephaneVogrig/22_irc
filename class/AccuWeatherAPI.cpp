@@ -12,14 +12,22 @@
 
 #include "AccuWeatherAPI.hpp"
 
+/* constructor ---------------------------------------------------------------*/
+
 AccuWeatherAPI::AccuWeatherAPI(std::string key)
 	: _apiKey(key), _client()
 {
 	std::cout << "API Key: " << _apiKey << std::endl;
+	// if (!is_key_valid())
+	// 	throw std::runtime_error("Invalid API key");
 }
+
+/* destructor ----------------------------------------------------------------*/
 
 AccuWeatherAPI::~AccuWeatherAPI()
 {}
+
+/* public utilities ----------------------------------------------------------*/
 
 std::string extract_json(const std::string& http_response)
 {
@@ -58,9 +66,9 @@ std::string extract_temperature(const std::string& json)
 std::string AccuWeatherAPI::get_location_key(const std::string & location)
 {
 	std::string path = "/locations/v1/cities/search?apikey=" + _apiKey + "&q=" + location;
-	std::string response = _client.get("dataservice.accuweather.com", path);
+	std::string host = "dataservice.accuweather.com";
+	std::string json = get_json(host, path);
 
-	std::string json = extract_json(response);
 	std::string locationCode = extract_value(json, "Key");
 	return locationCode;
 }
@@ -68,11 +76,32 @@ std::string AccuWeatherAPI::get_location_key(const std::string & location)
 WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & location)
 {
 	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey;
-	std::string response = _client.get("dataservice.accuweather.com", path);
+	std::string host = "dataservice.accuweather.com";
+	std::string json = get_json(host, path);
 
-	std::string json = extract_json(response);
 	WeatherInfo info;
 	info.description = extract_value(json, "WeatherText");
 	info.temperature = extract_temperature(json);
 	return info;
+}
+
+/* private utilities ----------------------------------------------------------*/
+
+std::string AccuWeatherAPI::get_json(const std::string & host, const std::string & path)
+{
+	std::string response = _client.get(host, path);
+	if (response.find("Unauthorized") != std::string::npos)
+		throw std::runtime_error("Invalid API key");
+	std::string json = extract_json(response);
+	return json;
+}
+
+bool AccuWeatherAPI::is_key_valid()
+{
+	std::string response = _client.get("dataservice.accuweather.com",
+		"/locations/v1/cities/search?apikey=" + _apiKey + "&q=Paris");
+
+	if (response.find("Unauthorized") != std::string::npos)
+		return false;
+	return true;
 }
