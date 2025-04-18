@@ -20,6 +20,15 @@ struct WeatherInfo
 {
 	std::string description;
 	std::string temperature;
+	std::string wind;
+	std::string humidity;
+	std::string pressure;
+	std::string visibility;
+	std::string wind_speed;
+	std::string wind_direction;
+	std::string wind_gust;
+	std::string uv_index;
+	std::string uv_index_text;
 };
 
 class AccuWeatherAPI

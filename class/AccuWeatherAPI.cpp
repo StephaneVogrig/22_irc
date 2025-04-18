@@ -50,9 +50,9 @@ std::string extract_value(const std::string& json, const std::string& key)
 	return json.substr(start, end - start);
 }
 
-std::string extract_temperature(const std::string& json)
+std::string extract_num_value(const std::string& json, const std::string& key)
 {
-	std::string pattern = "\"Metric\":{\"Value\":";
+	std::string pattern = key;
 	size_t start = json.find(pattern);
 	if (start == std::string::npos)
 		return "";
@@ -81,7 +81,15 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 
 	WeatherInfo info;
 	info.description = extract_value(json, "WeatherText");
-	info.temperature = extract_temperature(json);
+	info.temperature = extract_num_value(json, "\"Metric\":{\"Value\":");
+	info.humidity = extract_num_value(json, "\"RelativeHumidity\":");
+	info.pressure = extract_num_value(json, "\"Pressure\":{\"Metric\":{\"Value\":");
+	info.visibility = extract_num_value(json, "\"Visibility\":{\"Metric\":{\"Value\":");
+	info.wind_speed = extract_num_value(json, "\"Speed\":{\"Metric\":{\"Value\":");
+	info.wind_direction = extract_value(json, "Localized");
+	info.wind_gust = extract_num_value(json, "\"WindGust\":{\"Speed\":{\"Metric\":{\"Value\":");
+	info.uv_index = extract_num_value(json, "\"UVIndex\":");
+	info.uv_index_text = extract_value(json, "UVIndexText");
 	return info;
 }
 

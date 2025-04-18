@@ -83,7 +83,15 @@ void Bot::send_meteo(const std::string & location)
 		std::cout << FG_RED "Location not found" RESET << std::endl;
 		return ;
 	}
-	std::string msg = "PRIVMSG #meteobot :Meteo for " + location + ": " + info.description + ", " + info.temperature + "°C";
+	std::string msg = "PRIVMSG #meteobot :Weather for " + location +
+	" | " + info.description +
+	" | Temperature: " + info.temperature + "°C" +
+	" | Humidity: " + info.humidity + "%" +
+	" | Pressure: " + info.pressure + " mb" +
+	" | Visibility: " + info.visibility + " km" +
+	" | Wind: " + info.wind_speed + " km/h from " + info.wind_direction +
+	" (gusts: " + info.wind_gust + " km/h)" +
+	" | UV Index: " + info.uv_index + " (" + info.uv_index_text + ")";
 	send_to_irc(msg);
 }
 
