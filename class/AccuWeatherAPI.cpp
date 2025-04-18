@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/18 00:00:09 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/18 19:09:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ std::string AccuWeatherAPI::get_location_key(const std::string & location)
 
 WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & location)
 {
-	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey;
+	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey + "&details=true";
 	std::string host = "dataservice.accuweather.com";
 	std::string json = get_json(host, path);
 
