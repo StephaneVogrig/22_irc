@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/18 21:23:06 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/19 13:39:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,17 @@ void Bot::send_meteo(const std::string & location)
 		send_to_irc(INVALID_API_KEY);
 		return ;
 	}
-	
-	std::string msg = "PRIVMSG #meteobot :Weather for " + location +
-	" | " + info.description +
-	" | Temperature: " + info.temperature + "°C" +
-	" | Humidity: " + info.humidity + "%" +
-	" | Pressure: " + info.pressure + " mb" +
-	" | Visibility: " + info.visibility + " km" +
-	" | Wind: " + info.wind_speed + " km/h from " + info.wind_direction +
-	" (gusts: " + info.wind_gust + " km/h)" +
-	" | UV Index: " + info.uv_index + " (" + info.uv_index_text + ")";
-	send_to_irc(msg);
+	std::string location_upper(location);
+	for(std::string::iterator it = location_upper.begin(); it <= location_upper.end(); ++it)
+		*it = std::toupper(*it);
+	send_to_irc("PRIVMSG #meteobot :Weather for: " + location_upper);
+	send_to_irc("PRIVMSG #meteobot :Conditions : " + info.description);
+	send_to_irc("PRIVMSG #meteobot :Temperature: " + info.temperature + "°C");
+	send_to_irc("PRIVMSG #meteobot :Humidity   : " + info.humidity + "%");
+	send_to_irc("PRIVMSG #meteobot :Pressure   : " + info.pressure + " mb");
+	send_to_irc("PRIVMSG #meteobot :Visibility : " + info.visibility + " km");
+	send_to_irc("PRIVMSG #meteobot :Wind       : " + info.wind_speed + " km/h from " + info.wind_direction + " (gusts: " + info.wind_gust + " km/h)");
+	send_to_irc("PRIVMSG #meteobot :UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
 }
 
 void Bot::process_irc_msg(const Message & msg)
