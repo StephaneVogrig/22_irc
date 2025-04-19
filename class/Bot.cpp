@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/19 13:39:25 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/19 15:27:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Bot::Bot(int port, const std::string & password_irc)
 	:	_meteo(get_api_key()),
 		_password_irc(password_irc),
 		_nickname(BOT_NICKNAME),
+		_channel_name("#" BOT_NICKNAME),
 		_delimiter_irc("\r\n")
 {
 	_socket_irc = create_socket();
@@ -55,75 +56,80 @@ std::string Bot::get_api_key()
 {
 	std::ifstream file("api_key");
 	if (!file.is_open())
-		throw std::runtime_error("Error opening api_key file");
+		throw std::runtime_error("get_api_key: Error opening api_key file");
 	std::string key;
 	std::getline(file, key);
 	file.close();
 	if (key.empty())
-		throw std::runtime_error("Error: api_key file is empty");
+		throw std::runtime_error("get_api_key: api_key file is empty");
 	return key;
 }
 
-#define LOCATION_NOT_FOUND ":meteobot PRIVMSG #meteobot :Location not found"
-#define INVALID_API_KEY ":meteobot PRIVMSG #meteobot :Invalid API key"
+#define LOCATION_NOT_FOUND "Location not found"
+#define INVALID_API_KEY "Invalid API key"
 
 void Bot::send_meteo(const std::string & location)
 {
 	if (location.empty())
 	{
-		send_to_irc(LOCATION_NOT_FOUND);
-		std::cout << FG_RED "Location not found" RESET << std::endl;
+		sent_privmsg(LOCATION_NOT_FOUND);
 		return ;
 	}
 
 	std::string location_key = _meteo.get_location_key(location);
 	if (location_key.empty())
 	{
-		send_to_irc(LOCATION_NOT_FOUND);
-		std::cout << FG_RED "Location not found" RESET << std::endl;
+		sent_privmsg(LOCATION_NOT_FOUND);
 		return ;
 	}
 	else if (location_key == "Unauthorized")
 	{
-		send_to_irc(INVALID_API_KEY);
+		sent_privmsg(INVALID_API_KEY);
 		return ;
 	}
 
 	WeatherInfo info = _meteo.fetch_current_conditions(location_key);
 	if (info.description == "Unauthorized")
 	{
-		send_to_irc(INVALID_API_KEY);
+		sent_privmsg(INVALID_API_KEY);
 		return ;
 	}
 	std::string location_upper(location);
 	for(std::string::iterator it = location_upper.begin(); it <= location_upper.end(); ++it)
 		*it = std::toupper(*it);
-	send_to_irc("PRIVMSG #meteobot :Weather for: " + location_upper);
-	send_to_irc("PRIVMSG #meteobot :Conditions : " + info.description);
-	send_to_irc("PRIVMSG #meteobot :Temperature: " + info.temperature + "°C");
-	send_to_irc("PRIVMSG #meteobot :Humidity   : " + info.humidity + "%");
-	send_to_irc("PRIVMSG #meteobot :Pressure   : " + info.pressure + " mb");
-	send_to_irc("PRIVMSG #meteobot :Visibility : " + info.visibility + " km");
-	send_to_irc("PRIVMSG #meteobot :Wind       : " + info.wind_speed + " km/h from " + info.wind_direction + " (gusts: " + info.wind_gust + " km/h)");
-	send_to_irc("PRIVMSG #meteobot :UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
+
+	sent_privmsg("Weather for: " + location_upper);
+	sent_privmsg("Conditions : " + info.description);
+	sent_privmsg("Temperature: " + info.temperature + "°C");
+	sent_privmsg("Humidity   : " + info.humidity + "%");
+	sent_privmsg("Pressure   : " + info.pressure + " mb");
+	sent_privmsg("Visibility : " + info.visibility + " km");
+	sent_privmsg("Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
+	sent_privmsg("Wind gusts : " + info.wind_gust + " km/h");
+	sent_privmsg("UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
 }
 
 void Bot::process_irc_msg(const Message & msg)
 {
 	if (msg.get_command() == "JOIN")
-		send_to_irc(":meteobot PRIVMSG #meteobot :Welcome to meteobot. Write the name of the city you want have the meteo");
+	sent_privmsg("Welcome to meteobot. Write the name of the city you want have the meteo");
 	else if (msg.get_command() == "PRIVMSG")
 		send_meteo(msg.get_params().get_param(1));
 }
 
 void Bot::send_to_irc(const std::string & msg)
 {
-	if (send(_socket_irc, (msg + _delimiter_irc).c_str(), msg.length() + _delimiter_irc.length(), MSG_NOSIGNAL) == -1)
+	std::string msg_irc = ":" + _nickname + " " + msg + _delimiter_irc;
+	if (send(_socket_irc, msg_irc.c_str(), msg_irc.length(), MSG_NOSIGNAL) == -1)
 	{
-		if (g_sigint)
-			throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
+		check_sigint();
 		throw std::runtime_error(FG_RED "send_to_irc: send error: " RESET + std::string(strerror(errno)));
 	}
+}
+
+void Bot::sent_privmsg(const std::string & msg)
+{
+	send_to_irc("PRIVMSG " + _channel_name + " :" + msg);
 }
 
 std::string Bot::get_next_msg()
@@ -140,8 +146,7 @@ std::string Bot::get_next_msg()
 			throw (std::runtime_error(FG_PURPLE"Server closed" RESET));
 		else if (size_read == -1)
 		{
-			if (g_sigint)
-				throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
+			check_sigint();
 			throw std::runtime_error(FG_RED "get_next_msg: recv error: " RESET + std::string(strerror(errno)));
 		}
 
@@ -173,7 +178,7 @@ void Bot::authentication()
 	if (receive.find("001") == std::string::npos)
 		throw (std::runtime_error(FG_RED"authentication failed" RESET));
 
-	send_to_irc("JOIN #meteobot");
+	send_to_irc("JOIN " + _channel_name);
 	receive = get_next_msg();
 
 	if (receive.find("JOIN") == std::string::npos)
@@ -186,4 +191,10 @@ void Bot::authentication()
 	receive = get_next_msg();
 	if (receive.find("366") == std::string::npos)
 		throw (std::runtime_error(FG_RED"join channel failed" RESET));
+}
+
+void Bot::check_sigint()
+{
+	if (g_sigint)
+		throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
 }

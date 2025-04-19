@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/18 20:35:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/19 15:19:07 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,18 @@ class Bot
 		~Bot();
 
 		void		run();
-		void		send_to_irc(const std::string & msg);
 		void		authentication();
-		std::string	get_next_msg();
-		void		receive_irc_data();
-		void		process_irc_msg(const Message & msg);
 
 	private:
 
-		std::string	get_api_key();
+		void		receive_irc_data();
+		std::string	get_next_msg();
+		void		process_irc_msg(const Message & msg);
 		void		send_meteo(const std::string & location);
+		void		send_to_irc(const std::string & msg);
+		void		sent_privmsg(const std::string & msg);
+		std::string	get_api_key();
+		void		check_sigint();
 
 		AccuWeatherAPI _meteo;
 
@@ -56,7 +58,7 @@ class Bot
 		int			_socket_irc;
 		std::string _password_irc;
 		std::string	_nickname;
-
+		std::string	_channel_name;
 		std::string	_delimiter_irc;
 
 };
