@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/21 18:23:28 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/21 19:54:22 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS				:= 	main.cpp \
 						reply.cpp \
 						log.cpp \
 						utils.cpp \
+						signal.cpp \
 						socket.cpp
 
 SRCS				:=	$(SRCS:%=$(SRC_DIR)/%)

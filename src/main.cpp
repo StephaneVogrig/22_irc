@@ -6,31 +6,29 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 17:01:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:56:26 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
-#include <csignal>
+
 #include "Server.hpp"
+
+#include "signal.hpp"
 #include "utils.hpp"
 
-void sig_handler(int sig)
-{
-	g_signal = sig;
-}
+volatile sig_atomic_t g_sigint;
 
 int main(int argc, char ** argv)
 {
 	try
 	{
-		signal(SIGINT, sig_handler);
+		signal(SIGINT, sigint_handler);
 		check_nbr_arg(argc, argv);
 		int port = str_to_port(argv[1]);
-		std::string password(argv[2]);
-		Server server(port, password, "GreatServer_42");
+		Server server(port, std::string(argv[2]), "GreatServer_42");
 		server.run();
 	}
 	catch (const std::runtime_error& e)
