@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/19 15:27:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:50:16 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,53 +66,53 @@ std::string Bot::get_api_key()
 }
 
 #define LOCATION_NOT_FOUND "Location not found"
-#define INVALID_API_KEY "Invalid API key"
+#define INVALID_API_KEY "Invalid API key. Contact the administrator."
 
 void Bot::send_meteo(const std::string & location)
 {
 	if (location.empty())
 	{
-		sent_privmsg(LOCATION_NOT_FOUND);
+		send_privmsg(LOCATION_NOT_FOUND);
 		return ;
 	}
 
 	std::string location_key = _meteo.get_location_key(location);
 	if (location_key.empty())
 	{
-		sent_privmsg(LOCATION_NOT_FOUND);
+		send_privmsg(LOCATION_NOT_FOUND);
 		return ;
 	}
 	else if (location_key == "Unauthorized")
 	{
-		sent_privmsg(INVALID_API_KEY);
+		send_privmsg(INVALID_API_KEY);
 		return ;
 	}
 
 	WeatherInfo info = _meteo.fetch_current_conditions(location_key);
 	if (info.description == "Unauthorized")
 	{
-		sent_privmsg(INVALID_API_KEY);
+		send_privmsg(INVALID_API_KEY);
 		return ;
 	}
 	std::string location_upper(location);
 	for(std::string::iterator it = location_upper.begin(); it <= location_upper.end(); ++it)
 		*it = std::toupper(*it);
 
-	sent_privmsg("Weather for: " + location_upper);
-	sent_privmsg("Conditions : " + info.description);
-	sent_privmsg("Temperature: " + info.temperature + "°C");
-	sent_privmsg("Humidity   : " + info.humidity + "%");
-	sent_privmsg("Pressure   : " + info.pressure + " mb");
-	sent_privmsg("Visibility : " + info.visibility + " km");
-	sent_privmsg("Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
-	sent_privmsg("Wind gusts : " + info.wind_gust + " km/h");
-	sent_privmsg("UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
+	send_privmsg("Weather for: " + location_upper);
+	send_privmsg("Conditions : " + info.description);
+	send_privmsg("Temperature: " + info.temperature + "°C");
+	send_privmsg("Humidity   : " + info.humidity + "%");
+	send_privmsg("Pressure   : " + info.pressure + " mb");
+	send_privmsg("Visibility : " + info.visibility + " km");
+	send_privmsg("Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
+	send_privmsg("Wind gusts : " + info.wind_gust + " km/h");
+	send_privmsg("UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
 }
 
 void Bot::process_irc_msg(const Message & msg)
 {
 	if (msg.get_command() == "JOIN")
-	sent_privmsg("Welcome to meteobot. Write the name of the city you want have the meteo");
+	send_privmsg("Welcome to meteobot. Write the name of the city you want have the meteo");
 	else if (msg.get_command() == "PRIVMSG")
 		send_meteo(msg.get_params().get_param(1));
 }
@@ -127,7 +127,7 @@ void Bot::send_to_irc(const std::string & msg)
 	}
 }
 
-void Bot::sent_privmsg(const std::string & msg)
+void Bot::send_privmsg(const std::string & msg)
 {
 	send_to_irc("PRIVMSG " + _channel_name + " :" + msg);
 }

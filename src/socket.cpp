@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 10:56:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/22 11:18:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 16:01:46 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void bind_socket(int sock, int port)
 	addr.sin_addr.s_addr = INADDR_ANY;
 	if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)) == -1)
 	{
-		perror("");
-		throw(std::runtime_error("bind failed"));
+		close(sock);
+		throw(std::runtime_error("bind failed: " + std::string(strerror(errno))));
 	}
 }
 

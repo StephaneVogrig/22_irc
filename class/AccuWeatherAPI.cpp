@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AccuWeatherAPI.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/18 21:20:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:50:58 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,7 @@ std::string AccuWeatherAPI::get_json(const std::string & host, const std::string
 {
 	std::string response = _client.get(host, path);
 	if (response.find("Unauthorized") != std::string::npos)
-	{
-		// throw std::runtime_error("Invalid API key");
 		return "Unauthorized";
-	}
 	std::string json = extract_json(response);
 	return json;
 }

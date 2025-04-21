@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:34:34 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/16 20:00:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:56:00 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
-#include <signal.h>
+#include <csignal>
 #include "Server.hpp"
 #include "utils.hpp"
 

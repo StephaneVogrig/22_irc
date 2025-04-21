@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 16:43:26 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:43:38 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Nick::~Nick()
 
 void Nick::exec(Client & client, const Params & params, Server & server)
 {
-	if (!client.is_hasPass())
+	if (!server.get_password().empty() && !client.is_hasPass())
 		ERR_451_NOTREGISTERED(client, server);
 
 	if (params.get_nbr() == 0)

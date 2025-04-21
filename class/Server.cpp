@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/13 01:06:33 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:47:11 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ Server::Server(int port, const std::string & password, const std::string & name)
 	_pollfds[0].events = POLLIN;
 	bind_socket(_pollfds[0].fd, port);
 	if (listen(_pollfds[0].fd, BACKLOG) == -1)
+	{
+		close(_pollfds[0].fd);
 		throw(std::runtime_error("listen failed"));
+	}
 	init_commands();
 }
 

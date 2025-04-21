@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 16:48:14 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:43:39 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ User::~User()
 
 void User::exec(Client & client, const Params & params, Server & server)
 {
-	if (!client.is_hasPass())
+	if (!server.get_password().empty() && !client.is_hasPass())
 		ERR_451_NOTREGISTERED(client, server);
 
 	if (client.is_registed() || client.get_username() != "*")
