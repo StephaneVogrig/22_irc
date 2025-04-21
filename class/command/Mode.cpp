@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/13 01:23:50 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:09:54 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,10 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the limit mode", server);
 
 					mode_param = params.get_param(i++);
-					char *		endptr = NULL;
-					long int	nbr = strtol(mode_param.c_str(), &endptr, 10);
-					if (*endptr != '\0' || nbr < 0 || nbr > INT_MAX)
+					int	nbr;
+					std::stringstream str_stream(mode_param.c_str());
+					str_stream >> nbr;
+					if (str_stream.fail() || !str_stream.eof() || nbr < 0)
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, mode_param, "invalid number", server);
 
 					if (channel->get_limit_nbr_client() == nbr && channel->is_mode_limit_nbr_client())

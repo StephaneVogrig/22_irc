@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 00:19:31 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 15:32:40 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:00:26 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ void check_nbr_arg(int argc, char ** argv)
 
 int str_to_port(const char * str)
 {
-	char *		endptr = NULL;
-	long int	nbr = strtol(str, &endptr, 10);
-	if (*endptr != '\0')
+	int	nbr;
+	std::stringstream str_stream(str);
+	str_stream >> nbr;
+	if (str_stream.fail() || !str_stream.eof())
 		throw (std::runtime_error(FG_RED"bad argument!" RESET));
 	if (nbr < 1 || nbr > 65535)
 		throw (std::runtime_error(FG_RED"port must be between 1 65535" RESET));

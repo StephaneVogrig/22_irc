@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:20:20 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/16 20:00:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:04:51 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@
 #define HIDE_OFF		"\033[28m"
 #define ERASE_LINE		"\033[K"
 
-#include <cstdlib>
 #include <string>
 #include <sstream>
-#include <ostream>
 #include <iostream>
 #include <iomanip>
 #include <ctime>
