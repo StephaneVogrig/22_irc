@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 10:56:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 16:58:52 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:20:17 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int create_socket(void)
 {
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
-		throw(std::runtime_error("create_socket: socket failed"));
+		throw(std::runtime_error("create_socket: socket failed: " + std::string(strerror(errno))));
 	int opt = 1;
 	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
 	{
 		close(sock);
-		throw(std::runtime_error("create_socket: setsockopt failed"));
+		throw(std::runtime_error("create_socket: setsockopt failed: " + std::string(strerror(errno))));
 	}
 	return sock;
 }

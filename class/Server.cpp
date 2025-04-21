@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 20:26:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ Server::Server(int port, const std::string & password, const std::string & name)
 	if (listen(_pollfds[0].fd, BACKLOG) == -1)
 	{
 		close(_pollfds[0].fd);
-		throw(std::runtime_error("Server: listen failed"));
+		throw(std::runtime_error("Server: listen failed: " + std::string(strerror(errno))));
 	}
 	init_commands();
 }
@@ -238,7 +238,7 @@ void Server::handle_client_data(Client & client)
 	int size_read = recv(client.get_fd(), buffer, CLIENT_BUFFER_SIZE - 1, 0);
 	if (size_read <= 0)
 	{
-		client.quit_quit_all_channels(*this, "QUIT :Connection lost");
+		client.quit_all_channels(*this, "QUIT :Connection lost");
 		close_connection(client);
 		return ;
 	}

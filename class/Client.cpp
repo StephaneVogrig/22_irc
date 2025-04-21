@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/11 16:35:28 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void Client::send_msg(const std::string & msg)
 {
 	if (_connection_ko)
 		return ;
-	if(send(_fd, (msg + "\r\n").c_str(), msg.length() + 2, MSG_NOSIGNAL) == -1)
+	if(send(_fd, (msg + DELIM_IRC).c_str(), msg.length() + 2, MSG_NOSIGNAL) == -1)
 	{
 		log_msg(_fd, FG_RED "xx" FG_PURPLE, msg);
 		_connection_ko = true;
@@ -161,15 +161,17 @@ int  Client::nbr_channels_subscripted()
 	return _channels_subscripted.size();
 }
 
-void Client::quit_all_channels(Server & server)
+void Client::part_all_channels(Server & server)
 {
 	while (_channels_subscripted.size() > 0)
 	{
+		std::string channel_name = _channels_subscripted.back()->get_name();
+		server.get_channel(channel_name)->send_to_all(_nickName, "PART " + channel_name);
 		server.remove_client_from_channel(*this, *_channels_subscripted.back());
 	}
 }
 
-void Client::quit_quit_all_channels(Server & server, const std::string & msg)
+void Client::quit_all_channels(Server & server, const std::string & msg)
 {
 	while (_channels_subscripted.size() > 0)
 	{

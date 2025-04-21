@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/09 16:25:11 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void Quit::exec(Client & client, const Params & params, Server & server)
 	if (params.get_nbr() != 0)
 		msg += " :" + params.get_first();
 
-	client.quit_quit_all_channels(server, msg);
+	client.quit_all_channels(server, msg);
 	client.send_msg("ERROR :Connection closed");
 	server.close_connection(client);
 }
