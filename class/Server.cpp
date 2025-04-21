@@ -6,14 +6,14 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 17:01:46 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 20:26:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "utils.hpp"
 
-volatile sig_atomic_t	g_signal = 0;
+#include "signal.hpp"
+#include "utils.hpp"
 
 /* constructor ---------------------------------------------------------------*/
 
@@ -99,10 +99,10 @@ void Server::run(void)
 	{
 		info_waiting(true);
 		int nbr_event = poll(_pollfds, _nbr_connected + 1, POLL_TIMEOUT_MS);
-		if (g_signal)
+		if (g_sigint)
 			break ;
 		if( nbr_event == -1)
-			throw(std::runtime_error("poll failed"));
+			throw(std::runtime_error("poll failed" + std::string(strerror(errno))));
 		if (nbr_event == 0)
 			continue ;
 		info_waiting(false);

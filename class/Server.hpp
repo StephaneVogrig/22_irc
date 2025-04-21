@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 16:41:32 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 20:23:11 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@
 # define DELIM_IRC "\r\n"
 
 typedef struct pollfd t_pollfd;
-
-extern volatile sig_atomic_t	g_signal;
 
 class Server
 {

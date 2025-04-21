@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:47:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 17:03:21 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 20:24:13 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "utils.hpp"
 #include "Bot.hpp"
 
-volatile sig_atomic_t g_sigint;
+// volatile sig_atomic_t g_sigint;
 
 int main(int argc, char ** argv)
 {

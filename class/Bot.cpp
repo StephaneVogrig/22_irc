@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 19:39:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 20:31:34 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ std::string Bot::get_next_msg()
 void Bot::process_irc_msg(const Message & msg)
 {
 	if (msg.get_command() == "JOIN")
-	send_privmsg("Welcome to meteobot. Write the name of the city you want have the meteo");
+	send_privmsg("Welcome to meteobot, " + msg.get_prefix() + ". Write the name of the city you want have the meteo");
 	else if (msg.get_command() == "PRIVMSG")
 		send_meteo(msg.get_params().get_param(1));
 }
