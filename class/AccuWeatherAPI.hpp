@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/17 22:46:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:46:20 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 # define AccuWeatherAPI_HPP
 
 #include <string>
+
 #include "HttpClient.hpp"
+
+#include "log.hpp"
 
 struct WeatherInfo
 {
@@ -38,7 +41,7 @@ class AccuWeatherAPI
 		~AccuWeatherAPI();
 
 		std::string	get_location_key(const std::string & location);
-		WeatherInfo	fetch_current_conditions(const std::string & location);
+		WeatherInfo	fetch_current_conditions(const std::string & location_code);
 
 	private:
 		std::string get_json(const std::string & host, const std::string & path);

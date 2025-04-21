@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 14:49:17 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:15:08 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,24 @@
 # define BOT_HPP
 
 # include <arpa/inet.h>
-# include <exception>
 # include <cerrno>
 # include <cstring>
+# include <exception>
+# include <fstream>
 # include <string>
 # include <sys/socket.h>
+
+# include "AccuWeatherAPI.hpp"
+# include "Message.hpp"
+
+# include "log.hpp"
 # include "signal.hpp"
+# include "socket.hpp"
+# include "utils.hpp"
 
-#include "socket.hpp"
-#include "utils.hpp"
-#include "Message.hpp"
-
-#include <fstream>
-
-#include "AccuWeatherAPI.hpp"
-
-#define BOT_NICKNAME "meteobot"
+# define BOT_NICKNAME "meteobot"
+# define LOCATION_NOT_FOUND "Location not found"
+# define INVALID_API_KEY "Invalid API key. Contact the administrator."
 
 class Bot
 {
@@ -43,12 +45,12 @@ class Bot
 
 	private:
 
+		std::string	get_api_key();
 		std::string	get_next_msg();
 		void		process_irc_msg(const Message & msg);
 		void		send_meteo(const std::string & location);
 		void		send_to_irc(const std::string & msg);
 		void		send_privmsg(const std::string & msg);
-		std::string	get_api_key();
 		void		check_sigint();
 
 		AccuWeatherAPI _meteo;

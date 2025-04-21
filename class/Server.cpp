@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 15:47:11 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:01:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ Server::Server(int port, const std::string & password, const std::string & name)
 	if (listen(_pollfds[0].fd, BACKLOG) == -1)
 	{
 		close(_pollfds[0].fd);
-		throw(std::runtime_error("listen failed"));
+		throw(std::runtime_error("Server: listen failed"));
 	}
 	init_commands();
 }
@@ -39,8 +39,9 @@ Server::~Server(void)
 	log_server(_pollfds[0].fd, "Closing server: " + to_string(_nbr_connected) + " client to close");
 	for (int i = _nbr_connected; i > 0; --i)
 	{
-		if (send(_pollfds[i].fd, MSG_SERV_CLOSED, strlen(MSG_SERV_CLOSED), MSG_NOSIGNAL) == -1)
-			throw(std::runtime_error("send failed"));
+		std::string msg("Server closed" DELIM_IRC);
+		if (send(_pollfds[i].fd, msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1)
+			throw(std::runtime_error("~Server: send failed"));
 		close_connection(i);
 	}
 	close(_pollfds[0].fd);
@@ -167,8 +168,10 @@ void Server::accept_connection()
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 	if (_nbr_connected == NBR_CLIENT_MAX)
 	{
-		log_server(fd, "connection refused, server full");
-		if (send(fd, MSG_SERV_FULL, strlen(MSG_SERV_FULL), MSG_NOSIGNAL) == -1)
+		std::string msg("Connection refused : server full");
+		log_server(fd, msg);
+		msg += DELIM_IRC;
+		if (send(fd, msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1)
 			throw(std::runtime_error("send failed in accept connection"));
 		close(fd);
 		return ;
@@ -240,20 +243,13 @@ void Server::handle_client_data(Client & client)
 		return ;
 	}
 	std::string str_buffer(buffer);
-	#if DEBUG
-	std::cout 	<< FG_YELLOW "---- receive on fd [" RESET << _pollfds[i].fd
-				<< FG_YELLOW "] ----" RESET << std::endl
-				<< str_buffer << std::endl
-				<< FG_YELLOW "------- end receive -------" RESET << std::endl;
-	#endif
 	receive_data(str_buffer, client);
 }
 
 void Server::receive_data(const std::string & data, Client & client)
 {
 	std::string str = client.get_msg_buffer() + data;
-	std::string delim("\r\n");
-	size_t pos = str.find(delim);
+	size_t pos = str.find(DELIM_IRC);
 	while (pos != std::string::npos)
 	{
 		std::string msg(str.substr(0, pos));
@@ -262,7 +258,7 @@ void Server::receive_data(const std::string & data, Client & client)
 		if (!client_exist(client))
 			return ;
 		str.erase(0, pos + 2);
-		pos = str.find(delim);
+		pos = str.find(DELIM_IRC);
 	}
 	client.clear_msg_buffer();
 	client.append_to_buffer(str);

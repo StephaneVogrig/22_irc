@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/16 16:31:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 16:41:32 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-# include <iostream>
-# include <string>
-# include <map>
+# include <csignal>
 # include <exception>
+# include <iostream>
+# include <map>
+# include <string>
 
-# include "signal.h"
-
-# include "socket.hpp"
 # include <poll.h>
 
+# include "log.hpp"
+# include "settings.hpp"
+# include "socket.hpp"
 # include "utils.hpp"
 
 # include "Channel.hpp"
 # include "Client.hpp"
 # include "Message.hpp"
-
-# include "log.hpp"
+# include "Protocole_error.hpp"
 
 # include "Command.hpp"
 # include "Who.hpp"
@@ -48,15 +48,8 @@
 # include "Invite.hpp"
 # include "Privmsg.hpp"
 # include "Notice.hpp"
-# include "Protocole_error.hpp"
 
-# include "settings.hpp"
-
-# define MSG_WELCOME "Welcome on the best irc server\n"
-# define MSG_SERV_FULL "Connection refused : server full\n"
-# define MSG_SERV_CLOSED "Server closed\r\n"
-
-// # define DEBUG
+# define DELIM_IRC "\r\n"
 
 typedef struct pollfd t_pollfd;
 

@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:47:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/16 20:07:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:03:21 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << FG_RED << e.what() << FG_DEFAULT << '\n';
 		return (EXIT_FAILURE);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/18 16:52:42 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/21 18:23:28 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,11 @@ SRCS				:= 	main.cpp \
 
 SRCS				:=	$(SRCS:%=$(SRC_DIR)/%)
 
-SRCS_BOT			:=	meteobot.cpp \
+SRCS_BOT			:=	log.cpp \
+						meteobot.cpp \
 						signal.cpp \
-						utils.cpp \
-						socket.cpp
+						socket.cpp \
+						utils.cpp
 
 SRCS_BOT			:=	$(SRCS_BOT:%=$(SRC_DIR)/%)
 

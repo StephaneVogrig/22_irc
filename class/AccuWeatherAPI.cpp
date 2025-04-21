@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AccuWeatherAPI.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 14:50:58 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:45:50 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,36 @@ std::string extract_num_value(const std::string& json, const std::string& key)
 	return json.substr(start, end - start);
 }
 
+std::string str_to_url(const std::string & str)
+{
+	std::ostringstream oss;
+	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+	{
+		if (isalnum(*it) || *it == '-' || *it == '_' || *it == '.' || *it == '~')
+			oss << *it;
+		else
+			oss << '%' << std::hex << std::uppercase << std::setw(2) << std::setfill('0') << int(static_cast<unsigned char>(*it));
+	}
+	return oss.str();
+}
+
 std::string AccuWeatherAPI::get_location_key(const std::string & location)
 {
-	std::string path = "/locations/v1/cities/search?apikey=" + _apiKey + "&q=" + location;
+	log_("Asking location key for: " + location);
+	std::string path = "/locations/v1/cities/search?apikey=" + _apiKey + "&q=" + str_to_url(location);
 	std::string host = "dataservice.accuweather.com";
 	std::string json = get_json(host, path);
 	if (json == "Unauthorized")
 		return "Unauthorized";
 
-	std::string locationCode = extract_value(json, "Key");
-	return locationCode;
+	std::string location_code = extract_value(json, "Key");
+	return location_code;
 }
 
-WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & location)
+WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & location_code)
 {
-	std::string path = "/currentconditions/v1/" + location + "?apikey=" + _apiKey + "&details=true";
+	log_("Asking current condition for: " + location_code);
+	std::string path = "/currentconditions/v1/" + location_code + "?apikey=" + _apiKey + "&details=true";
 	std::string host = "dataservice.accuweather.com";
 	std::string json = get_json(host, path);
 	
