@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 21:09:54 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:08:57 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 
 	std::string modestring = params.get_param(1);
 
-	int i = 2;
+	int param_num = 2;
 
 	char action = '+';
 	Mode_rpl mode_rpl;
@@ -90,10 +90,10 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			}
 			else if (*it == 'k')
 			{
-				if (i >= params.get_nbr())
+				if (param_num >= params.get_nbr())
 					ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the key mode", server);
 
-				mode_param = params.get_param(i++);
+				mode_param = params.get_param(param_num++);
 
 				if (action == '+')
 				{
@@ -115,10 +115,10 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			}
 			else if (*it == 'o')
 			{
-				if (i >= params.get_nbr())
+				if (param_num >= params.get_nbr())
 					ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the operator mode", server);
 
-				mode_param = params.get_param(i++);
+				mode_param = params.get_param(param_num++);
 
 				Client * target = server.get_client_by_name(mode_param);
 
@@ -137,10 +137,10 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 			{
 				if (action == '+')
 				{
-					if (i >= params.get_nbr())
+					if (param_num >= params.get_nbr())
 						ERR_696_INVALIDMODEPARAM(client, channel->get_name(), *it, "*", "you must specify a parameter for the limit mode", server);
 
-					mode_param = params.get_param(i++);
+					mode_param = params.get_param(param_num++);
 					int	nbr;
 					std::stringstream str_stream(mode_param.c_str());
 					str_stream >> nbr;
@@ -164,10 +164,6 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		}
 		catch(const Protocole_error& e)
 		{}
-		catch(const Server::Client_not_found& e)
-		{
-			ERR_401_NOSUCHNICK(client, server, "");
-		}
 	}
 	if (!mode_rpl.is_empty())
 		channel->send_to_all(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());

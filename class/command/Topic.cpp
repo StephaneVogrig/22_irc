@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 16:20:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 18:50:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 		ERR_442_NOTONCHANNEL(client, *channel, server);
 
 	if (channel->is_mode_protected_topic()
-	&& !channel->is_operator(client)
-	&& channel->is_halfop(client))
+	&& !(channel->is_operator(client) || channel->is_halfop(client)))
 		ERR_482_CHANOPRIVSNEEDED(client, *channel, server);
 
 	if (params.get_nbr() == 1)

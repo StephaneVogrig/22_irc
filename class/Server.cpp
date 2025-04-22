@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:09:31 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,7 @@ Channel * Server::get_channel(const std::string & name)
 	return &(it->second) ;
 }
 
-/* exception -----------------------------------------------------------------*/
-
-Server::Client_not_found::Client_not_found()
-{}
-
 /* public utilities ----------------------------------------------------------*/
-
 
 void Server::run(void)
 {
