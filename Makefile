@@ -6,13 +6,14 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/22 16:15:15 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/22 21:18:23 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ifndef VERBOSE
-MAKEFLAGS += --no-print-directory --silent
-endif
+MAKEFLAGS			:= --no-print-directory
+# ifndef VERBOSE
+# MAKEFLAGS += --no-print-directory --silent
+# endif
 
 SHELL				:=	/bin/bash
 
@@ -112,7 +113,7 @@ DEPS_BOT			:=	$(OBJS_BOT:.o=.d)
 # compilation -----------------------------------------------------------------#
 
 CXX 				:= 	c++
-CFLAGS 				:= 	-Wall -Werror -Wextra -std=c++98 -g
+CFLAGS 				:= 	-Wall -Werror -Wextra
 
 #------------------------------------------------------------------------------#
 # rules                                                                        #
@@ -121,14 +122,13 @@ CFLAGS 				:= 	-Wall -Werror -Wextra -std=c++98 -g
 all: init
 	@$(MAKE) -j makeall
 	@echo -e "\t$(BLINK_GREEN)$(NAME) = COMPILATION FINISHED !$(NC)"
-	@echo -e "$(BOLD)$(NAME)$(NC) is located in $(BOLD)$(shell find . -iname "$(NAME)")$(NC) !\n"
 
 clean:
 	@rm -fr $(OBJ_DIR) && printf "Cleaning : $(OBJ_DIR)\n"
 
 fclean: clean
 	@rm -f $(NAME) && printf "Cleaning: $(NAME) \n"
-	@rm -f $(NAME_BONUS)  && printf "Cleaning: $(NAME_BONUS) \n"
+	@rm -f $(NAME_BOT)  && printf "Cleaning: $(NAME_BOT) \n"
 
 re: fclean
 	@$(MAKE) all
@@ -158,6 +158,7 @@ $(OBJ_DIR)%.o: %.cpp
 	@$(CXX) $(CFLAGS) $(I_FLAG) -o $@ -c $< && echo -e "$(BGREEN)[✔]$(NC)\tCompiling:\t$(BOLD)$(notdir $<)$(NC)"
 
 -include $(DEPS)
+-include $(DEPS_BOT)
 
 #------------------------------------------------------------------------------#
 # linkage                                                                      #
@@ -167,7 +168,7 @@ $(NAME): $(OBJS)
 	@$(CXX) $(CFLAGS) $(OBJS) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
 
 $(NAME_BOT): $(OBJS_BOT)
-	@$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
+	$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
 
 #------------------------------------------------------------------------------#
 # specifications                                                               #
