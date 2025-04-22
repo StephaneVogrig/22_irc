@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 14:47:49 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 18:22:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,41 +153,48 @@ void Bot::process_irc_msg(const Message & msg)
 
 void Bot::send_meteo(const std::string & recipient, const std::string & location)
 {
-	if (location.empty())
+	try
 	{
-		send_privmsg(recipient, LOCATION_NOT_FOUND);
-		return ;
-	}
+		if (location.empty())
+		{
+			send_privmsg(recipient, LOCATION_NOT_FOUND);
+			return ;
+		}
 
-	std::string location_key = _meteo.get_location_key(location);
-	if (location_key.empty())
-	{
-		send_privmsg(recipient, LOCATION_NOT_FOUND);
-		return ;
-	}
-	else if (location_key == "Unauthorized")
-	{
-		send_privmsg(recipient, INVALID_API_KEY);
-		return ;
-	}
+		std::string location_key = _meteo.get_location_key(location);
+		if (location_key.empty())
+		{
+			send_privmsg(recipient, LOCATION_NOT_FOUND);
+			return ;
+		}
+		else if (location_key == "Unauthorized")
+		{
+			send_privmsg(recipient, INVALID_API_KEY);
+			return ;
+		}
 
-	WeatherInfo info = _meteo.fetch_current_conditions(location_key);
-	if (info.description == "Unauthorized")
-	{
-		send_privmsg(recipient, INVALID_API_KEY);
-		return ;
-	}
+		WeatherInfo info = _meteo.fetch_current_conditions(location_key);
+		if (info.description == "Unauthorized")
+		{
+			send_privmsg(recipient, INVALID_API_KEY);
+			return ;
+		}
 
-	send_privmsg(recipient, "Weather for: " + location);
-	send_privmsg(recipient, "Conditions : " + info.description);
-	send_privmsg(recipient, "Temperature: " + info.temperature + "°C");
-	send_privmsg(recipient, "Humidity   : " + info.humidity + "%");
-	send_privmsg(recipient, "Pressure   : " + info.pressure + " mb");
-	send_privmsg(recipient, "Visibility : " + info.visibility + " km");
-	send_privmsg(recipient, "Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
-	send_privmsg(recipient, "Wind gusts : " + info.wind_gust + " km/h");
-	send_privmsg(recipient, "UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
-	send_privmsg(recipient, "Data provided by AccuWeather.com");
+		send_privmsg(recipient, "Weather for: " + location);
+		send_privmsg(recipient, "Conditions : " + info.description);
+		send_privmsg(recipient, "Temperature: " + info.temperature + "°C");
+		send_privmsg(recipient, "Humidity   : " + info.humidity + "%");
+		send_privmsg(recipient, "Pressure   : " + info.pressure + " mb");
+		send_privmsg(recipient, "Visibility : " + info.visibility + " km");
+		send_privmsg(recipient, "Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
+		send_privmsg(recipient, "Wind gusts : " + info.wind_gust + " km/h");
+		send_privmsg(recipient, "UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
+		send_privmsg(recipient, "Data provided by AccuWeather.com");
+	}
+	catch(const AccuWeatherAPI::Accu_error & e)
+	{
+		send_privmsg(recipient, e.what());
+	}
 }
 
 void Bot::send_to_irc(const std::string & msg)

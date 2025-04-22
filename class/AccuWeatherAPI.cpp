@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/22 16:14:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 18:20:46 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,10 @@ std::string AccuWeatherAPI::http_get(const std::string& host, const std::string&
 	// Create a socket
 	int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
-		throw std::runtime_error("Error opening socket");
+	{
+		log_("http_get: socket error: " + std::string(strerror(errno)));
+		throw Accu_error("Unable to respond to your request due to an internal error (socket)");
+	}
 
 	// Resolve the host
 	struct addrinfo		hints;
@@ -152,18 +155,21 @@ std::string AccuWeatherAPI::http_get(const std::string& host, const std::string&
 
 	struct addrinfo *	result;
 
-	if (getaddrinfo(host.c_str(), "80", &hints, &result) != 0)
+	int error = getaddrinfo(host.c_str(), "80", &hints, &result);
+	if (error != 0)
 	{
 		close(sockfd);
-		return "";
+		log_("http_get: getaddrinfo error: " + to_string(error));
+		throw Accu_error("Unable to respond to your request due to an internal error (getaddrinfo)");
 	}
 
 	// Connect to the server
-	if (connect(sockfd, result->ai_addr, result->ai_addrlen) < 0)
+	if (connect(sockfd, result->ai_addr, result->ai_addrlen) == -1)
 	{
 		freeaddrinfo(result);
 		close(sockfd);
-		throw std::runtime_error("Error connecting to server");
+		log_("http_get: connect error: " + std::string(strerror(errno)));
+		throw Accu_error("Unable to respond to your request due to an internal error (connect)");
 	}
 
 	freeaddrinfo(result);
@@ -176,17 +182,33 @@ std::string AccuWeatherAPI::http_get(const std::string& host, const std::string&
 	if (send(sockfd, request.c_str(), request.size(), 0) == -1)
 	{
 		close(sockfd);
-		throw std::runtime_error("Error sending request");
+		log_("http_get: send error: " + std::string(strerror(errno)));
+		throw Accu_error("Unable to respond to your request due to an internal error (send)");
 	}
 
 	// Read the response
 	std::string response;
 	char buffer[4096];
-	memset(&buffer, 0, sizeof(buffer));
-	while (recv(sockfd, buffer, sizeof(buffer) - 1, 0) > 0)
+	int size_buffer = sizeof(buffer);
+	int size_read;
+	do
+	{
+		memset(&buffer, 0, size_buffer);
+		size_read = recv(sockfd, buffer, size_buffer - 1, 0);
+		if (size_read == -1)
+		{
+			close(sockfd);
+			log_("http_get: recv error: " + std::string(strerror(errno)));
+			throw Accu_error("Unable to respond to your request due to an internal error (recv)");
+		}
 		response += buffer;
+	}
+	while (size_read == size_buffer);
 
 	close(sockfd);
 
 	return response;
 }
+
+AccuWeatherAPI::Accu_error::Accu_error(const std::string & msg) : std::runtime_error(msg)
+{}

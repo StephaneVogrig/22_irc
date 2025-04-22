@@ -6,13 +6,14 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/22 16:17:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:16:47 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AccuWeatherAPI_HPP
 # define AccuWeatherAPI_HPP
 
+#include <cerrno>
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -45,6 +46,11 @@ class AccuWeatherAPI
 
 		std::string	get_location_key(const std::string & location);
 		WeatherInfo	fetch_current_conditions(const std::string & location_code);
+		class Accu_error : public std::runtime_error
+		{
+			public:
+				Accu_error(const std::string & msg);
+		};
 
 	private:
 
