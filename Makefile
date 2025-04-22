@@ -6,7 +6,7 @@
 #    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/21 19:54:22 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/22 16:15:15 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,6 @@ SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)
 
 SRCS_BOT_CLASS		:=	AccuWeatherAPI.cpp \
 						Bot.cpp \
-						HttpClient.cpp \
 						Message.cpp \
 						Params.cpp
 

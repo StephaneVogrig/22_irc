@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 19:46:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:17:56 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 # define AccuWeatherAPI_HPP
 
 #include <string>
-
-#include "HttpClient.hpp"
+#include <iostream>
+#include <sstream>
+#include <cstring>
+#include <netdb.h>
+#include <unistd.h>
 
 #include "log.hpp"
 
@@ -44,11 +47,13 @@ class AccuWeatherAPI
 		WeatherInfo	fetch_current_conditions(const std::string & location_code);
 
 	private:
+
+		std::string http_get(const std::string& host, const std::string& path);
 		std::string get_json(const std::string & host, const std::string & path);
 		bool is_key_valid();
 
 		std::string _apiKey;
-		HttpClient  _client;
+
 };
 
 #endif
