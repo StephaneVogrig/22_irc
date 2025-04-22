@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 19:09:31 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 20:03:38 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ Server::~Server(void)
 	{
 		std::string msg("Server closed" DELIM_IRC);
 		if (send(_pollfds[i].fd, msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1)
-			throw(std::runtime_error("~Server: send failed"));
+			log_("~Server: send failed: " + std::string(strerror(errno)));
 		close_connection(i);
 	}
 	close(_pollfds[0].fd);
@@ -157,16 +157,25 @@ void Server::accept_connection()
 
 	int fd = accept(_pollfds[0].fd, (struct sockaddr *) &addr, &addr_len);
 	if (fd == -1)
-		throw(std::runtime_error("accept failed"));
+	{
+		log_("accept_connection: accept failed: " + std::string(strerror(errno)));
+		return ;
+	}
 
-	fcntl(fd, F_SETFL, O_NONBLOCK);
+	if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1)
+	{
+		log_("accept_connection: fcntl failed: " + std::string(strerror(errno)));
+		close(fd);
+		return ;
+	}
+
 	if (_nbr_connected == NBR_CLIENT_MAX)
 	{
-		std::string msg("Connection refused : server full");
+		std::string msg("Connection refused: server full");
 		log_server(fd, msg);
 		msg += DELIM_IRC;
 		if (send(fd, msg.c_str(), msg.length(), MSG_NOSIGNAL) == -1)
-			throw(std::runtime_error("send failed in accept connection"));
+			log_("accept_connection: send failed: " + std::string(strerror(errno)));
 		close(fd);
 		return ;
 	}
@@ -215,13 +224,9 @@ void Server::handle_event(void)
 	{
 		Client * client = _serv_clients.find(_pollfds[i].fd)->second;
 		if (_pollfds[i].revents & POLLIN)
-		{
 			handle_client_data(*client);
-		}
 		else if (_pollfds[i].revents & (POLLHUP | POLLNVAL))
-		{
 			close_connection(*client);
-		}
 	}
 }
 
@@ -230,7 +235,12 @@ void Server::handle_client_data(Client & client)
 	char buffer[CLIENT_BUFFER_SIZE];
 	memset(buffer, 0, sizeof(buffer));
 	int size_read = recv(client.get_fd(), buffer, CLIENT_BUFFER_SIZE - 1, 0);
-	if (size_read <= 0)
+	if (size_read == -1)
+	{
+		log_("handle_client_data: recv failed: " + std::string(strerror(errno)));
+		return ;
+	}
+	if (size_read == 0)
 	{
 		client.quit_all_channels(*this, "QUIT :Connection lost");
 		close_connection(client);
