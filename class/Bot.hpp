@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 18:15:08 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:31:42 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ class Bot
 		std::string	get_api_key();
 		std::string	get_next_msg();
 		void		process_irc_msg(const Message & msg);
-		void		send_meteo(const std::string & location);
+		void		send_meteo(const std::string & recipient, const std::string & location);
 		void		send_to_irc(const std::string & msg);
-		void		send_privmsg(const std::string & msg);
+		void		send_privmsg(const std::string & recipient, const std::string & msg);
 		void		check_sigint();
 
 		AccuWeatherAPI _meteo;

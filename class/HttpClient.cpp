@@ -6,19 +6,17 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/18 00:03:27 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:54:17 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HttpClient.hpp"
 
 HttpClient::HttpClient()
-{
-}
+{}
 
 HttpClient::~HttpClient()
-{
-}
+{}
 
 std::string HttpClient::get(const std::string& host, const std::string& path)
 {
@@ -36,11 +34,18 @@ std::string HttpClient::get(const std::string& host, const std::string& path)
 	struct addrinfo *	result;
 
 	if (getaddrinfo(host.c_str(), "80", &hints, &result) != 0)
+	{
+		close(sockfd);
 		return "";
+	}
 
 	// Connect to the server
 	if (connect(sockfd, result->ai_addr, result->ai_addrlen) < 0)
+	{
+		freeaddrinfo(result);
+		close(sockfd);
 		throw std::runtime_error("Error connecting to server");
+	}
 
 	freeaddrinfo(result);
 
@@ -50,7 +55,10 @@ std::string HttpClient::get(const std::string& host, const std::string& path)
 							"Connection: close\r\n\r\n";
 
 	if (send(sockfd, request.c_str(), request.size(), 0) == -1)
+	{
+		close(sockfd);
 		throw std::runtime_error("Error sending request");
+	}
 
 	// Read the response
 	std::string response;

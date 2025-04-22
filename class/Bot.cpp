@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 20:31:34 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:47:49 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,49 +136,58 @@ std::string Bot::get_next_msg()
 
 void Bot::process_irc_msg(const Message & msg)
 {
-	if (msg.get_command() == "JOIN")
-	send_privmsg("Welcome to meteobot, " + msg.get_prefix() + ". Write the name of the city you want have the meteo");
-	else if (msg.get_command() == "PRIVMSG")
-		send_meteo(msg.get_params().get_param(1));
+	std::string cmd = msg.get_command();
+	std::string recipient;
+	if (msg.get_params().get_first() == _nickname)
+		recipient = msg.get_prefix();
+	else
+		recipient = msg.get_params().get_first();
+
+	if (cmd == "JOIN")
+		send_privmsg(recipient, "Welcome to meteobot, " + msg.get_prefix() + ". Write the name of the city you want have the meteo");
+	else if (cmd == "PRIVMSG")
+		send_meteo(recipient, msg.get_params().get_param(1));
+	else if (cmd == "KICK" && msg.get_params().get_param(1) == _nickname)
+		throw std::runtime_error("porcess_irc_msg: meteobot has been kick from channel");
 }
 
-void Bot::send_meteo(const std::string & location)
+void Bot::send_meteo(const std::string & recipient, const std::string & location)
 {
 	if (location.empty())
 	{
-		send_privmsg(LOCATION_NOT_FOUND);
+		send_privmsg(recipient, LOCATION_NOT_FOUND);
 		return ;
 	}
 
 	std::string location_key = _meteo.get_location_key(location);
 	if (location_key.empty())
 	{
-		send_privmsg(LOCATION_NOT_FOUND);
+		send_privmsg(recipient, LOCATION_NOT_FOUND);
 		return ;
 	}
 	else if (location_key == "Unauthorized")
 	{
-		send_privmsg(INVALID_API_KEY);
+		send_privmsg(recipient, INVALID_API_KEY);
 		return ;
 	}
 
 	WeatherInfo info = _meteo.fetch_current_conditions(location_key);
 	if (info.description == "Unauthorized")
 	{
-		send_privmsg(INVALID_API_KEY);
+		send_privmsg(recipient, INVALID_API_KEY);
 		return ;
 	}
 
-	send_privmsg("Weather for: " + location);
-	send_privmsg("Conditions : " + info.description);
-	send_privmsg("Temperature: " + info.temperature + "°C");
-	send_privmsg("Humidity   : " + info.humidity + "%");
-	send_privmsg("Pressure   : " + info.pressure + " mb");
-	send_privmsg("Visibility : " + info.visibility + " km");
-	send_privmsg("Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
-	send_privmsg("Wind gusts : " + info.wind_gust + " km/h");
-	send_privmsg("UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
-	send_privmsg("Data provided by AccuWeather.com");
+	send_privmsg(recipient, "Weather for: " + location);
+	send_privmsg(recipient, "Conditions : " + info.description);
+	send_privmsg(recipient, "Temperature: " + info.temperature + "°C");
+	send_privmsg(recipient, "Humidity   : " + info.humidity + "%");
+	send_privmsg(recipient, "Pressure   : " + info.pressure + " mb");
+	send_privmsg(recipient, "Visibility : " + info.visibility + " km");
+	send_privmsg(recipient, "Wind       : " + info.wind_speed + " km/h from " + info.wind_direction);
+	send_privmsg(recipient, "Wind gusts : " + info.wind_gust + " km/h");
+	send_privmsg(recipient, "UV Index   : " + info.uv_index + " (" + info.uv_index_text + ")");
+	send_privmsg(recipient, "Data provided by AccuWeather.com");
 }
 
 void Bot::send_to_irc(const std::string & msg)
@@ -192,9 +201,9 @@ void Bot::send_to_irc(const std::string & msg)
 	}
 }
 
-void Bot::send_privmsg(const std::string & msg)
+void Bot::send_privmsg(const std::string & recipient, const std::string & msg)
 {
-	send_to_irc("PRIVMSG " + _channel_name + " :" + msg);
+	send_to_irc("PRIVMSG " + recipient + " :" + msg);
 }
 
 void Bot::check_sigint()
