@@ -3,28 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/13 00:45:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:12 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Privmsg.hpp"
 #include "Server.hpp"
 
-Privmsg::Privmsg() : Command("Privmsg")
-{
-}
+Privmsg::Privmsg() : Command("PRIVMSG")
+{}
 
 Privmsg::~Privmsg()
-{
-}
+{}
 
 void Privmsg::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() != 2)
-		ERR_461_NEEDMOREPARAMS(client, "PRIVMSG", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	const std::string & target = params.get_first();
 	const std::string & message = params.get_param(1);
@@ -41,7 +39,7 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 		if (!channel->is_join(client))
 			ERR_442_NOTONCHANNEL(client, *channel, server);
 
-		channel->send_to_others(client, "PRIVMSG", message);
+		channel->send_to_others(client, _name, message);
 	}
 	else
 	{
@@ -49,6 +47,6 @@ void Privmsg::exec(Client & client, const Params & params, Server & server)
 		if (c_target == NULL)
 			ERR_401_NOSUCHNICK(client, server, target);
 
-		c_target->send_msg(":" + client.get_nickname() + " PRIVMSG " + target + " :" + message);
+		c_target->send_msg(":" + client.get_nickname() + " " + _name + " " + target + " :" + message);
 	}
 }

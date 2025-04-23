@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:45:31 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/31 19:14:02 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:50:14 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ class Part : public Command
 		void	exec(Client & client, const Params & params, Server & Server);
 
 };
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 15:43:38 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:21:57 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 		ERR_451_NOTREGISTERED(client, server);
 
 	if (params.get_nbr() == 0)
-		ERR_461_NEEDMOREPARAMS(client, "NICK", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	const std::string & nickname = params.get_first();
 
@@ -45,7 +45,7 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 	{
 		std::string oldnam = client.get_nickname();
 		client.set_nickname(nickname);
-		client.send_msg(":" + oldnam + " NICK " + nickname);
+		client.send_msg(":" + oldnam + " " + _name + " " + nickname);
 	}
 	else
 	{

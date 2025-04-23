@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 15:43:39 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:59 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 #include "Server.hpp"
 
 User::User() : Command("USER")
-{
-}
+{}
 
 User::~User()
-{
-}
+{}
 
 void User::exec(Client & client, const Params & params, Server & server)
 {
@@ -30,7 +28,7 @@ void User::exec(Client & client, const Params & params, Server & server)
 		ERR_462_ALREADYREGISTRED(client, server);
 
 	if (params.get_nbr() < 4)
-		ERR_461_NEEDMOREPARAMS(client, "USER", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	client.set_username(params.get_first());
 	client.set_realname(params.get_param(params.get_nbr() - 1));

@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Elements.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:26:29 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 18:59:56 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 13:59:34 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Elements.hpp"
-
-
-#include "log.hpp"
 
 Elements::Elements()
 {}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/10 18:29:17 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:20:02 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	INVITE <nickname> <channel>
 */
 
-Invite::Invite() : Command("Invite")
+Invite::Invite() : Command("INVITE")
 {}
 
 Invite::~Invite()
@@ -26,7 +26,7 @@ Invite::~Invite()
 void Invite::exec(Client & client, const Params & params, Server & server)
 {
     if (params.get_nbr() < 2)
-        ERR_461_NEEDMOREPARAMS(client, "INVITE", server);
+        ERR_461_NEEDMOREPARAMS(client, _name, server);
 
     Channel * channel = server.get_channel(params.get_param(1));
     if (channel == NULL)
@@ -47,5 +47,5 @@ void Invite::exec(Client & client, const Params & params, Server & server)
 
     channel->invite_client(*target);
     RPL_341_INVITING(client, target->get_nickname(), *channel, server);
-    target->send_msg(":" + client.get_nickname() + " INVITE " + target->get_nickname() + " " + channel->get_name());
+    target->send_msg(":" + client.get_nickname() + " " + _name + " " + target->get_nickname() + " " + channel->get_name());
 }

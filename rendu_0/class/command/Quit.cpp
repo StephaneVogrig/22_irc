@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Quit.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:24 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Quit::~Quit()
 
 void Quit::exec(Client & client, const Params & params, Server & server)
 {
-	std::string msg("QUIT");
+	std::string msg(_name);
 
 	if (params.get_nbr() != 0)
 		msg += " :" + params.get_first();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AccuWeatherAPI.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/22 21:15:16 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:03:59 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ AccuWeatherAPI::~AccuWeatherAPI()
 
 /* public utilities ----------------------------------------------------------*/
 
-std::string extract_json(const std::string& http_response)
+std::string extract_json(const std::string & http_response)
 {
 	size_t json_start = http_response.find("\r\n\r\n");
 	if (json_start == std::string::npos)
@@ -36,7 +36,7 @@ std::string extract_json(const std::string& http_response)
 	return http_response.substr(json_start + 4);
 }
 
-std::string extract_value(const std::string& json, const std::string& key)
+std::string extract_value(const std::string & json, const std::string & key)
 {
 	std::string pattern = "\"" + key + "\":\"";
 	size_t start = json.find(pattern);
@@ -49,7 +49,7 @@ std::string extract_value(const std::string& json, const std::string& key)
 	return json.substr(start, end - start);
 }
 
-std::string extract_num_value(const std::string& json, const std::string& key)
+std::string extract_num_value(const std::string & json, const std::string & key)
 {
 	std::string pattern = key;
 	size_t start = json.find(pattern);
@@ -94,7 +94,6 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 	std::string path = "/currentconditions/v1/" + location_code + "?apikey=" + _apiKey + "&details=true";
 	std::string host = "dataservice.accuweather.com";
 	std::string json = get_json(host, path);
-	
 
 	WeatherInfo info;
 	if (json == "Unauthorized")
@@ -102,7 +101,7 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 		info.description = "Unauthorized";
 		return info;
 	}
-	
+
 	info.description = extract_value(json, "WeatherText");
 	info.temperature = extract_num_value(json, "\"Metric\":{\"Value\":");
 	info.humidity = extract_num_value(json, "\"RelativeHumidity\":");
@@ -116,28 +115,12 @@ WeatherInfo AccuWeatherAPI::fetch_current_conditions(const std::string & locatio
 	return info;
 }
 
+AccuWeatherAPI::Accu_error::Accu_error(const std::string & msg) : std::runtime_error(msg)
+{}
+
 /* private utilities ----------------------------------------------------------*/
 
-std::string AccuWeatherAPI::get_json(const std::string & host, const std::string & path)
-{
-	std::string response = http_get(host, path);
-	if (response.find("Unauthorized") != std::string::npos)
-		return "Unauthorized";
-	std::string json = extract_json(response);
-	return json;
-}
-
-bool AccuWeatherAPI::is_key_valid()
-{
-	std::string response = http_get("dataservice.accuweather.com",
-		"/locations/v1/cities/search?apikey=" + _apiKey + "&q=Paris");
-
-	if (response.find("Unauthorized") != std::string::npos)
-		return false;
-	return true;
-}
-
-std::string AccuWeatherAPI::http_get(const std::string& host, const std::string& path)
+std::string AccuWeatherAPI::http_get(const std::string & host, const std::string & path)
 {
 	// Create a socket
 	int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -210,5 +193,21 @@ std::string AccuWeatherAPI::http_get(const std::string& host, const std::string&
 	return response;
 }
 
-AccuWeatherAPI::Accu_error::Accu_error(const std::string & msg) : std::runtime_error(msg)
-{}
+std::string AccuWeatherAPI::get_json(const std::string & host, const std::string & path)
+{
+	std::string response = http_get(host, path);
+	if (response.find("Unauthorized") != std::string::npos)
+		return "Unauthorized";
+	std::string json = extract_json(response);
+	return json;
+}
+
+bool AccuWeatherAPI::is_key_valid()
+{
+	std::string response = http_get("dataservice.accuweather.com",
+		"/locations/v1/cities/search?apikey=" + _apiKey + "&q=Paris");
+
+	if (response.find("Unauthorized") != std::string::npos)
+		return false;
+	return true;
+}

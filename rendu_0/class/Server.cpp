@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 20:03:38 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:01:00 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ Client * Server::get_client_by_name(const std::string & name)
 
 const std::string & Server::get_password(void) const
 {
-	return _password ;
+	return _password;
 }
 
 int Server::get_nbr_connected(void)
 {
-	return _nbr_connected ;
+	return _nbr_connected;
 }
 
 Channel * Server::get_channel(const std::string & name)
@@ -81,7 +81,7 @@ Channel * Server::get_channel(const std::string & name)
 	t_channels::iterator it = _channels.find(name);
 	if (it == _channels.end())
 		return NULL;
-	return &(it->second) ;
+	return &(it->second);
 }
 
 /* public utilities ----------------------------------------------------------*/
@@ -108,8 +108,8 @@ bool Server::channel_exist(const std::string & name)
 {
 	t_channels::iterator it = _channels.find(name);
 	if (it == _channels.end())
-		return false ;
-	return true ;
+		return false;
+	return true;
 }
 
 void Server::create_channel(const std::string & name, const std::string & key)

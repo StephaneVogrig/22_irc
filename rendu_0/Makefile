@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
+#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/22 21:18:23 by svogrig          ###   ########.fr        #
+#    Updated: 2025/04/23 13:55:16 by gcannaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,9 +97,9 @@ SRCS_BOT_CLASS		:=	$(SRCS_BOT_CLASS:%=$(SRC_CLASS_DIR)/%)
 
 OBJ_DIR				:=	.build/
 
-OBJS				:= 	$(SRCS:%.cpp=$(OBJ_DIR)%.o) 
+OBJS				:= 	$(SRCS:%.cpp=$(OBJ_DIR)%.o)
 
-OBJS				:= 	$(OBJS) $(SRCS_CLASS:%.cpp=$(OBJ_DIR)%.o) 
+OBJS				:= 	$(OBJS) $(SRCS_CLASS:%.cpp=$(OBJ_DIR)%.o)
 
 DEPS				:=	$(OBJS:.o=.d)
 
@@ -153,7 +153,7 @@ makebot: $(NAME_BOT)
 # compilation                                                                  #
 #------------------------------------------------------------------------------#
 
-$(OBJ_DIR)%.o: %.cpp 
+$(OBJ_DIR)%.o: %.cpp
 	@mkdir -p $(@D)
 	@$(CXX) $(CFLAGS) $(I_FLAG) -o $@ -c $< && echo -e "$(BGREEN)[✔]$(NC)\tCompiling:\t$(BOLD)$(notdir $<)$(NC)"
 
@@ -168,7 +168,7 @@ $(NAME): $(OBJS)
 	@$(CXX) $(CFLAGS) $(OBJS) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
 
 $(NAME_BOT): $(OBJS_BOT)
-	$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
+	@$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
 
 #------------------------------------------------------------------------------#
 # specifications                                                               #

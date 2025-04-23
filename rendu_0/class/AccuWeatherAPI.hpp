@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AccuWeatherAPI.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/22 17:16:47 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:04:16 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class AccuWeatherAPI
 
 	private:
 
-		std::string http_get(const std::string& host, const std::string& path);
+		std::string http_get(const std::string & host, const std::string & path);
 		std::string get_json(const std::string & host, const std::string & path);
 		bool is_key_valid();
 

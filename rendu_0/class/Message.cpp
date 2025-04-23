@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:13:59 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/28 21:14:00 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:02:01 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ Message & Message::operator = (const Message & toAssign)
 	_prefix = toAssign._prefix;
 	_command = toAssign._command;
 	_parameters = toAssign._parameters;
-	
+
 	return *this;
 }
-
 
 std::ostream & operator << (std::ostream & os, const Message & msg)
 {
@@ -77,7 +76,7 @@ void Message::extract_info(const std::string & str)
 {
 	size_t start = 0;
 	size_t stop = 0;
-	
+
 	/* prefix */
 	if (str[0] == ':')
 	{

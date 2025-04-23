@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Mode_rpl.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 03:28:55 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 19:30:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:14:23 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Mode_rpl.hpp"
-#include "log.hpp"
 
 Mode_rpl::Mode_rpl() : _current_action('\0')
-{
-	
-}
+{}
 
 Mode_rpl::Mode_rpl(const Mode_rpl & to_copy)
 {

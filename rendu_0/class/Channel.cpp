@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 22:50:51 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 22:29:08 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:01:13 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void Channel::unset_client_status(const Client & client, char status)
 {
 	std::string & status_string = _chan_clients.find(client.get_fd())->second.second;
 	if (status_string.find(status) == std::string::npos)
-		throw Protocole_error() ;
+		throw Protocole_error();
 	status_string.erase(status_string.find(status), 1);
 }
 
@@ -331,7 +331,6 @@ void Channel::log(const std::string & action)
 {
 	log_(FG_YELLOW "channel " RESET + _channel_name + FG_YELLOW " : " + action + RESET);
 }
-
 
 void Channel::log(const std::string & action, const std::string & who)
 {

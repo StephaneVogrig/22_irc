@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Elements.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:22:54 by svogrig           #+#    #+#             */
-/*   Updated: 2025/03/31 18:26:08 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 13:33:18 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Elements
 		Elements();
 		Elements(const std::string & str);
 		Elements(const Elements & to_copy);
-		
+
 		~Elements();
 
 		Elements & operator = (const Elements & to_assign);
@@ -33,7 +33,7 @@ class Elements
 		int					get_nbr() const;
 		const std::string &	get_element(int idx) const;
 		const std::string &	get_first() const;
-	
+
 	private:
 
 		std::vector<std::string> _elements;

@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 15:55:26 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:22:48 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Pass::~Pass()
 void Pass::exec(Client & client, const Params & params, Server & server)
 {
 	if (!server.get_password().empty() && params.get_nbr() < 1)
-		ERR_461_NEEDMOREPARAMS(client, "PASS", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	if (server.get_password().empty() || client.is_hasPass())
 		ERR_462_ALREADYREGISTRED(client, server);

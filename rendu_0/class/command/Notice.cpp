@@ -13,13 +13,11 @@
 #include "Notice.hpp"
 #include "Server.hpp"
 
-Notice::Notice() : Command("Notice")
-{
-}
+Notice::Notice() : Command("NOTICE")
+{}
 
 Notice::~Notice()
-{
-}
+{}
 
 void Notice::exec(Client & client, const Params & params, Server & server)
 {
@@ -43,7 +41,7 @@ void Notice::exec(Client & client, const Params & params, Server & server)
 		if (!channel->is_join(client))
 			throw Protocole_error();
 
-		channel->send_to_others(client, "NOTICE", message);
+		channel->send_to_others(client, _name, message);
 	}
 	else
 	{
@@ -51,6 +49,6 @@ void Notice::exec(Client & client, const Params & params, Server & server)
 		if (c_target == NULL)
 			throw Protocole_error();
 
-		c_target->send_msg(":" + client.get_nickname() + " NOTICE " + target + " :" + message);
+		c_target->send_msg(":" + client.get_nickname() + " " + _name + " " + target + " :" + message);
 	}
 }

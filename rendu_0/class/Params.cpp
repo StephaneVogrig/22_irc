@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Params.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:04:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 19:39:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:14:39 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Params.hpp"
-
-#include "log.hpp"
 
 Params::Params()
 {}

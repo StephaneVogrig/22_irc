@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/13 00:57:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:21:05 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Kick::~Kick()
 void Kick::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() < 2)
-		ERR_461_NEEDMOREPARAMS(client, "KICK", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	Channel * channel = server.get_channel(params.get_first());
 	if (channel == NULL)
@@ -48,7 +48,7 @@ void Kick::exec(Client & client, const Params & params, Server & server)
 				ERR_401_NOSUCHNICK(client, server, users.get_element(i));
 			if (channel->is_join(*target))
 			{
-				channel->send_to_all(client.get_nickname(), "KICK " + channel->get_name() + " " + target->get_nickname() + " " + arg);
+				channel->send_to_all(client.get_nickname(), _name + " " + channel->get_name() + " " + target->get_nickname() + " " + arg);
 				server.remove_client_from_channel(*target, *channel);
 			}
 			else

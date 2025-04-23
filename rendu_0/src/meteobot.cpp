@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meteobot.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 10:47:23 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 20:24:13 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 13:33:03 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include "signal.hpp"
 #include "utils.hpp"
 #include "Bot.hpp"
-
-// volatile sig_atomic_t g_sigint;
 
 int main(int argc, char ** argv)
 {

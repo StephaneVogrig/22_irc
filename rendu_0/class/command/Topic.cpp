@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 18:50:40 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:42 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 	}
 	const std::string & topic = params.get_param(1);
 	channel->set_topic(client, topic, server);
-	channel->send_to_all(client.get_nickname(), "TOPIC " + channel->get_name() + " :" + channel->get_topic());
+	channel->send_to_all(client.get_nickname(), _name + " " + channel->get_name() + " :" + channel->get_topic());
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:40:03 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 21:55:20 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:20:51 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Join::~Join(void)
 void Join::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() < 1)
-		ERR_461_NEEDMOREPARAMS(client, "JOIN", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	if (params.get_first() == "0")
 	{
@@ -82,7 +82,7 @@ void Join::exec_solo(Client & client, const std::string & channel_name, const st
 
 		channel->add_client(client, status);
 
-		channel->send_to_all(client.get_nickname(), "JOIN " + channel->get_name());
+		channel->send_to_all(client.get_nickname(), _name + " " + channel->get_name());
 
 		if (channel->get_topic() != "")
 		{

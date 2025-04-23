@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 19:08:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:21:27 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Mode::~Mode(void)
 void Mode::exec(Client & client, const Params & params, Server & server)
 {
 	if (params.get_nbr() == 0)
-		ERR_461_NEEDMOREPARAMS(client, "MODE", server);
+		ERR_461_NEEDMOREPARAMS(client, _name, server);
 
 	if (Channel::is_a_valid_name(params.get_first()))
 		exec_on_channel(client, params, server);
@@ -166,5 +166,5 @@ void Mode::exec_on_channel(Client & client, const Params & params, Server & serv
 		{}
 	}
 	if (!mode_rpl.is_empty())
-		channel->send_to_all(client.get_nickname(), "MODE " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
+		channel->send_to_all(client.get_nickname(), _name + " " + channel->get_name() + " " + mode_rpl.get_mode_rpl());
 }
