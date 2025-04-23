@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 17:12:15 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:22:27 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <poll.h>
 
 # include "log.hpp"
+# include "reply.hpp"
 # include "settings.hpp"
 # include "socket.hpp"
 # include "utils.hpp"
@@ -46,6 +47,7 @@
 # include "Invite.hpp"
 # include "Privmsg.hpp"
 # include "Notice.hpp"
+# include "List.hpp"
 
 # define DELIM_IRC "\r\n"
 
@@ -74,6 +76,7 @@ class Server
 		void create_channel(const std::string & name, const std::string & key);
 		void remove_client_from_channel(Client & client, Channel & channel);
 		void quit_all_serv_channels(Client & client, const std::string & msg);
+		void send_channel_list(Client & client);
 
 	private:
 

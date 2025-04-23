@@ -6,18 +6,16 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:45:53 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 15:41:41 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:18:58 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KICK_HPP
 # define KICK_HPP
 
-# include <iostream>
-# include "Command.hpp"
-
-class Server;
-class Client;
+# include "Server.hpp"
+# include "Client.hpp"
+# include "Params.hpp"
 
 class Kick : public Command
 {

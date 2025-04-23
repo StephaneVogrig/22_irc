@@ -6,16 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:39:07 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 14:20:02 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:24:22 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
-#include "Server.hpp"
-
-/*
-	INVITE <nickname> <channel>
-*/
 
 Invite::Invite() : Command("INVITE")
 {}

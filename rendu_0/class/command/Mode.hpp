@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:39:10 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 21:14:01 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 19:18:48 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "Server.hpp"
 # include "Client.hpp"
 # include "Params.hpp"
+
+# include "Mode_rpl.hpp"
 
 class Mode : public Command
 {

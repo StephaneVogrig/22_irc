@@ -6,7 +6,7 @@
 #    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/23 13:55:16 by gcannaud         ###   ########.fr        #
+#    Updated: 2025/04/23 19:06:43 by gcannaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ SRCS_CLASS			:=	Client.cpp \
 						command/Privmsg.cpp \
 						command/Notice.cpp \
 						command/Mode.cpp \
+						command/List.cpp \
 						command/Part.cpp
 
 SRCS_CLASS			:=	$(SRCS_CLASS:%=$(SRC_CLASS_DIR)/%)

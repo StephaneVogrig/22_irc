@@ -6,18 +6,16 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:38:36 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/01 15:41:32 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:24:14 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INVITE_HPP
 # define INVITE_HPP
 
-# include <iostream>
-# include "Command.hpp"
-
-class Server;
-class Client;
+# include "Server.hpp"
+# include "Client.hpp"
+# include "Params.hpp"
 
 class Invite : public Command
 {

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "Notice.hpp"
-#include "Server.hpp"
 
 Notice::Notice() : Command("NOTICE")
 {}

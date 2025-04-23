@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 17:43:03 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:49:27 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,27 @@ void RPL_315_ENDOFWHO(Client & client, Server & server)
 }
 
 /*
-318	RPL_ENDOFWHOIS
-		"<nick> :End of WHOIS list"
+RPL_LIST (322)
+
+  "<client> <channel> <client count> :<topic>"
+
+Sent as a reply to the LIST command, this numeric sends information about a channel to the client. <channel> is the name of the channel. <client count> is an integer indicating how many clients are joined to that channel. <topic> is the channel’s topic (as set by the TOPIC command).
 */
-void RPL_318_ENDOFWHOIS(Client & client, const std::string & name)
+void RPL_322_LIST(Client & client, Channel & channel, Server & server)
 {
-	client.send_msg(":server 318 " + client.get_nickname() + " " + name + " :End of /WHOIS list");
+	client.send_msg(":" + server.get_name() + " 322 " + client.get_nickname() + " " + channel.get_name() + " " + to_string(channel.get_nbr_client()) + " : " + channel.get_topic());
+}
+
+/*
+RPL_LISTEND (323)
+
+  "<client> :End of /LIST"
+
+Sent as a reply to the LIST command, this numeric indicates the end of a LIST response.
+*/
+void RPL_323_LISTEND(Client & client, Server & server)
+{
+	client.send_msg(":" + server.get_name() + " 323 :End of /LIST");
 }
 
 /*

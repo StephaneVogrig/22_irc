@@ -6,12 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 14:40:17 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 14:21:27 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:18:35 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Mode.hpp"
-#include "Mode_rpl.hpp"
 
 Mode::Mode(void) : Command("MODE")
 {}

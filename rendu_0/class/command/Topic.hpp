@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:34:57 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/08 13:31:28 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 19:17:23 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 # define TOPIC_HPP
 
 # include "Command.hpp"
-
 # include "Client.hpp"
-# include "Params.hpp"
 # include "Server.hpp"
 
-# include "reply.hpp"
-# include "error.hpp"
 class Topic : public Command
 {
 	public:

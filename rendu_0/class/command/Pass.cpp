@@ -6,12 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 14:22:48 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:17:54 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Pass.hpp"
-#include "Server.hpp"
 
 Pass::Pass() : Command("PASS")
 {}

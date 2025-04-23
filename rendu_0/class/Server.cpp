@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 17:11:59 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:25:38 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void Server::init_commands(void)
 	_commands["PRIVMSG"] = new Privmsg();
 	_commands["MODE"] = new Mode();
 	_commands["NOTICE"] = new Notice();
+	_commands["LIST"] = new List();
 }
 
 void Server::destroy_commands(void)
@@ -369,4 +370,13 @@ void Server::quit_all_serv_channels(Client & client, const std::string & msg)
 			remove_client_from_channel(client, it->second);
 		}
 	}
+}
+
+void Server::send_channel_list(Client & client)
+{
+	for (t_channels::iterator it = _channels.begin(); it != _channels.end(); ++it)
+	{
+		RPL_322_LIST(client, it->second, *this);
+	}
+	RPL_323_LISTEND(client, *this);
 }

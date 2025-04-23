@@ -6,12 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 18:07:25 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:18:21 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Nick.hpp"
-#include "Server.hpp"
 
 Nick::Nick() : Command("NICK")
 {}

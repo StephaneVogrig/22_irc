@@ -6,12 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:54:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 14:21:05 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:19:00 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Kick.hpp"
-#include "Server.hpp"
 
 Kick::Kick() : Command("KICK")
 {}

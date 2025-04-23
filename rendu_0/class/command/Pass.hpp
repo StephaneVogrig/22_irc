@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   Pass.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/03/26 12:04:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 19:17:51 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PASS_HPP
 # define PASS_HPP
 
-# include <iostream>
 # include "Command.hpp"
-
-class Server;
-class Client;
+# include "Client.hpp"
+# include "Server.hpp"
 
 class Pass : public Command
 {

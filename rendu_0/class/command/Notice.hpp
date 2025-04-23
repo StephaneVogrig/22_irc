@@ -13,12 +13,9 @@
 #ifndef NOTICE_HPP
 # define NOTICE_HPP
 
-# include <iostream>
 # include "Command.hpp"
-# include "reply.hpp"
-
-class Server;
-class Client;
+# include "Client.hpp"
+# include "Server.hpp"
 
 class Notice : public Command
 {

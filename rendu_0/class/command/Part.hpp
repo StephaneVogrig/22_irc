@@ -6,18 +6,18 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:45:31 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 14:50:14 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:23:30 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PART_HPP
 # define PART_HPP
 
-# include <iostream>
 # include "Command.hpp"
+# include "Client.hpp"
+# include "Server.hpp"
 
-class Server;
-class Client;
+# include "Elements.hpp"
 
 class Part : public Command
 {

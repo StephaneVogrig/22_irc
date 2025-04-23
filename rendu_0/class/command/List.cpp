@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Privmsg.hpp                                        :+:      :+:    :+:   */
+/*   List.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 16:41:08 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 19:17:37 by gcannaud         ###   ########.fr       */
+/*   Created: 2025/04/23 18:36:58 by gcannaud          #+#    #+#             */
+/*   Updated: 2025/04/23 19:06:20 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRIVMSG_HPP
-# define PRIVMSG_HPP
+#include "List.hpp"
 
-# include "Command.hpp"
-# include "Client.hpp"
-# include "Server.hpp"
+List::List() : Command("LIST")
+{}
 
-class Privmsg : public Command
+List::~List()
+{}
+
+void List::exec(Client & client, const Params & params, Server & server)
 {
-	public:
-
-		Privmsg();
-		~Privmsg();
-
-		void	exec(Client & client, const Params & params, Server & Server);
-
-};
-
-#endif
+	(void) params;
+	server.send_channel_list(client);
+}

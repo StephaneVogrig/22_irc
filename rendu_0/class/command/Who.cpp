@@ -6,12 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:02:11 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 14:24:05 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:16:35 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Who.hpp"
-#include "Server.hpp"
 
 Who::Who() : Command("WHO")
 {}
