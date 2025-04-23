@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/13 00:46:15 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 15:41:58 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ Returned when a client tries to change a detail that can only be set during regi
 */
 void ERR_462_ALREADYREGISTRED(Client & client, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 462 :Unauthorized command (already registered)");
+	client.send_msg(":" + server.get_name() + " 462 " + client.get_nickname() + " :Already registered");
 	throw Protocole_error();
 }
 
