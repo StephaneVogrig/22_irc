@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:58 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 13:59:57 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:12:15 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ class Server
 		const std::string &	get_name() const;
 		Client *			get_client_by_name(const std::string & name);
 		const std::string &	get_password() const;
+		const std::string &	get_creation_date_time() const;
+		const std::string &	get_verstion() const;
 		int					get_nbr_connected();
 		Channel *			get_channel(const std::string & name);
 
 		void run(void);
+		void rpl_accept(Client & client);
 		void close_connection(Client & client);
 
 		bool channel_exist(const std::string & name);
@@ -77,6 +80,8 @@ class Server
 		std::string			_name;
 		const int			_port;
 		const std::string	_password;
+		const std::string	_creation_date_time;
+		const std::string	_version;
 		int					_nbr_connected;
 		t_pollfd			_pollfds[NBR_CLIENT_MAX];
 

@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:03 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 16:01:46 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:13:02 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ void Nick::exec(Client & client, const Params & params, Server & server)
 	{
 		client.set_nickname(nickname);
 		if (client.is_registed())
-			RPL_001_WELCOME(client, server);
+			server.rpl_accept(client);
 	}
 }

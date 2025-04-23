@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 23:34:50 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:06:20 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,42 @@ Clients MUST NOT try to extract the hostname from the final parameter of this me
 void RPL_001_WELCOME(Client & client, Server & server)
 {
 	client.send_msg(":" + server.get_name() + " 001 " + client.get_nickname() + " :Welcome to the " + server.get_name() + " IRC Network, " + client.get_nickname());
+}
+
+/*
+RPL_YOURHOST (002)
+
+  "<client> :Your host is <servername>, running version <version>"
+Part of the post-registration greeting, this numeric returns the name and software/version of the server the client is currently connected to. The text used in the last param of this message varies wildly.
+*/
+void RPL_002_YOURHOST(Client & client, Server & server)
+{
+	client.send_msg(":" + server.get_name() + " 002 " + client.get_nickname() + " :Your host is " + server.get_name() + ", running version "  + server.get_verstion());
+}
+
+/*
+RPL_CREATED (003)
+
+  "<client> :This server was created <datetime>"
+
+Part of the post-registration greeting, this numeric returns a human-readable date/time that the server was started or created. The text used in the last param of this message varies wildly.
+*/
+void RPL_003_CREATED(Client & client, Server & server)
+{
+	client.send_msg(":" + server.get_name() + " 003 " + client.get_nickname() + " :This server was created " + server.get_creation_date_time());
+}
+
+/*
+RPL_MYINFO (004)
+
+  "<client> <servername> <version> <available user modes>
+  <available channel modes> [<channel modes with a parameter>]"
+
+Part of the post-registration greeting. Clients SHOULD discover available features using RPL_ISUPPORT tokens rather than the mode letters listed in this reply.
+*/
+void RPL_004_MYINFO(Client & client, Server & server)
+{
+	client.send_msg(":" + server.get_name() + " 004 " + client.get_nickname() + " " + server.get_name() + " " + server.get_verstion() + " * hikloqt hklo");
 }
 
 /*

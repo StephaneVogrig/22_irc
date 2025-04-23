@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reply.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:45:53 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/12 22:24:22 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:06:36 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 class Server;
 
 void RPL_001_WELCOME(Client & client, Server & server);
+void RPL_002_YOURHOST(Client & client, Server & server);
+void RPL_003_CREATED(Client & client, Server & server);
+void RPL_004_MYINFO(Client & client, Server & server);
 void RPL_315_ENDOFWHO(Client & client, Server & server);
 void RPL_318_ENDOFWHOIS(Client & client, const std::string & name);
 void RPL_324_CHANNELMODEIS(Client & client, Channel & channel, Server & server);

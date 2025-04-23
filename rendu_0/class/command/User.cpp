@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:41:06 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 14:23:59 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:13:12 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void User::exec(Client & client, const Params & params, Server & server)
 	client.set_username(params.get_first());
 	client.set_realname(params.get_param(params.get_nbr() - 1));
 	if (client.is_registed())
-		RPL_001_WELCOME(client, server);
+		server.rpl_accept(client);
 }

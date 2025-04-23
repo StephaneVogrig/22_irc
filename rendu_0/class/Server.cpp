@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 14:01:00 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:11:59 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@
 /* constructor ---------------------------------------------------------------*/
 
 Server::Server(int port, const std::string & password, const std::string & name)
-		: _name(name), _port(port), _password(password), _nbr_connected(0)
+		:	_name(name),
+			_port(port),
+			_password(password),
+			_creation_date_time(current_time_str() + " " + current_date_str()),
+			_version(SERVER_VERSION),
+			_nbr_connected(0)
 {
 	memset(_pollfds, 0, sizeof(_pollfds));
 	_pollfds[0].fd = create_socket();
@@ -71,6 +76,17 @@ const std::string & Server::get_password(void) const
 	return _password;
 }
 
+const std::string &	Server::get_creation_date_time() const
+{
+	return _creation_date_time;
+}
+
+
+const std::string &	Server::get_verstion() const
+{
+	return _version;
+}
+
 int Server::get_nbr_connected(void)
 {
 	return _nbr_connected;
@@ -102,6 +118,14 @@ void Server::run(void)
 		info_waiting(false);
 		handle_event();
 	}
+}
+
+void Server::rpl_accept(Client & client)
+{
+	RPL_001_WELCOME(client, *this);
+	RPL_002_YOURHOST(client, *this);
+	RPL_003_CREATED(client, *this);
+	RPL_004_MYINFO(client, *this);
 }
 
 bool Server::channel_exist(const std::string & name)
