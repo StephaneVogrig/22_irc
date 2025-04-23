@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:54:05 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 15:41:58 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:32:22 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ Returned to indicate that a JOIN command failed because the client limit mode ha
 */
 void ERR_471_CHANNELISFULL(Client & client, const Channel & channel, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 471 " + channel.get_name() + " :Cannot join channel (+i)");
+	client.send_msg(":" + server.get_name() + " 471 " + channel.get_name() + " :Cannot join channel (+l)");
 	throw Protocole_error();
 }
 
