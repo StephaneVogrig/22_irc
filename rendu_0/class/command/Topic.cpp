@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2025/04/23 14:23:42 by gcannaud         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/23 15:16:55 by svogrig          ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2025/04/23 15:29:25 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
