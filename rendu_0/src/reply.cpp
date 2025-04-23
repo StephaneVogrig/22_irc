@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:46:19 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 17:06:20 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:43:03 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ Part of the post-registration greeting. Clients SHOULD discover available featur
 */
 void RPL_004_MYINFO(Client & client, Server & server)
 {
-	client.send_msg(":" + server.get_name() + " 004 " + client.get_nickname() + " " + server.get_name() + " " + server.get_verstion() + " * hikloqt hklo");
+	client.send_msg(":" + server.get_name() + " 004 " + client.get_nickname() + " " + server.get_name() + " " + server.get_verstion() + " * ikloqt klo");
 }
 
 /*
