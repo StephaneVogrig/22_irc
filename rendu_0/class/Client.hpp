@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 18:04:01 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:24:25 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ class Client
 		bool is_registed() const;
 		bool is_hasPass() const;
 		void set_hasPass(bool pass);
-		void set_kicked(bool kick);
 		void set_nickname(std::string name);
 		void set_username(std::string name);
 		void set_realname(std::string name);
@@ -70,7 +69,6 @@ class Client
 
 		std::string		_hostname;
 		std::string		_hostadress;
-		unsigned short	_port;
 
 		typedef std::vector<Channel *> t_channels;
 		t_channels	_channels_subscripted;

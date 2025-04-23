@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 18:08:58 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:24:20 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ Client::Client(int fd, struct sockaddr_in addr)
 		_nickName("*"),
 		_userName("*"),
 		_hostadress(inet_ntoa(addr.sin_addr)),
-		_port(ntohs(addr.sin_port)),
 		_connection_ko(false),
 		_hasPass(false)
 {}

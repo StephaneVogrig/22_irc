@@ -24,10 +24,10 @@ class Notice : public Command
 {
 	public:
 
-	Notice();
+		Notice();
 		~Notice();
 
-		void	exec(Client & client, const Params & params, Server & Server);
+		void exec(Client & client, const Params & params, Server & Server);
 
 };
 
