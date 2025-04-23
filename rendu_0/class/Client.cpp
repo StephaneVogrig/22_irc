@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 16:01:46 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:08:58 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,12 @@ void Client::part_all_channels(Server & server)
 		server.get_channel(channel_name)->send_to_all(_nickName, "PART " + channel_name);
 		server.remove_client_from_channel(*this, *_channels_subscripted.back());
 	}
+}
+
+void Client::send_on_all_channels(const std::string & msg)
+{
+	for (t_channels::iterator it = _channels_subscripted.begin(); it != _channels_subscripted.end(); ++it)
+		(*it)->send_to_all(_nickName, msg);
 }
 
 void Client::quit_all_channels(Server & server, const std::string & msg)

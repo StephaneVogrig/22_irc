@@ -6,7 +6,7 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/23 16:01:46 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:04:01 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ class Client
 		void		remove_channel_subscripted(Channel & channel);
 		Channel *	get_last_channel_subscripted();
 		int			nbr_channels_subscripted();
+		void		send_on_all_channels(const std::string & msg);
 		void		part_all_channels(Server & server);
 		void 		quit_all_channels(Server & server, const std::string & msg);
 
