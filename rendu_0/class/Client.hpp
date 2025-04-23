@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:15 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:01:46 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ class Client
 		int			nbr_channels_subscripted();
 		void		part_all_channels(Server & server);
 		void 		quit_all_channels(Server & server, const std::string & msg);
+
+		static bool	is_a_valid_nickname(const std::string & nickname);
 
 	private :
 

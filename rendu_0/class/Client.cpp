@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:11:12 by gcannaud          #+#    #+#             */
-/*   Updated: 2025/04/21 21:56:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:01:46 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,4 +180,16 @@ void Client::quit_all_channels(Server & server, const std::string & msg)
 		if (server.channel_exist(channel_name))
 			server.get_channel(channel_name)->send_to_all(_nickName, msg);
 	}
+}
+
+bool Client::is_a_valid_nickname(const std::string & nickname)
+{
+	if (Channel::is_a_valid_name(nickname)
+	|| nickname[0] == '@'
+	|| nickname[0] == '~'
+	|| nickname[0] == ':'
+	|| nickname.find(" ") != std::string::npos
+	|| nickname.find("*") != std::string::npos)
+		return false;
+	return true;
 }
