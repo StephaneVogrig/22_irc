@@ -6,7 +6,11 @@
 /*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 21:36:45 by svogrig           #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/04/23 14:23:42 by gcannaud         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/23 15:16:55 by svogrig          ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +41,6 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 	if (!channel->is_join(client))
 		ERR_442_NOTONCHANNEL(client, *channel, server);
 
-	if (channel->is_mode_protected_topic()
-	&& !(channel->is_operator(client) || channel->is_halfop(client)))
-		ERR_482_CHANOPRIVSNEEDED(client, *channel, server);
-
 	if (params.get_nbr() == 1)
 	{
 		if (channel->get_topic().empty())
@@ -52,6 +52,11 @@ void Topic::exec(Client & client, const Params & params, Server & server)
 		}
 		return ;
 	}
+
+	if (channel->is_mode_protected_topic()
+	&& !(channel->is_operator(client) || channel->is_halfop(client)))
+		ERR_482_CHANOPRIVSNEEDED(client, *channel, server);
+
 	const std::string & topic = params.get_param(1);
 	channel->set_topic(client, topic, server);
 	channel->send_to_all(client.get_nickname(), _name + " " + channel->get_name() + " :" + channel->get_topic());
