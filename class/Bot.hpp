@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 17:44:40 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 21:10:35 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,16 @@ class Bot
 		void		run();
 		void		authentication();
 
+		class Close : public std::exception
+		{
+			public:
+				Close();
+		};
+
 	private:
 
 		std::string	get_api_key();
 		std::string	get_next_msg();
-		void		process_irc_msg(const Message & msg);
 		void		send_meteo(const std::string & recipient, const std::string & location);
 		void		send_to_irc(const std::string & msg);
 		void		send_privmsg(const std::string & recipient, const std::string & msg);

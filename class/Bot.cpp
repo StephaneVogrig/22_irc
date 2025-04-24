@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 19:21:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 21:50:08 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ Bot::Bot(const std::string & ip, int port, const std::string & password_irc)
 		_channel_name("#" BOT_NICKNAME),
 		_delimiter_irc("\r\n")
 {
+	log_(FG_PURPLE "Bot started " RESET + current_date_str() + FG_PURPLE " on ip " RESET + ip + FG_PURPLE " on port " RESET + to_string(port) +  FG_PURPLE " with password " RESET + password_irc);
 	_socket_irc = create_socket();
 	struct sockaddr_in addr_irc;
 	addr_irc.sin_family = AF_INET;
@@ -49,7 +50,16 @@ Bot::~Bot()
 void Bot::run()
 {
 	while (true)
-		process_irc_msg(Message(get_next_msg()));
+	{
+		Message msg(get_next_msg());
+		std::string cmd = msg.get_command();
+		if (cmd == "JOIN")
+			rpl_to_join(msg);
+		else if (cmd == "PRIVMSG")
+			rpl_to_privmsg(msg);
+		else if (cmd == "PING")
+			rpl_to_ping(msg);
+	}
 }
 
 void Bot::authentication()
@@ -133,11 +143,11 @@ std::string Bot::get_next_msg()
 
 		// handle errors
 		if (size_read == 0)
-			throw (std::runtime_error(FG_PURPLE"Server closed" RESET));
+			throw (std::runtime_error("Server connection lost"));
 		else if (size_read == -1)
 		{
 			check_sigint();
-			throw std::runtime_error(FG_RED "get_next_msg: recv error: " RESET + std::string(strerror(errno)));
+			throw std::runtime_error("get_next_msg: recv error: " RESET + std::string(strerror(errno)));
 		}
 
 		// handle data
@@ -157,17 +167,6 @@ std::string Bot::get_next_msg()
 	_buffer = _buffer.substr(pos + _delimiter_irc.length());
 	log_(FG_YELLOW "<< " + result);
 	return result;
-}
-
-void Bot::process_irc_msg(const Message & msg)
-{
-	std::string cmd = msg.get_command();
-	if (cmd == "JOIN")
-		rpl_to_join(msg);
-	else if (cmd == "PRIVMSG")
-		rpl_to_privmsg(msg);
-	else if (cmd == "PING")
-		rpl_to_ping(msg);
 }
 
 void Bot::send_meteo(const std::string & recipient, const std::string & location)
@@ -223,7 +222,7 @@ void Bot::send_to_irc(const std::string & msg)
 	if (send(_socket_irc, msg_irc.c_str(), msg_irc.length(), MSG_NOSIGNAL) == -1)
 	{
 		check_sigint();
-		throw std::runtime_error(FG_RED "send_to_irc: send error: " RESET + std::string(strerror(errno)));
+		throw std::runtime_error("send_to_irc: send error: " RESET + std::string(strerror(errno)));
 	}
 }
 
@@ -235,7 +234,7 @@ void Bot::send_privmsg(const std::string & recipient, const std::string & msg)
 void Bot::check_sigint()
 {
 	if (g_sigint)
-		throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
+		throw Close();
 }
 
 void Bot::rpl_to_ping(const Message & msg)
@@ -267,3 +266,6 @@ void Bot::rpl_to_privmsg(const Message & msg)
 
 	send_meteo(recipient, msg.get_params().get_param(1));
 }
+
+Bot::Close::Close() : std::exception()
+{}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+         #
+#    By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/23 10:52:20 by ygaiffie          #+#    #+#              #
-#    Updated: 2025/04/23 19:06:43 by gcannaud         ###   ########.fr        #
+#    Updated: 2025/04/24 21:40:42 by svogrig          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,10 +166,10 @@ $(OBJ_DIR)%.o: %.cpp
 #------------------------------------------------------------------------------#
 
 $(NAME): $(OBJS)
-	@$(CXX) $(CFLAGS) $(OBJS) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
+	@$(CXX) $(CFLAGS) $(OBJS) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n$(NC)"
 
 $(NAME_BOT): $(OBJS_BOT)
-	@$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n"
+	@$(CXX) $(CFLAGS) $(OBJS_BOT) -o $@ && echo -e "$(BGREEN)[✔]$(NC)\tLinking Exe:\t$(BOLD)$@\n$(NC)"
 
 #------------------------------------------------------------------------------#
 # specifications                                                               #

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:15:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 19:25:38 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/24 21:38:12 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ Channel * Server::get_channel(const std::string & name)
 
 void Server::run(void)
 {
-	log_server(_pollfds[0].fd, "Started server " RESET + current_date_str() + FG_YELLOW " on port " RESET + to_string(_port) +  FG_YELLOW " with password " RESET + _password);
+	log_server(_pollfds[0].fd, "Server started " RESET + current_date_str() + FG_PURPLE " on port " RESET + to_string(_port) +  FG_PURPLE " with password " RESET + _password);
 	while (true)
 	{
 		info_waiting(true);
