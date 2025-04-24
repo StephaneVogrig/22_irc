@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 14:31:42 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:19:37 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class Bot
 {
 	public:
 
-		Bot(int socket_irc, const std::string & password_irc);
+		Bot(const std::string & ip, int port, const std::string & password_irc);
 		~Bot();
 
 		void		run();

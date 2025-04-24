@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 16:02:51 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:52:23 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* constructor ---------------------------------------------------------------*/
 
-Bot::Bot(int port, const std::string & password_irc)
+Bot::Bot(const std::string & ip, int port, const std::string & password_irc)
 	:	_meteo(get_api_key()),
 		_password_irc(password_irc),
 		_nickname(BOT_NICKNAME),
@@ -25,7 +25,7 @@ Bot::Bot(int port, const std::string & password_irc)
 	struct sockaddr_in addr_irc;
 	addr_irc.sin_family = AF_INET;
 	addr_irc.sin_port = htons(port);
-	if (inet_pton(AF_INET, "0.0.0.0", &addr_irc.sin_addr) <= 0) // 168.235.109.185
+	if (inet_pton(AF_INET, ip.c_str(), &addr_irc.sin_addr) <= 0)
 	{
 		close(_socket_irc);
 		throw (std::runtime_error("Bot: inet_pton failed"));
@@ -62,7 +62,7 @@ void Bot::authentication()
 	{
 		Message receive(get_next_msg());
 		if (receive.get_command() == "PING")
-			send_to_irc("PONG " + receive.get_params().get_first());
+			send_to_irc("PONG :" + receive.get_params().get_first());
 		else if (receive.get_command() == "433")
 			throw (std::runtime_error("authentication failed: nickname already in use"));
 		else if (receive.get_command() == "464")
@@ -75,7 +75,7 @@ void Bot::authentication()
 	{
 		Message receive(get_next_msg());
 		if (receive.get_command() == "PING")
-			send_to_irc("PONG " + receive.get_params().get_first());
+			send_to_irc("PONG :" + receive.get_params().get_first());
 		else if (receive.get_command() == "JOIN")
 			break;
 	}
@@ -148,7 +148,7 @@ void Bot::process_irc_msg(const Message & msg)
 	else if (cmd == "PRIVMSG")
 		send_meteo(recipient, msg.get_params().get_param(1));
 	else if (cmd == "PING")
-		send_to_irc("PONG " + msg.get_params().get_param(1));
+		send_to_irc("PONG :" + msg.get_params().get_first());
 	else if (cmd == "KICK" && msg.get_params().get_param(1) == _nickname)
 		throw std::runtime_error("porcess_irc_msg: meteobot has been kick from channel");
 }

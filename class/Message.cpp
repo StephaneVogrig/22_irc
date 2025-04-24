@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 16:13:59 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/23 14:02:01 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:50:01 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,35 @@
 
 Message::Message(const std::string & str)
 {
-	extract_info(str);
+	size_t start = 0;
+	size_t stop = 0;
+
+	/* prefix */
+	if (str[0] == ':')
+	{
+		stop = str.find(' ', 0);
+		if (stop == std::string::npos)
+		{
+			_prefix = str.substr(1, str.length() - 1);
+			return ;
+		}
+		_prefix = str.substr(1, stop - 1);
+		start = stop + 1;
+	}
+
+	/* command */
+	stop = str.find(' ', start);
+	if (stop == std::string::npos)
+	{
+		extract_command(str, start, str.length());
+		return ;
+	}
+	extract_command(str, start, stop);
+	start = stop + 1;
+
+	/* parameters */
+	Params params(str.substr(start, str.length() - start));
+	_parameters = params;
 }
 
 Message::Message(const Message & toCopy)
@@ -70,38 +98,4 @@ void Message::extract_command(const std::string & str, size_t start, size_t stop
 	_command = str.substr(start, stop - start);
 	for(std::string::iterator it = _command.begin(); it <= _command.end(); ++it)
 		*it = std::toupper(*it);
-}
-
-void Message::extract_info(const std::string & str)
-{
-	size_t start = 0;
-	size_t stop = 0;
-
-	/* prefix */
-	if (str[0] == ':')
-	{
-		stop = str.find(' ', 0);
-		if (stop == std::string::npos)
-		{
-			_prefix = str.substr(1, str.length() - 1);
-			return ;
-		}
-		_prefix = str.substr(1, stop - 1);
-		start = stop + 1;
-	}
-
-	/* command */
-	stop = str.find(' ', start);
-	if (stop == std::string::npos)
-	{
-		extract_command(str, start, str.length());
-		return ;
-	}
-	extract_command(str, start, stop);
-	start = stop + 1;
-
-	/* parameters */
-	Params params(str.substr(start, str.length() - start));
-	_parameters = params;
-
 }
