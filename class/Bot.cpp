@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 17:45:05 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:02:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void Bot::run()
 
 void Bot::authentication()
 {
+	sigalarm_handler_setup();
+	alarm(10);
 	if (!_password_irc.empty())
 		send_to_irc("PASS " + _password_irc);
 	send_to_irc("NICK " + _nickname);
@@ -68,17 +70,37 @@ void Bot::authentication()
 		else if (msg.get_command() == "464")
 			throw (std::runtime_error("authentication failed: wrong password"));
 		else if (msg.get_command() == "001")
+		{
+			log_(FG_PURPLE "authentification successfull");
 			break;
+		}
 	}
 	send_to_irc("JOIN " + _channel_name);
 	while (true)
 	{
 		Message msg(get_next_msg());
-		if (msg.get_command() == "PING")
+		const std::string & cmd(msg.get_command());
+		if (cmd == "PING")
 			rpl_to_ping(msg);
-		else if (msg.get_command() == "JOIN")
+		else if (cmd == "JOIN")
+		{
+			log_(FG_PURPLE "join channel successfull");
 			break;
+		}
+		else if (cmd == "403"
+		|| cmd == "405"
+		|| cmd == "475"
+		|| cmd == "474"
+		|| cmd == "471"
+		|| cmd == "473"
+		|| cmd == "476")
+		{
+			log_(FG_RED "join channel failed : " + cmd);
+			break;
+		}
 	}
+	alarm(0);
+	sigalarm_handler_setdflt();
 }
 
 /* private utilities ---------------------------------------------------------*/

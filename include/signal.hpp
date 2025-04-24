@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:40:09 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/21 20:03:50 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:53:17 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@
 extern volatile sig_atomic_t g_sigint;
 
 void sigint_handler_setup(void);
+void sigalarm_handler_setup(void);
+void sigalarm_handler_setdflt(void);
 
 #endif
