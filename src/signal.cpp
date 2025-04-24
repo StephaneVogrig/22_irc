@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:42:00 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 18:52:57 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:09:03 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void sigint_handler_setup(void)
 static void sigalarm_handler(int sig)
 {
 	(void)sig;
-	throw std::runtime_error("timeout");
+	throw std::runtime_error("Authentication failed: timeout");
 }
 
 void sigalarm_handler_setup(void)

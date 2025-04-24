@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 19:02:24 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:09:44 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void Bot::authentication()
 		if (msg.get_command() == "PING")
 			rpl_to_ping(msg);
 		else if (msg.get_command() == "433")
-			throw (std::runtime_error("authentication failed: nickname already in use"));
+			throw (std::runtime_error("Authentication failed: nickname already in use"));
 		else if (msg.get_command() == "464")
-			throw (std::runtime_error("authentication failed: wrong password"));
+			throw (std::runtime_error("Authentication failed: wrong password"));
 		else if (msg.get_command() == "001")
 		{
-			log_(FG_PURPLE "authentification successfull");
+			log_(FG_PURPLE "Authentication successfull");
 			break;
 		}
 	}
