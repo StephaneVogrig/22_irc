@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 19:09:44 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:21:24 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,16 @@ void Bot::authentication()
 	while (true)
 	{
 		Message msg(get_next_msg());
-		if (msg.get_command() == "PING")
+		const std::string & cmd = msg.get_command();
+		if (cmd == "PING")
 			rpl_to_ping(msg);
-		else if (msg.get_command() == "433")
+		else if (cmd == "433")
 			throw (std::runtime_error("Authentication failed: nickname already in use"));
-		else if (msg.get_command() == "464")
+		else if (cmd == "451")
+			throw (std::runtime_error("Authentication failed: not registered"));
+		else if (cmd == "464")
 			throw (std::runtime_error("Authentication failed: wrong password"));
-		else if (msg.get_command() == "001")
+		else if (cmd == "001")
 		{
 			log_(FG_PURPLE "Authentication successfull");
 			break;
