@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 21:47:36 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 16:19:37 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:44:40 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ class Bot
 		void		send_to_irc(const std::string & msg);
 		void		send_privmsg(const std::string & recipient, const std::string & msg);
 		void		check_sigint();
+
+		void rpl_to_ping(const Message & msg);
+		void rpl_to_join(const Message & msg);
+		void rpl_to_privmsg(const Message & msg);
 
 		AccuWeatherAPI _meteo;
 

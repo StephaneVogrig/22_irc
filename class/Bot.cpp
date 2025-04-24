@@ -6,7 +6,7 @@
 /*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 16:52:23 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:45:05 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,23 @@ void Bot::authentication()
 	send_to_irc("USER " + _nickname + " 0 * :" + _nickname);
 	while (true)
 	{
-		Message receive(get_next_msg());
-		if (receive.get_command() == "PING")
-			send_to_irc("PONG :" + receive.get_params().get_first());
-		else if (receive.get_command() == "433")
+		Message msg(get_next_msg());
+		if (msg.get_command() == "PING")
+			rpl_to_ping(msg);
+		else if (msg.get_command() == "433")
 			throw (std::runtime_error("authentication failed: nickname already in use"));
-		else if (receive.get_command() == "464")
+		else if (msg.get_command() == "464")
 			throw (std::runtime_error("authentication failed: wrong password"));
-		else if (receive.get_command() == "001")
+		else if (msg.get_command() == "001")
 			break;
 	}
 	send_to_irc("JOIN " + _channel_name);
 	while (true)
 	{
-		Message receive(get_next_msg());
-		if (receive.get_command() == "PING")
-			send_to_irc("PONG :" + receive.get_params().get_first());
-		else if (receive.get_command() == "JOIN")
+		Message msg(get_next_msg());
+		if (msg.get_command() == "PING")
+			rpl_to_ping(msg);
+		else if (msg.get_command() == "JOIN")
 			break;
 	}
 }
@@ -137,20 +137,12 @@ std::string Bot::get_next_msg()
 void Bot::process_irc_msg(const Message & msg)
 {
 	std::string cmd = msg.get_command();
-	std::string recipient;
-	if (msg.get_params().get_first() == _nickname)
-		recipient = msg.get_prefix();
-	else
-		recipient = msg.get_params().get_first();
-
 	if (cmd == "JOIN")
-		send_privmsg(recipient, "Welcome to meteobot, " + msg.get_prefix() + ". Write the name of the city you want have the meteo");
+		rpl_to_join(msg);
 	else if (cmd == "PRIVMSG")
-		send_meteo(recipient, msg.get_params().get_param(1));
+		rpl_to_privmsg(msg);
 	else if (cmd == "PING")
-		send_to_irc("PONG :" + msg.get_params().get_first());
-	else if (cmd == "KICK" && msg.get_params().get_param(1) == _nickname)
-		throw std::runtime_error("porcess_irc_msg: meteobot has been kick from channel");
+		rpl_to_ping(msg);
 }
 
 void Bot::send_meteo(const std::string & recipient, const std::string & location)
@@ -219,4 +211,34 @@ void Bot::check_sigint()
 {
 	if (g_sigint)
 		throw std::runtime_error(FG_PURPLE "\rBot closed" RESET);
+}
+
+void Bot::rpl_to_ping(const Message & msg)
+{
+	std::string ball;
+	if (msg.get_params().get_nbr() != 0)
+		ball = msg.get_params().get_first();
+	send_to_irc("PONG :" + ball);
+}
+
+void Bot::rpl_to_join(const Message & msg)
+{
+	send_privmsg(_channel_name, "Welcome to meteobot, " + msg.get_prefix() + ". Write the name of the city you want have the meteo");
+}
+
+void Bot::rpl_to_privmsg(const Message & msg)
+{
+	if (msg.get_params().get_nbr() == 0)
+		return ;
+
+	std::string recipient;
+	if (msg.get_params().get_first() == _nickname)
+		recipient = msg.get_prefix();
+	else
+		recipient = msg.get_params().get_first();
+
+	if (msg.get_params().get_nbr() == 1 || msg.get_params().get_param(1).empty())
+		send_privmsg(recipient, "I'm unable to work without destination");
+
+	send_meteo(recipient, msg.get_params().get_param(1));
 }
