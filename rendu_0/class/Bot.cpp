@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/22 18:22:03 by svogrig          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:52:33 by gcannaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Bot::Bot(int port, const std::string & password_irc)
 	struct sockaddr_in addr_irc;
 	addr_irc.sin_family = AF_INET;
 	addr_irc.sin_port = htons(port);
-	if (inet_pton(AF_INET, "127.0.0.1", &addr_irc.sin_addr) <= 0)
+	if (inet_pton(AF_INET, "0.0.0.0", &addr_irc.sin_addr) <= 0) // 168.235.109.185
 	{
 		close(_socket_irc);
 		throw (std::runtime_error("Bot: inet_pton failed"));
@@ -54,34 +54,23 @@ void Bot::run()
 
 void Bot::authentication()
 {
-	send_to_irc("PASS " + _password_irc);
+	if (!_password_irc.empty())
+		send_to_irc("PASS " + _password_irc);
 	send_to_irc("NICK " + _nickname);
 	send_to_irc("USER " + _nickname + " 0 * :" + _nickname);
-
-	Message receive(get_next_msg());
-
-	if (receive.get_command() != "001")
-	{
-		if (receive.get_command() == "433")
-			throw (std::runtime_error("authentication failed: nickname already in use"));
-		if (receive.get_command() == "464")
-			throw (std::runtime_error("authentication failed: wrong password"));
-		throw (std::runtime_error("authentication failed: " + receive.get_command()));
-	}
-
 	send_to_irc("JOIN " + _channel_name);
-	receive = Message(get_next_msg());
-
-	if (receive.get_command() != "JOIN")
-		throw (std::runtime_error("join channel failed"));
-	receive = Message(get_next_msg());
-
-	if (receive.get_command()!= "353")
-		throw (std::runtime_error("join channel failed"));
-
-	receive = Message(get_next_msg());
-	if (receive.get_command() != "366")
-		throw (std::runtime_error("join channel failed"));
+	while (true)
+	{
+		Message receive(get_next_msg());
+		if (receive.get_command() == "PING")
+			send_to_irc("PONG " + receive.get_params().get_first());
+		else if (receive.get_command() == "433")
+			throw (std::runtime_error("authentication failed: nickname already in use"));
+		else if (receive.get_command() == "464")
+			throw (std::runtime_error("authentication failed: wrong password"));
+		else if (receive.get_command() == "JOIN")
+			break;
+	}
 }
 
 /* private utilities ---------------------------------------------------------*/
@@ -147,6 +136,8 @@ void Bot::process_irc_msg(const Message & msg)
 		send_privmsg(recipient, "Welcome to meteobot, " + msg.get_prefix() + ". Write the name of the city you want have the meteo");
 	else if (cmd == "PRIVMSG")
 		send_meteo(recipient, msg.get_params().get_param(1));
+	else if (cmd == "PING")
+		send_to_irc("PONG " + msg.get_params().get_param(1));
 	else if (cmd == "KICK" && msg.get_params().get_param(1) == _nickname)
 		throw std::runtime_error("porcess_irc_msg: meteobot has been kick from channel");
 }
