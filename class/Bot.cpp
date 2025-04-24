@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcannaud <gcannaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svogrig <svogrig@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:24:38 by svogrig           #+#    #+#             */
-/*   Updated: 2025/04/24 14:52:33 by gcannaud         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:02:51 by svogrig          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void Bot::authentication()
 		send_to_irc("PASS " + _password_irc);
 	send_to_irc("NICK " + _nickname);
 	send_to_irc("USER " + _nickname + " 0 * :" + _nickname);
-	send_to_irc("JOIN " + _channel_name);
 	while (true)
 	{
 		Message receive(get_next_msg());
@@ -68,6 +67,15 @@ void Bot::authentication()
 			throw (std::runtime_error("authentication failed: nickname already in use"));
 		else if (receive.get_command() == "464")
 			throw (std::runtime_error("authentication failed: wrong password"));
+		else if (receive.get_command() == "001")
+			break;
+	}
+	send_to_irc("JOIN " + _channel_name);
+	while (true)
+	{
+		Message receive(get_next_msg());
+		if (receive.get_command() == "PING")
+			send_to_irc("PONG " + receive.get_params().get_first());
 		else if (receive.get_command() == "JOIN")
 			break;
 	}
@@ -91,6 +99,7 @@ std::string Bot::get_api_key()
 std::string Bot::get_next_msg()
 {
 	std::size_t pos = _buffer.find(_delimiter_irc);
+	std::string result;
 	while (pos == std::string::npos)
 	{
 		char temp[512];
@@ -113,13 +122,15 @@ std::string Bot::get_next_msg()
 			_buffer += receive;
 		else
 		{
-			std::string result = _buffer + receive.substr(0, pos);
+			result = _buffer + receive.substr(0, pos);
 			_buffer = receive.substr(pos + _delimiter_irc.length());
+			log_(FG_YELLOW "<< " + result);
 			return result;
 		}
 	}
-	std::string result = _buffer.substr(0, pos);
+	result += _buffer.substr(0, pos);
 	_buffer = _buffer.substr(pos + _delimiter_irc.length());
+	log_(FG_YELLOW "<< " + result);
 	return result;
 }
 
@@ -190,7 +201,7 @@ void Bot::send_meteo(const std::string & recipient, const std::string & location
 
 void Bot::send_to_irc(const std::string & msg)
 {
-	log_("Send: " + msg);
+	log_(FG_GREEN ">> " + msg);
 	std::string msg_irc = ":" + _nickname + " " + msg + _delimiter_irc;
 	if (send(_socket_irc, msg_irc.c_str(), msg_irc.length(), MSG_NOSIGNAL) == -1)
 	{
