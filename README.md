@@ -2,7 +2,7 @@
 
 Un serveur IRC (Internet Relay Chat) simple et fonctionnel, développé en C++ dans le cadre du cursus de l'école 42. Ce projet met en œuvre les fonctionnalités de base du protocole IRC pour permettre la communication en temps réel entre plusieurs clients et la gestion de canaux de discussion. En bonus, un bot météo indépendant a été realisé. Nous avons utilisé HexChat comme client de référence pour le développement et les tests.
 
-*Réalisé par [Gaël Cannaud](https://github.com/votre-pseudo) et [Stéphane Vogrig](https://github.com/StephaneVogrig).*
+*Réalisé par [Gaël Cannaud](https://github.com/Helco18) et [Stéphane Vogrig](https://github.com/StephaneVogrig).*
 
 ---
 
