@@ -44,8 +44,8 @@ Notre serveur IRC implémente les aspects suivants du protocole :
 ### Serveur
 1.  **Clonez le dépôt :**
     ```sh
-    git clone [https://github.com/StephaneVogrig/22_irc.git](https://github.com/StephaneVogrig/22_irc.git)
-    cd ft_irc
+    git clone git@github.com:StephaneVogrig/22_irc.git
+    cd 22_irc
     ```
 
 2.  **Compilez le projet :**
@@ -69,7 +69,7 @@ Le bot est indépendant du serveur et nécessite une clé d'API pour fonctionner
 	make bot
 	```
 
-2.  **Creez le fichier `API_key` :**
+2.  **Creez le fichier `api_key` :**
 	- Créez un fichier nommé `api_key` à la racine du projet (au même niveau que l'exécutable `meteobot`).
 	- Obtenez une clé d'API gratuite sur [AccuWeather api](https://developer.accuweather.com/).
 		- Créez un compte et allez dans la section "My Apps".
@@ -84,7 +84,7 @@ Le bot est indépendant du serveur et nécessite une clé d'API pour fonctionner
     - `<port>`: Le port sur lequel le serveur écoutera (ex: 6667).
     - `<password>`: Le mot de passe requis pour se connecter au serveur.
 
-Nous avons choisi [AccuWeather api](https://developer.accuweather.com/) car il permet d'obtenir des donnees meteo sans necessiter le protocole ssl. A ce jour (12/06/2025), une cle permet gratuitement de realiser 50 requetes par jour. Un autre site gratuit avait ete trouve : [prevision_meteo](www.prevision-meteo.ch/services). Mais il necessite l'utilisation du protocole ssl (limites du sujet).
+Nous avons choisi [AccuWeather api](https://developer.accuweather.com/) car il permet d'obtenir des données météo sans nécessiter le protocole ssl. À ce jour (12/06/2025), une clé permet gratuitement de réaliser 50 requêtes par jour. Un autre site gratuit avait été trouvé : [prevision_meteo](www.prevision-meteo.ch/services). Mais il nécessite l'utilisation du protocole ssl (limites du sujet).
 ## Comment utiliser
 
 ### Avec un client IRC (Hexchat, WeeChat...)
